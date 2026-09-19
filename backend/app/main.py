@@ -1,4 +1,4 @@
-import asyncio, time
+import asyncio, os, time
 from datetime import datetime, timezone
 from fastapi import Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from .config import settings
-from .database import db_session
+from .database import SessionLocal, db_session
 from .models import *
 from .schemas import AnswerInput, GameObjectInput, LocationInput, LoginInput, ScanInput
 from .security import create_token, current_user, hash_password, require_admin, verify_password
@@ -15,6 +15,29 @@ from .services import (begin_capture, broadcast, cancel_capture, complete_captur
 
 app = FastAPI(title="CyberJoti API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split(","), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+
+@app.on_event("startup")
+def bootstrap_admin_from_environment() -> None:
+    """Create or reset an explicitly configured MVP admin after migrations run."""
+    username = os.getenv("BOOTSTRAP_ADMIN_USERNAME")
+    password = os.getenv("BOOTSTRAP_ADMIN_PASSWORD")
+    if not username or not password:
+        return
+
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(func.lower(User.name) == username.lower()).first()
+        if user is None:
+            db.add(User(name=username, role=UserRole.ADMIN, password_hash=hash_password(password)))
+        else:
+            user.name = username
+            user.role = UserRole.ADMIN
+            user.active = True
+            user.password_hash = hash_password(password)
+        db.commit()
+    finally:
+        db.close()
 
 def dto_user(user: User): return {"id": user.id, "name": user.name, "role": user.role, "team_id": user.team_id}
 def active_game(db: Session):
