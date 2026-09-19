@@ -5,7 +5,9 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 const props = defineProps<{ objects: any[]; locations: any[]; editable?: boolean }>()
 const emit = defineEmits<{ place: [coords: { latitude: number; longitude: number }] }>()
 const element = ref<HTMLDivElement | null>(null)
-let map: Map | undefined, markers: Marker[] = []
+let map: Map | undefined, markers: Marker[] = [], centeredOnGps = false
+// Allart van Heemstede is the predictable map start. GPS may centre once later.
+const allart = [4.63, 52.349] as [number, number]
 const style = { version: 8, sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256, attribution: '© OpenStreetMap contributors' } }, layers: [{ id: 'osm', type: 'raster', source: 'osm' }] } as any
 const glyph = (type: string) => type === 'PUZZLE' ? '◆' : type === 'CAPTURE_POINT' ? '◉' : '🦆'
 function draw() {
@@ -21,17 +23,20 @@ function draw() {
     markers.push(new maplibregl.Marker({ element: pin }).setLngLat([player.location.lng, player.location.lat]).setPopup(new maplibregl.Popup({ offset: 12 }).setText(player.name)).addTo(map))
   }
 }
-function focus() {
-  const source = props.locations.find(x => x.location) || props.objects[0]
-  if (source && map) map.flyTo({ center: source.location ? [source.location.lng, source.location.lat] : [source.longitude, source.latitude], zoom: 17, essential: true })
+function centerOnFirstGps() {
+  const player = props.locations.find(x => x.location)
+  if (player?.location && map && !centeredOnGps) {
+    centeredOnGps = true
+    map.flyTo({ center: [player.location.lng, player.location.lat], zoom: 17, essential: true })
+  }
 }
 onMounted(() => {
-  map = new maplibregl.Map({ container: element.value!, style, center: [4.63, 52.349], zoom: 14 })
+  map = new maplibregl.Map({ container: element.value!, style, center: allart, zoom: 14 })
   map.addControl(new maplibregl.NavigationControl(), 'top-right')
-  map.on('load', () => { draw(); focus() })
+  map.on('load', () => { draw(); centerOnFirstGps() })
   map.on('click', event => { if (props.editable) emit('place', { latitude: event.lngLat.lat, longitude: event.lngLat.lng }) })
 })
-watch(() => [props.objects, props.locations], () => { draw(); focus() }, { deep: true })
+watch(() => [props.objects, props.locations], () => { draw(); centerOnFirstGps() }, { deep: true })
 onBeforeUnmount(() => map?.remove())
 </script>
 <template><div ref="element" class="live-map" :class="{ editable }"></div></template>
