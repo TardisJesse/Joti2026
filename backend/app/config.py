@@ -12,6 +12,11 @@ class Settings(BaseSettings):
     location_ttl_seconds: int = 180
     maximum_accuracy: float = 50
 
+    def model_post_init(self, __context: object) -> None:
+        # Railway supplies postgresql://; SQLAlchemy here uses psycopg v3.
+        if self.database_url.startswith("postgresql://"):
+            self.database_url = self.database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+
 
 @lru_cache
 def settings() -> Settings:
