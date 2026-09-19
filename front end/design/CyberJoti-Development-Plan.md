@@ -128,6 +128,11 @@ Doel: een volledig speelbare versie waarin teams kunnen inloggen, hun locatie de
 | 2026-09-19 | Fixed and verified | Docker backend startup migration fixed by setting the application Python path. The complete local stack is running; health and admin-login checks pass. |
 | 2026-09-19 | Fixed and verified | Frontend API and WebSocket traffic now uses same-origin Vite proxying to the backend container. Login through the frontend API route passes, including WSL-IP browser access. |
 | 2026-09-19 | Done | Mobile-first CyberJoti tactical visual system applied to the Vue app: HUD login, team dashboard, radar map, scoreboard, admin builder, and touch-friendly bottom navigation. Production build passes. |
+| 2026-09-19 | Done | Vue UI refined against the supplied React Field Terminal prototype: mascot identity, Material icon system, NFC quick action, segmented radar HUD, and prototype-style compact cards added without replacing the Vue game implementation. |
+| 2026-09-19 | Done | Responsive wide-screen layout added: desktop/tablet uses the complete available canvas for dashboard, maps, scores, and the object builder; phone layout remains single-column and touch-first. Production build passes. |
+| 2026-09-19 | Done | Wide dashboard changed into a full command board: primary mission, NFC action, and each available game-object action grow into large viewport-filling tiles instead of leaving empty space around compact cards. Production build passes. |
+| 2026-09-19 | Done | Persistent, safe-area-aware footer navigation added. Equal-sized field controls remain visible at every scroll position, and all content reserves footer clearance. Production build passes. |
+| 2026-09-19 | Done | Dashboard hierarchy refined: full-width team card, three equal-width status categories, full-width active mission at roughly 30% viewport height, then full-width NFC action. Production build passes. |
 | 2026-09-19 | Remaining | MapLibre map, Redis Pub/Sub across multiple backend instances, exhaustive automated/mobile/load/field testing, CI, and production operations remain deliberately unchecked until implemented and verified. |
 
 ---
