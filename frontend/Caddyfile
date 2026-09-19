@@ -1,8 +1,16 @@
 :{$PORT:8080} {
     root * /srv
     encode zstd gzip
-    @backend path /api/* /ws/*
-    reverse_proxy @backend {$BACKEND_URL:http://backend.railway.internal:8000}
-    try_files {path} /index.html
-    file_server
+    # `handle` blocks preserve this routing split: API and WebSocket requests
+    # must be proxied before the SPA fallback handles browser navigation.
+    handle /api/* {
+        reverse_proxy {$BACKEND_URL:http://backend.railway.internal:8000}
+    }
+    handle /ws/* {
+        reverse_proxy {$BACKEND_URL:http://backend.railway.internal:8000}
+    }
+    handle {
+        try_files {path} /index.html
+        file_server
+    }
 }
