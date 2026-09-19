@@ -30,7 +30,9 @@ class GameObjectInput(BaseModel):
     activation_radius_meters: int = Field(default=40, ge=5, le=1000)
     reward_points: int = Field(default=500, ge=0, le=100000)
     question: str | None = Field(default=None, max_length=2000)
-    answer: str | None = Field(default=None, min_length=1, max_length=500)
+    # Capture Points and NFC ducks submit the same form but do not have an answer.
+    # Puzzle-specific validation is enforced in the endpoint.
+    answer: str | None = Field(default=None, max_length=500)
     max_attempts: int | None = Field(default=None, ge=1, le=100)
     capture_seconds: int = Field(default=60, ge=5, le=3600)
     cooldown_seconds: int = Field(default=300, ge=0, le=86400)
