@@ -69,11 +69,18 @@ def selected_game(user: User, db: Session, game_id: str | None = None) -> Game:
     return game
 
 
+def require_running(game: Game) -> None:
+    if game.status != GameStatus.RUNNING:
+        raise HTTPException(409, "This game round has not started yet")
+
+
 def object_for(object_id: str, expected: ObjectType, user: User, db: Session):
     obj = db.get(GameObject, object_id)
     if not obj or not obj.active or obj.type != expected: raise HTTPException(404, "Game object not found")
-    if obj.game_id != team_game(user, db).id:
+    game = team_game(user, db)
+    if obj.game_id != game.id:
         raise HTTPException(404, "Game object not found")
+    require_running(game)
     return obj
 def require_team(user: User):
     if not user.team_id: raise HTTPException(403, "This action requires a team")
@@ -98,8 +105,7 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     team_name = payload.team_name.strip()
     game = db.query(Game).filter(func.lower(Game.game_code) == code.lower()).first()
     if game is None:
-        game = Game(game_code=code, name=f"Spelronde {code}", status=GameStatus.RUNNING)
-        db.add(game); db.flush()
+        raise HTTPException(404, "Unknown game code. Ask an admin to create the game round.")
     if game.status == GameStatus.FINISHED:
         raise HTTPException(409, "This game round has finished")
     if db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first():
@@ -121,7 +127,7 @@ def create_game(payload: GameCreateInput, admin: User = Depends(require_admin), 
     code = payload.game_code.strip().upper()
     if db.query(Game).filter(func.lower(Game.game_code) == code.lower()).first():
         raise HTTPException(409, "This game code already exists")
-    game = Game(game_code=code, name=payload.name or f"Spelronde {code}", status=GameStatus.RUNNING)
+    game = Game(game_code=code, name=payload.name or f"Spelronde {code}", status=GameStatus.READY)
     db.add(game); db.commit()
     return {"id": game.id, "code": game.game_code, "name": game.name, "status": game.status}
 
@@ -240,7 +246,9 @@ async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: 
     require_team(user); duck = db.query(Duck).filter_by(scan_token_hash=hash_token(payload.token)).first()
     if not duck: raise HTTPException(404, "Unknown duck token")
     obj = db.get(GameObject, duck.game_object_id)
-    if not obj or obj.game_id != team_game(user, db).id: raise HTTPException(404, "Unknown duck token")
+    game = team_game(user, db)
+    if not obj or obj.game_id != game.id: raise HTTPException(404, "Unknown duck token")
+    require_running(game)
     require_nearby(user.id, obj.latitude, obj.longitude, duck.search_radius_meters)
     try:
         db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=duck.reward_points, reference_id=duck.id)); db.commit()
