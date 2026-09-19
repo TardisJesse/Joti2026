@@ -16,6 +16,14 @@ CORS_ORIGINS=https://your-frontend-domain, and PORT=8000.
 The production image applies Alembic migrations but deliberately does not seed
 demo accounts or game data.
 
+Set the backend service's pre-deploy command to
+`alembic upgrade head && python -m app.seed_test_admin`. This applies
+migrations and then runs `backend/app/seed_test_admin.py`, which creates the
+`mvp-admin` account (password `mvp-admin-change-me`) if it doesn't exist, or
+resets it to `active=True` with that password if it does. This guarantees the
+test admin account can log in immediately after every deploy, without
+touching any other users or game data.
+
 ## Frontend variables
 
 Set BACKEND_URL=http://backend.railway.internal:8000 in the frontend service.
