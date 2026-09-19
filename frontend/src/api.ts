@@ -5,7 +5,14 @@ const base = import.meta.env.VITE_API_URL || ''
 export const token = () => localStorage.getItem('cyberjoti-token')
 export async function api(path: string, options: RequestInit = {}) {
   const response = await fetch(`${base}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(token() ? { Authorization: `Bearer ${token()}` } : {}), ...options.headers } })
-  if (!response.ok) throw new Error((await response.json().catch(() => ({}))).detail || 'Verzoek mislukt')
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    const detail = body.detail
+    const message = Array.isArray(detail)
+      ? detail.map((item: any) => `${item.loc?.slice(-1)[0] || 'veld'}: ${item.msg || 'ongeldig'}`).join('; ')
+      : typeof detail === 'string' ? detail : 'Verzoek mislukt'
+    throw new Error(message)
+  }
   return response.json()
 }
 export const wsUrl = (gameId?: string) => {
