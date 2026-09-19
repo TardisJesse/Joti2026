@@ -9,4 +9,5 @@ import './wide-layout.css'
 import './command-board.css'
 import './persistent-footer.css'
 import './dashboard-stack.css'
+import './mobile-field.css'
 createApp(App).use(createPinia()).mount('#app')
