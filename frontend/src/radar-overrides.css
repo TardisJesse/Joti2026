@@ -1,0 +1,2 @@
+/* Keep the GPS radar rings, but let the basemap remain unobstructed. */
+.radar-shell::after { display: none; }

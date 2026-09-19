@@ -145,6 +145,7 @@ Doel: een volledig speelbare versie waarin teams kunnen inloggen, hun locatie de
 | 2026-09-19 | Done | Corrected the field HQ to Scouting Allart van Heemstede, Lemsterlandhoeve 70, 3137 GM Vlaardingen (4.3553432, 51.94281191). The radar now uses a dark vector base map with CyberJoti neon overlays, highlights the current player's live GPS marker, and only flies once to that player's location after opening. |
 | 2026-09-19 | Fixed | Replaced the dark map provider with OpenFreeMap's Dark vector style. It has no API key, account, quota, or billing configuration; MapLibre renders the included attribution automatically. |
 | 2026-09-19 | Done | Player radar starts directly on the player's most recent phone GPS coordinate. The visual rings are shown only for this initial GPS-radar view and disappear permanently for that map view as soon as the player pans, zooms, or rotates the map; the map then remains freely explorable. Removed the “Jij” label. |
+| 2026-09-19 | Done | Removed the decorative CyberJoti grid overlay from the radar map while retaining the initial GPS-centered radar rings. |
 | 2026-09-19 | Remaining | MapLibre map, Redis Pub/Sub across multiple backend instances, exhaustive automated/mobile/load/field testing, CI, and production operations remain deliberately unchecked until implemented and verified. |
 
 ---
