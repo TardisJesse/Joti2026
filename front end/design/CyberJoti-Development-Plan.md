@@ -133,6 +133,7 @@ Doel: een volledig speelbare versie waarin teams kunnen inloggen, hun locatie de
 | 2026-09-19 | Done | Wide dashboard changed into a full command board: primary mission, NFC action, and each available game-object action grow into large viewport-filling tiles instead of leaving empty space around compact cards. Production build passes. |
 | 2026-09-19 | Done | Persistent, safe-area-aware footer navigation added. Equal-sized field controls remain visible at every scroll position, and all content reserves footer clearance. Production build passes. |
 | 2026-09-19 | Done | Dashboard hierarchy refined: full-width team card, three equal-width status categories, full-width active mission at roughly 30% viewport height, then full-width NFC action. Production build passes. |
+| 2026-09-19 | Prepared | Railway production configuration added and locally validated: Caddy-served frontend, private backend proxy, Railway PostgreSQL URL compatibility, and non-seeding backend startup. Deployment remains unchecked: the GitHub push needs authenticated credentials and no callable Railway deployment action is exposed in this session. |
 | 2026-09-19 | Remaining | MapLibre map, Redis Pub/Sub across multiple backend instances, exhaustive automated/mobile/load/field testing, CI, and production operations remain deliberately unchecked until implemented and verified. |
 
 ---
