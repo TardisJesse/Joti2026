@@ -8,22 +8,8 @@ const element = ref<HTMLDivElement | null>(null)
 let map: Map | undefined, markers: Marker[] = [], centeredOnGps = false
 // Scouting Allart van Heemstede, Lemsterlandhoeve 70, 3137 GM Vlaardingen.
 const allartHq = [4.3553432, 51.94281191] as [number, number]
-const style = {
-  version: 8,
-  sources: {
-    cartoDark: {
-      type: 'raster',
-      tiles: [
-        'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-      ],
-      tileSize: 256,
-      attribution: '© OpenStreetMap contributors © CARTO',
-    },
-  },
-  layers: [{ id: 'cyber-dark-base', type: 'raster', source: 'cartoDark' }],
-} as any
+// OpenFreeMap's dark vector style is free and needs no key, account, or billing setup.
+const style = 'https://tiles.openfreemap.org/styles/dark'
 const glyph = (type: string) => type === 'PUZZLE' ? '◆' : type === 'CAPTURE_POINT' ? '◉' : '🦆'
 function draw() {
   if (!map) return
