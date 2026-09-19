@@ -1,0 +1,1 @@
+"""CyberJoti application package."""
