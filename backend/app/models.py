@@ -23,6 +23,7 @@ class ScoreType(str, enum.Enum): PUZZLE_SOLVED="PUZZLE_SOLVED"; CAPTURE_COMPLETE
 
 class Game(IdTimeMixin, Base):
     __tablename__ = "games"
+    game_code: Mapped[str | None] = mapped_column(String(32), unique=True, index=True, nullable=True)
     name: Mapped[str] = mapped_column(String(160))
     status: Mapped[GameStatus] = mapped_column(Enum(GameStatus), default=GameStatus.DRAFT, index=True)
     starts_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
@@ -31,6 +32,7 @@ class Game(IdTimeMixin, Base):
 
 class Team(IdTimeMixin, Base):
     __tablename__ = "teams"
+    __table_args__ = (UniqueConstraint("game_id", "name", name="uq_team_game_name"),)
     game_id: Mapped[str] = mapped_column(ForeignKey("games.id", ondelete="CASCADE"), index=True)
     name: Mapped[str] = mapped_column(String(100))
     color: Mapped[str] = mapped_column(String(7), default="#00f0ff")
