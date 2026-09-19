@@ -11,7 +11,10 @@ function mount(locations = []) {
   let mounted, update, dispose, map, exposed
   const events = [], pins = []
   class FakeMap {
-    constructor(options) { map = this; this.options = options; this.handlers = {}; this.moves = [] }
+    constructor(options) { map = this; this.options = options; this.handlers = {}; this.moves = []; this.sources = {}; this.layers = [] }
+    getSource(name) { return this.sources[name] }
+    addSource(name, source) { this.sources[name] = { data: source.data, setData(data) { this.data = data } } }
+    addLayer(layer) { this.layers.push(layer) }
     on(name, fn) { (this.handlers[name] ||= []).push(fn) }
     fire(name, data = {}) { (this.handlers[name] || []).forEach(fn => fn(data)) }
     addControl() {}
@@ -27,7 +30,7 @@ function mount(locations = []) {
   const module = { exports: {} }
   vm.runInNewContext(code, {
     exports: module.exports, module,
-    require: name => name === 'vue' ? { defineComponent: value => value, ref: value => ({ value }), onMounted: fn => mounted = fn, onBeforeUnmount: fn => dispose = fn, watch: (_, fn) => update = fn } : name === 'maplibre-gl' ? { Map: FakeMap, Marker, Popup, NavigationControl: class {} } : {},
+    require: name => name === 'vue' ? { defineComponent: value => value, ref: value => ({ value }), onMounted: fn => mounted = fn, onBeforeUnmount: fn => dispose = fn, watch: (_, fn) => update = fn } : name === 'maplibre-gl' ? { Map: FakeMap, Marker, Popup, NavigationControl: class {}, AttributionControl: class {} } : {},
     document: { createElement: () => ({ handlers: {}, setAttribute() {}, addEventListener(name, fn) { this.handlers[name] = fn } }) },
     ResizeObserver: class { observe() {} disconnect() {} },
   })
@@ -41,6 +44,14 @@ const other = { team_id: 'other', location: { lat: 52, lng: 5 } }
 const app = mount([other, fix])
 assert.equal(app.map.options.center[0], fix.location.lng, 'Start on the own team, not the first other team')
 app.load()
+app.props.selectedObject = { type: 'CAPTURE_POINT', latitude: 51.94, longitude: 4.35, activation_radius_meters: 80 }
+app.update()
+const circle = app.map.sources['capture-area'].data.features[0].geometry.coordinates[0]
+assert.equal(circle.length, 65)
+assert.equal(circle[0][0], circle[64][0])
+assert.ok(Math.abs((circle[0][1] - 51.94) * Math.PI / 180 * 6371000 - 80) < 0.01, 'Circle radius uses actual metres')
+app.props.selectedObject = undefined; app.update()
+assert.equal(app.map.sources['capture-area'].data.features.length, 0, 'Deselecting clears the capture zone')
 assert.deepEqual(app.events.at(-1), ['radarMode', true])
 app.map.fire('zoomstart', { originalEvent: {} })
 const moves = app.map.moves.length

@@ -37,7 +37,7 @@ watch(filter, () => { selectedId.value = null })
       <button v-for="category in categories" :key="category.id" :aria-pressed="filter === category.id" @click="filter = category.id">{{ category.label }}</button>
     </div>
     <div class="radar-shell">
-      <GameMap ref="map" :objects="visible" :locations="locations" :own-team-id="ownTeamId" @radar-mode="radar = $event" @select="choose($event)" />
+      <GameMap ref="map" :objects="visible" :locations="locations" :own-team-id="ownTeamId" :selected-object="selected" @radar-mode="radar = $event" @select="choose($event)" />
       <div v-if="radar" class="radar-rings" aria-hidden="true"><i></i><i></i><i></i></div>
       <button v-if="!admin" class="locate-button" @click="locate"><span aria-hidden="true">◎</span>{{ gpsProblem || !own ? 'GPS inschakelen' : 'Mijn positie' }}</button>
     </div>
@@ -46,6 +46,7 @@ watch(filter, () => { selectedId.value = null })
       <div v-if="expanded" id="point-details" class="sheet-content">
         <template v-if="selected">
           <p class="point-meta">{{ distanceLabel(selected) }} · Actieradius {{ selected.activation_radius_meters }} m</p>
+          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">De gele cirkel is de capturezone. Blijf binnen deze zone om de vlag te veroveren.</p>
           <p v-if="selected.description">{{ selected.description }}</p>
           <div class="point-actions"><button class="secondary-action" @click="selectedId = null">Alle punten</button><button v-if="!admin" class="primary-action" @click="emit('action', selected)">{{ selected.type === 'PUZZLE' ? 'Open puzzel' : selected.type === 'CAPTURE_POINT' ? 'Start capture' : 'Scan eendje' }}</button></div>
         </template>

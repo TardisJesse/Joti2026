@@ -120,6 +120,17 @@ Doel: een volledig speelbare versie waarin teams kunnen inloggen, hun locatie de
 
 ## Implementation log
 
+### Mobiele spelvensters en capturezone
+
+- [x] Puzzelantwoord, NFC-code en capturestart gebruiken een gecentreerd CyberJoti-venster met mobiele invoervelden, sluitknop, inline resultaten en fouten. Native dialog verzorgt modale focus en Escape.
+- [x] Capturecontrole blijft doorlopen bij sluiten van het venster, tot afronden/fout of verlaten van de app; geen overlappende polls.
+- [x] Selectie van een capturepunt toont een gele geografische cirkel met de ingestelde actieradius in meters. Deselecteren of wisselen van filter verwijdert de cirkel.
+- [x] Bronvermelding op verzoek tijdelijk verborgen voor de demo; bronlinks bewaard in GameMap.vue.
+- [x] Productie-build en componentgedragtests voor vensters, capturecontrole, cirkelradius en kaartbediening geslaagd.
+- [ ] Voor openbare release: zichtbare kaartattributie herstellen.
+- [ ] Vensters en toetsenbord fysiek controleren op iOS/Android; browserintegratie hier niet beschikbaar.
+
+
 | Date | Status | Scope |
 | --- | --- | --- |
 | 2026-09-19 | Done | Runnable Docker development stack, authoritative FastAPI game API, Vue player UI, seeded demo data, and MVP activity flows added. |
