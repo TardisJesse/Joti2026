@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import GameMap from './GameMap.vue'
 const props = defineProps<{ objects: any[]; locations: any[]; ownTeamId?: string; admin: boolean; gpsLabel: string; gpsProblem: boolean }>()
-const emit = defineEmits<{ retryGps: []; action: [object: any] }>()
+const emit = defineEmits<{ retryGps: []; action: [object: any]; remove: [object: any] }>()
 const map = ref<InstanceType<typeof GameMap>>()
 const radar = ref(false), expanded = ref(false), selectedId = ref<string | null>(null), filter = ref('ALL')
 const categories = [{ id: 'ALL', label: 'Alles' }, { id: 'PUZZLE', label: 'Puzzels' }, { id: 'PHYSICAL_DUCK', label: 'Eendjes' }, { id: 'CAPTURE_POINT', label: 'Posten' }]
@@ -46,7 +46,9 @@ watch(filter, () => { selectedId.value = null })
       <div v-if="expanded" id="point-details" class="sheet-content">
         <template v-if="selected">
           <p class="point-meta">{{ distanceLabel(selected) }} · Actieradius {{ selected.activation_radius_meters }} m</p>
-          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">De gele cirkel is de capturezone. Blijf binnen deze zone om de vlag te veroveren.</p>
+          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-owner"><span :style="{ background: selected.owner_team_color || '#ffcf6a' }"></span>{{ selected.owner_team_name ? 'In bezit van ' + selected.owner_team_name : 'Onbezet' }}</p>
+          <button v-if="admin" class="secondary-action" @click="emit('remove', selected)">Punt verwijderen</button>
+          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">De gekleurde cirkel is de capturezone. Blijf binnen deze zone om de vlag te veroveren.</p>
           <p v-if="selected.description">{{ selected.description }}</p>
           <div class="point-actions"><button class="secondary-action" @click="selectedId = null">Alle punten</button><button v-if="!admin" class="primary-action" @click="emit('action', selected)">{{ selected.type === 'PUZZLE' ? 'Open puzzel' : selected.type === 'CAPTURE_POINT' ? 'Start capture' : 'Scan eendje' }}</button></div>
         </template>

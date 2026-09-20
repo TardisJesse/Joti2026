@@ -10,7 +10,7 @@ const events = [], calls = [], moduleObject = { exports: {} }
 vm.runInNewContext(code, {
   exports: moduleObject.exports, module: moduleObject,
   require: name => name === 'vue' ? { defineComponent: x => x, ref: value => ({ value }), computed: fn => ({ get value() { return fn() } }), onBeforeUnmount: fn => dispose = fn } : { api: async (path, options) => { calls.push({ path, options }); if (nextResponse instanceof Error) throw nextResponse; return nextResponse } },
-  window: { setTimeout: fn => { timer = fn; return 1 } }, clearTimeout: () => { timer = null },
+  window: { setTimeout: fn => { timer = fn; return 1 }, setInterval: () => 2 }, clearTimeout: () => { timer = null }, clearInterval: () => {},
 })
 const state = moduleObject.exports.default.setup({}, { expose: x => exposed = x, emit: (...args) => events.push(args) })
 let opened = false

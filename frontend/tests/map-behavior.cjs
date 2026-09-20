@@ -31,7 +31,7 @@ function mount(locations = []) {
   vm.runInNewContext(code, {
     exports: module.exports, module,
     require: name => name === 'vue' ? { defineComponent: value => value, ref: value => ({ value }), onMounted: fn => mounted = fn, onBeforeUnmount: fn => dispose = fn, watch: (_, fn) => update = fn } : name === 'maplibre-gl' ? { Map: FakeMap, Marker, Popup, NavigationControl: class {}, AttributionControl: class {} } : {},
-    document: { createElement: () => ({ handlers: {}, setAttribute() {}, addEventListener(name, fn) { this.handlers[name] = fn } }) },
+    document: { createElement: () => ({ style: {}, handlers: {}, setAttribute() {}, addEventListener(name, fn) { this.handlers[name] = fn } }) },
     ResizeObserver: class { observe() {} disconnect() {} },
   })
   const props = { locations, ownTeamId: 'own', objects: [{ id: 'puzzle', name: 'Testpuzzel', type: 'PUZZLE', longitude: 4.3, latitude: 51.9 }] }

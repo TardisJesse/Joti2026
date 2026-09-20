@@ -31,15 +31,15 @@ function drawCaptureArea() {
       ring.push([x * 180 / Math.PI, y * 180 / Math.PI])
     }
     ring.push([...ring[0]])
-    features.push({ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [ring] } })
+    features.push({ type: 'Feature', properties: { color: point.owner_team_color || '#ffcf6a' }, geometry: { type: 'Polygon', coordinates: [ring] } })
   }
   const data = { type: 'FeatureCollection' as const, features }
   const source = map.getSource('capture-area') as GeoJSONSource | undefined
   if (source) source.setData(data)
   else {
     map.addSource('capture-area', { type: 'geojson', data })
-    map.addLayer({ id: 'capture-area-fill', type: 'fill', source: 'capture-area', paint: { 'fill-color': '#ffcf6a', 'fill-opacity': 0.18 } })
-    map.addLayer({ id: 'capture-area-border', type: 'line', source: 'capture-area', paint: { 'line-color': '#ffcf6a', 'line-width': 3, 'line-opacity': 0.95 } })
+    map.addLayer({ id: 'capture-area-fill', type: 'fill', source: 'capture-area', paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.18 } })
+    map.addLayer({ id: 'capture-area-border', type: 'line', source: 'capture-area', paint: { 'line-color': ['get', 'color'], 'line-width': 3, 'line-opacity': 0.95 } })
   }
 }
 function ownPlayer() { return props.ownTeamId ? props.locations.find(x => x.team_id === props.ownTeamId && x.location) : undefined }
@@ -72,6 +72,7 @@ function draw() {
   for (const item of props.objects) {
     const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.textContent = glyph(item.type); pin.title = item.name
     pin.setAttribute('aria-label', item.name)
+    if (item.type === 'CAPTURE_POINT') { pin.style.background = item.owner_team_color || '#ffcf6a'; pin.style.color = '#031426'; pin.title = item.name + ' · ' + (item.owner_team_name || 'Onbezet') }
     pin.addEventListener('click', event => { event.stopPropagation(); emit('select', item) })
     markers.push(new maplibregl.Marker({ element: pin, anchor: item.type === 'CAPTURE_POINT' ? 'center' : 'bottom' }).setLngLat([item.longitude, item.latitude]).setPopup(new maplibregl.Popup({ offset: 25 }).setText(item.name + ' · ' + item.activation_radius_meters + 'm')).addTo(map))
   }

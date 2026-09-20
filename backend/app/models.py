@@ -32,7 +32,7 @@ class Game(IdTimeMixin, Base):
 
 class Team(IdTimeMixin, Base):
     __tablename__ = "teams"
-    __table_args__ = (UniqueConstraint("game_id", "name", name="uq_team_game_name"),)
+    __table_args__ = (UniqueConstraint("game_id", "name", name="uq_team_game_name"), UniqueConstraint("game_id", "color", name="uq_team_game_color"))
     game_id: Mapped[str] = mapped_column(ForeignKey("games.id", ondelete="CASCADE"), index=True)
     name: Mapped[str] = mapped_column(String(100))
     color: Mapped[str] = mapped_column(String(7), default="#00f0ff")
@@ -57,6 +57,13 @@ class GameObject(IdTimeMixin, Base):
     longitude: Mapped[float] = mapped_column(Float)
     activation_radius_meters: Mapped[int] = mapped_column(Integer, default=40)
     active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+
+
+class PushSubscription(IdTimeMixin, Base):
+    __tablename__ = 'push_subscriptions'
+    user_id: Mapped[str] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    endpoint: Mapped[str] = mapped_column(Text, unique=True)
+    keys_json: Mapped[str] = mapped_column(Text)
 
 
 class Puzzle(IdTimeMixin, Base):

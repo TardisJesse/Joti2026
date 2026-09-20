@@ -1,6 +1,9 @@
 import asyncio, os, time
+from .team_colors import next_team_color
+from .services import capture_started
 from datetime import datetime, timezone
-from fastapi import Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from .push import router as push_router, notify_capture
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
@@ -15,6 +18,7 @@ from .services import (begin_capture, broadcast, cancel_capture, complete_captur
                        hash_token, require_nearby, set_location, subscribers)
 
 app = FastAPI(title="CyberJoti API", version="0.1.0")
+app.include_router(push_router)
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split(","), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
@@ -103,14 +107,14 @@ def me(user: User = Depends(current_user), db: Session = Depends(db_session)): r
 def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     code = payload.game_code.strip().upper()
     team_name = payload.team_name.strip()
-    game = db.query(Game).filter(func.lower(Game.game_code) == code.lower()).first()
+    game = db.query(Game).filter(func.lower(Game.game_code) == code.lower()).with_for_update().first()
     if game is None:
         raise HTTPException(404, "Unknown game code. Ask an admin to create the game round.")
     if game.status == GameStatus.FINISHED:
         raise HTTPException(409, "This game round has finished")
     if db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first():
         raise HTTPException(409, "This team name is already active in this game round")
-    team = Team(game_id=game.id, name=team_name)
+    team = Team(game_id=game.id, name=team_name, color=next_team_color(color for (color,) in db.query(Team.color).filter_by(game_id=game.id).all()))
     db.add(team); db.flush()
     player = User(name=f"team-{team.id}", team_id=team.id, role=UserRole.TEAM_LEADER, password_hash=hash_password(os.urandom(24).hex()))
     db.add(player); db.commit()
@@ -161,7 +165,8 @@ def locations(game_id: str | None = None, user: User = Depends(current_user), db
 @app.get("/api/game-objects")
 def game_objects(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters} for x in db.query(GameObject).filter_by(game_id=game.id, active=True)]
+    rows = db.query(GameObject, CapturePoint, Team).outerjoin(CapturePoint, CapturePoint.game_object_id == GameObject.id).outerjoin(Team, Team.id == CapturePoint.owner_team_id).filter(GameObject.game_id == game.id, GameObject.active.is_(True)).all()
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -193,7 +198,7 @@ async def create_game_object(payload: GameObjectInput, admin: User = Depends(req
         import secrets
         token = secrets.token_urlsafe(24); db.add(Duck(game_object_id=obj.id, scan_token_hash=hash_token(token), reward_points=payload.reward_points, search_radius_meters=payload.search_radius_meters)); response["scan_token"] = token
     db.commit()
-    await broadcast(f"game:{game.id}:admin", {"type": "OBJECT_UPDATED", "data": response})
+    await broadcast(f"game:{game.id}:events", {"type": "OBJECT_UPDATED", "data": {"id": obj.id}})
     return response
 
 @app.delete("/api/admin/game-objects/{object_id}")
@@ -202,7 +207,7 @@ async def delete_game_object(object_id: str, game_id: str, admin: User = Depends
     game = selected_game(admin, db, game_id)
     if not obj or obj.game_id != game.id: raise HTTPException(404, "Game object not found")
     obj.active = False; db.commit()
-    await broadcast(f"game:{game.id}:admin", {"type": "OBJECT_UPDATED", "data": {"id": object_id, "active": False}})
+    await broadcast(f"game:{game.id}:events", {"type": "OBJECT_UPDATED", "data": {"id": object_id, "active": False}})
     return {"ok": True}
 
 @app.post("/api/puzzles/{object_id}/answer")
@@ -226,20 +231,25 @@ async def capture_start(object_id: str, user: User = Depends(current_user), db: 
     point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one(); started = begin_capture(point.id, user.team_id, point.cooldown_seconds)
     db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="STARTED")); db.commit()
     await broadcast(f"team:{user.team_id}", {"type": "CAPTURE_STARTED", "data": {"object_id": object_id, "started_at": started}})
-    return {"started": True, "capture_seconds": point.capture_seconds}
+    return {"started": True, "capture_seconds": point.capture_seconds, "remaining_seconds": max(0, point.capture_seconds - (time.monotonic() - started))}
 @app.post("/api/capture/{object_id}/cancel")
 async def capture_cancel(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     require_team(user); obj = object_for(object_id, ObjectType.CAPTURE_POINT, user, db); point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one(); cancel_capture(point.id, user.team_id)
     db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="CANCELLED")); db.commit(); return {"cancelled": True}
 @app.get("/api/capture/{object_id}/status")
-async def capture_status(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
+async def capture_status(object_id: str, background_tasks: BackgroundTasks, user: User = Depends(current_user), db: Session = Depends(db_session)):
     require_team(user); obj = object_for(object_id, ObjectType.CAPTURE_POINT, user, db); point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one()
     try: require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
     except HTTPException: cancel_capture(point.id, user.team_id); return {"state": "CANCELLED", "owner_team_id": point.owner_team_id}
+    started = capture_started.get((point.id, user.team_id))
+    if started is None: return {"state": "IDLE", "owner_team_id": point.owner_team_id}
     if complete_capture(point.id, user.team_id, point.capture_seconds, point.cooldown_seconds):
-        point.owner_team_id = user.team_id; db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="COMPLETED")); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.CAPTURE_COMPLETED, points=point.capture_reward, reference_id=f"{point.id}:{int(time.time())}")); db.commit()
-        await broadcast(f"team:{user.team_id}", {"type": "CAPTURE_COMPLETED", "data": {"object_id": object_id}}); return {"state": "COMPLETED", "owner_team_id": user.team_id}
-    return {"state": "CAPTURING", "owner_team_id": point.owner_team_id}
+        point.owner_team_id = user.team_id; db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="COMPLETED")); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.CAPTURE_COMPLETED, points=point.capture_reward, reference_id=os.urandom(16).hex())); db.commit()
+        owner = db.get(Team, user.team_id)
+        background_tasks.add_task(notify_capture, obj.game_id, obj.name, owner.name)
+        await broadcast(f"game:{obj.game_id}:events", {"type": "CAPTURE_COMPLETED", "data": {"object_id": object_id, "object_name": obj.name, "owner_team_id": owner.id, "owner_team_name": owner.name, "owner_team_color": owner.color}})
+        return {"state": "COMPLETED", "owner_team_id": user.team_id}
+    return {"state": "CAPTURING", "owner_team_id": point.owner_team_id, "capture_seconds": point.capture_seconds, "remaining_seconds": max(0, point.capture_seconds - (time.monotonic() - started))}
 
 @app.post("/api/ducks/scan")
 async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
@@ -277,10 +287,12 @@ async def websocket(websocket: WebSocket):
     except HTTPException: db.close(); await websocket.close(code=4403); return
     db.close()
     channel = f"game:{game.id}:admin" if user.role == UserRole.ADMIN else f"team:{user.team_id}"
-    queue: asyncio.Queue = asyncio.Queue(); subscribers[channel].add(queue); await websocket.accept()
+    queue: asyncio.Queue = asyncio.Queue(); subscribers[channel].add(queue); subscribers[f"game:{game.id}:events"].add(queue); await websocket.accept()
     try:
         while True:
             try: event = await asyncio.wait_for(queue.get(), timeout=25); await websocket.send_json(event)
             except asyncio.TimeoutError: await websocket.send_json({"type": "HEARTBEAT"})
     except WebSocketDisconnect: pass
-    finally: subscribers[channel].discard(queue)
+    finally:
+        subscribers[channel].discard(queue)
+        subscribers[f"game:{game.id}:events"].discard(queue)

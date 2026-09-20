@@ -120,6 +120,16 @@ Doel: een volledig speelbare versie waarin teams kunnen inloggen, hun locatie de
 
 ## Implementation log
 
+### 2026-09-20 — beheer, captures en meldingen
+
+- [x] Admin kan punten verwijderen vanuit Objectenbeheer en kaartselectie, met app-bevestiging en behoud van historische scores.
+- [x] Capture heeft aftelbalk, animatie en expliciete serverbevestiging; scoreverwijzing past nu in databaseveld.
+- [x] Eigenaar/onbezet en teamkleur zichtbaar op geselecteerd punt en kaart; unieke kleuren per ronde inclusief migratie voor bestaande teams.
+- [x] Capture-events naar alle verbonden spelers in dezelfde ronde.
+- [x] Web Push toegevoegd met abonnementen, opt-in/uitschakelen, service worker en configuratiehandleiding (`Web-Push-Setup.md`).
+- [x] Frontend-build, kaart-/venstertests, vier backendtests, PostgreSQL-migraties en lokale healthcheck geslaagd. Echte pushlevering is nog niet getest.
+- [ ] VAPID-variabelen op Railway instellen en telefoonmeldingen met gesloten website op echte apparaten testen.
+
 ### Mobiele spelvensters en capturezone
 
 - [x] Puzzelantwoord, NFC-code en capturestart gebruiken een gecentreerd CyberJoti-venster met mobiele invoervelden, sluitknop, inline resultaten en fouten. Native dialog verzorgt modale focus en Escape.
