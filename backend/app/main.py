@@ -1,4 +1,6 @@
 import asyncio, os, time
+from .capture_income import settle_capture_income
+from .images import normalize_image
 from .team_colors import next_team_color
 from .services import capture_started
 from datetime import datetime, timezone
@@ -12,7 +14,7 @@ from .config import settings
 from .database import SessionLocal, db_session
 from .models import *
 from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInput,
-                      GameStatusInput, LocationInput, LoginInput, ScanInput)
+                      GameStatusInput, LocationInput, LoginInput, ScanInput, ImageInput)
 from .security import create_token, current_user, hash_password, require_admin, verify_password
 from .services import (begin_capture, broadcast, cancel_capture, complete_capture, get_location,
                        hash_token, require_nearby, set_location, subscribers)
@@ -45,7 +47,7 @@ def bootstrap_admin_from_environment() -> None:
         db.close()
 
 def dto_user(user: User, db: Session | None = None):
-    result = {"id": user.id, "name": user.name, "role": user.role, "team_id": user.team_id}
+    result = {"id": user.id, "name": user.name, "role": user.role, "team_id": user.team_id, "profile_image": user.profile_image}
     if db and user.team_id:
         team = db.get(Team, user.team_id)
         if team: result.update({"team_name": team.name, "game_id": team.game_id})
@@ -102,6 +104,15 @@ def logout(user: User = Depends(current_user)): return {"ok": True}
 @app.get("/api/auth/me")
 def me(user: User = Depends(current_user), db: Session = Depends(db_session)): return dto_user(user, db)
 
+@app.put('/api/profile/image')
+async def profile_image(payload: ImageInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
+    user.profile_image = normalize_image(payload.image)
+    db.commit()
+    if user.team_id:
+        game = team_game(user, db)
+        await broadcast(f'game:{game.id}:events', {'type': 'PROFILE_UPDATED', 'data': {'team_id': user.team_id}})
+    return dto_user(user, db)
+
 
 @app.post("/api/games/join")
 def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
@@ -142,6 +153,7 @@ def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depend
     try: status = GameStatus(payload.status)
     except ValueError: raise HTTPException(422, "Unknown game status")
     if not game: raise HTTPException(404, "Game round not found")
+    settle_capture_income(db, game.id)
     game.status = status; db.commit()
     return {"id": game.id, "status": game.status}
 
@@ -160,13 +172,13 @@ def locations(game_id: str | None = None, user: User = Depends(current_user), db
     game = selected_game(user, db, game_id)
     query = db.query(User).join(Team, User.team_id == Team.id).filter(Team.game_id == game.id, User.active.is_(True))
     if user.role != UserRole.ADMIN: query = query.filter(User.id == user.id)
-    return [{"player_id": player.id, "name": player.name, "team_id": player.team_id, "location": get_location(player.id)} for player in query.all() if get_location(player.id)]
+    return [{"player_id": player.id, "name": player.name, "team_name": db.get(Team, player.team_id).name, "profile_image": player.profile_image, "team_id": player.team_id, "location": get_location(player.id)} for player in query.all() if get_location(player.id)]
 
 @app.get("/api/game-objects")
 def game_objects(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
     rows = db.query(GameObject, CapturePoint, Team).outerjoin(CapturePoint, CapturePoint.game_object_id == GameObject.id).outerjoin(Team, Team.id == CapturePoint.owner_team_id).filter(GameObject.game_id == game.id, GameObject.active.is_(True)).all()
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -192,7 +204,9 @@ async def create_game_object(payload: GameObjectInput, admin: User = Depends(req
     if object_type == ObjectType.PUZZLE:
         db.add(Puzzle(game_object_id=obj.id, question=payload.question or "", answer_hash=hash_password((payload.answer or "").strip().lower()), reward_points=payload.reward_points, max_attempts=payload.max_attempts))
     elif object_type == ObjectType.CAPTURE_POINT:
-        db.add(CapturePoint(game_object_id=obj.id, capture_seconds=payload.capture_seconds, cooldown_seconds=payload.cooldown_seconds, capture_reward=payload.reward_points))
+        db.add(CapturePoint(game_object_id=obj.id, capture_seconds=payload.capture_seconds, cooldown_seconds=payload.cooldown_seconds, capture_reward=payload.reward_points, points_per_minute=payload.points_per_minute))
+    elif object_type == ObjectType.PHOTO_POINT:
+        db.add(PhotoPoint(game_object_id=obj.id, reward_points=payload.reward_points))
     else:
         # A random token is returned once so the organiser can write it to an NFC tag.
         import secrets
@@ -206,6 +220,7 @@ async def delete_game_object(object_id: str, game_id: str, admin: User = Depends
     obj = db.get(GameObject, object_id)
     game = selected_game(admin, db, game_id)
     if not obj or obj.game_id != game.id: raise HTTPException(404, "Game object not found")
+    settle_capture_income(db, game.id)
     obj.active = False; db.commit()
     await broadcast(f"game:{game.id}:events", {"type": "OBJECT_UPDATED", "data": {"id": object_id, "active": False}})
     return {"ok": True}
@@ -238,18 +253,55 @@ async def capture_cancel(object_id: str, user: User = Depends(current_user), db:
     db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="CANCELLED")); db.commit(); return {"cancelled": True}
 @app.get("/api/capture/{object_id}/status")
 async def capture_status(object_id: str, background_tasks: BackgroundTasks, user: User = Depends(current_user), db: Session = Depends(db_session)):
-    require_team(user); obj = object_for(object_id, ObjectType.CAPTURE_POINT, user, db); point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one()
+    require_team(user); obj = object_for(object_id, ObjectType.CAPTURE_POINT, user, db)
+    income_time = settle_capture_income(db, obj.game_id)
+    require_running(db.get(Game, obj.game_id))
+    point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one()
     try: require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
-    except HTTPException: cancel_capture(point.id, user.team_id); return {"state": "CANCELLED", "owner_team_id": point.owner_team_id}
+    except HTTPException: cancel_capture(point.id, user.team_id); db.commit(); return {"state": "CANCELLED", "owner_team_id": point.owner_team_id}
     started = capture_started.get((point.id, user.team_id))
-    if started is None: return {"state": "IDLE", "owner_team_id": point.owner_team_id}
+    if started is None: db.commit(); return {"state": "IDLE", "owner_team_id": point.owner_team_id}
     if complete_capture(point.id, user.team_id, point.capture_seconds, point.cooldown_seconds):
+        if point.owner_team_id != user.team_id:
+            point.income_remainder_seconds = 0
+        point.income_updated_at = income_time
         point.owner_team_id = user.team_id; db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="COMPLETED")); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.CAPTURE_COMPLETED, points=point.capture_reward, reference_id=os.urandom(16).hex())); db.commit()
         owner = db.get(Team, user.team_id)
         background_tasks.add_task(notify_capture, obj.game_id, obj.name, owner.name)
         await broadcast(f"game:{obj.game_id}:events", {"type": "CAPTURE_COMPLETED", "data": {"object_id": object_id, "object_name": obj.name, "owner_team_id": owner.id, "owner_team_name": owner.name, "owner_team_color": owner.color}})
         return {"state": "COMPLETED", "owner_team_id": user.team_id}
+    db.commit()
     return {"state": "CAPTURING", "owner_team_id": point.owner_team_id, "capture_seconds": point.capture_seconds, "remaining_seconds": max(0, point.capture_seconds - (time.monotonic() - started))}
+
+@app.get('/api/photos/{object_id}')
+def photos(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
+    obj = db.get(GameObject, object_id)
+    if not obj or not obj.active or obj.type != ObjectType.PHOTO_POINT:
+        raise HTTPException(404, 'Photo point not found')
+    if user.role != UserRole.ADMIN:
+        if obj.game_id != team_game(user, db).id:
+            raise HTTPException(404, 'Photo point not found')
+        require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
+    point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).one()
+    rows = db.query(PhotoSubmission, Team).join(Team, Team.id == PhotoSubmission.team_id).filter(PhotoSubmission.photo_point_id == point.id).order_by(PhotoSubmission.created_at.desc()).all()
+    return {'reward_points': point.reward_points, 'submitted': any(photo.team_id == user.team_id for photo, team in rows), 'photos': [{'id': photo.id, 'team_name': team.name, 'image': photo.image} for photo, team in rows]}
+
+@app.post('/api/photos/{object_id}')
+async def submit_photo(object_id: str, payload: ImageInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
+    obj = object_for(object_id, ObjectType.PHOTO_POINT, user, db)
+    require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
+    point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).one()
+    image = normalize_image(payload.image)
+    try:
+        db.add(PhotoSubmission(photo_point_id=point.id, team_id=user.team_id, user_id=user.id, image=image))
+        db.flush()
+        db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.PHOTO_SUBMITTED, reference_id=point.id, points=point.reward_points))
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(409, 'Your team already submitted a photo at this point')
+    await broadcast(f'game:{obj.game_id}:events', {'type': 'SCORE_UPDATED', 'data': {'team_id': user.team_id}})
+    return {'points': point.reward_points}
 
 @app.post("/api/ducks/scan")
 async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
@@ -270,8 +322,13 @@ async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: 
 @app.get("/api/scores")
 def scores(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
-    rows = db.query(Team.id, Team.name, Team.color, func.coalesce(func.sum(ScoreEvent.points), 0).label("score")).outerjoin(ScoreEvent, ScoreEvent.team_id == Team.id).filter(Team.game_id == game.id).group_by(Team.id).order_by(func.sum(ScoreEvent.points).desc()).all()
-    return [{"team_id": r.id, "name": r.name, "color": r.color, "score": r.score} for r in rows]
+    settle_capture_income(db, game.id); db.commit()
+    total = func.coalesce(func.sum(ScoreEvent.points), 0)
+    rows = db.query(Team.id, Team.name, Team.color, total.label("score")).outerjoin(ScoreEvent, ScoreEvent.team_id == Team.id).filter(Team.game_id == game.id).group_by(Team.id, Team.name, Team.color).order_by(total.desc(), func.lower(Team.name), Team.id).all()
+    portraits = {}
+    for player in db.query(User).join(Team, User.team_id == Team.id).filter(Team.game_id == game.id, User.active.is_(True), User.profile_image.isnot(None)).order_by(User.created_at, User.id):
+        portraits.setdefault(player.team_id, player.profile_image)
+    return [{"team_id": r.id, "name": r.name, "color": r.color, "score": r.score, "profile_image": portraits.get(r.id)} for r in rows]
 
 @app.websocket("/ws/game")
 async def websocket(websocket: WebSocket):

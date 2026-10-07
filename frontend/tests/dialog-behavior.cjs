@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const vm = require('node:vm')
-const { parse, compileScript } = require('@vue/compiler-sfc')
+const { parse, compileScript } = require('vue/compiler-sfc')
 const ts = require('typescript')
 const source = compileScript(parse(fs.readFileSync('src/components/GameActionDialog.vue', 'utf8')).descriptor, { id: 'dialog-test' }).content
 const code = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true } }).outputText

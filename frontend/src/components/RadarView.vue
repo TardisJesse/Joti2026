@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import GameMap from './GameMap.vue'
+import { objectIcon } from '../icons'
 const props = defineProps<{ objects: any[]; locations: any[]; ownTeamId?: string; admin: boolean; gpsLabel: string; gpsProblem: boolean }>()
 const emit = defineEmits<{ retryGps: []; action: [object: any]; remove: [object: any] }>()
 const map = ref<InstanceType<typeof GameMap>>()
 const radar = ref(false), expanded = ref(false), selectedId = ref<string | null>(null), filter = ref('ALL')
-const categories = [{ id: 'ALL', label: 'Alles' }, { id: 'PUZZLE', label: 'Puzzels' }, { id: 'PHYSICAL_DUCK', label: 'Eendjes' }, { id: 'CAPTURE_POINT', label: 'Posten' }]
+const categories = [{ id: 'ALL', label: 'Alles' }, { id: 'PUZZLE', label: 'Puzzels' }, { id: 'PHYSICAL_DUCK', label: 'Eendjes' }, { id: 'CAPTURE_POINT', label: 'Posten' }, { id: 'PHOTO_POINT', label: "Foto’s" }]
 const visible = computed(() => props.objects.filter(object => filter.value === 'ALL' || object.type === filter.value))
 const selected = computed(() => visible.value.find(object => object.id === selectedId.value))
 const own = computed(() => props.locations.find(player => props.ownTeamId && player.team_id === props.ownTeamId)?.location)
@@ -49,12 +50,14 @@ watch(filter, () => { selectedId.value = null })
           <p v-if="selected.type === 'CAPTURE_POINT'" class="point-owner"><span :style="{ background: selected.owner_team_color || '#ffcf6a' }"></span>{{ selected.owner_team_name ? 'In bezit van ' + selected.owner_team_name : 'Onbezet' }}</p>
           <button v-if="admin" class="secondary-action" @click="emit('remove', selected)">Punt verwijderen</button>
           <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">De gekleurde cirkel is de capturezone. Blijf binnen deze zone om de vlag te veroveren.</p>
+          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">+{{ selected.points_per_minute || 1 }} punt(en) per minuut voor het team dat deze post bezit.</p>
+          <p v-if="selected.type === 'PHOTO_POINT'" class="point-meta">Maak hier een foto met je team. Binnen de cirkel kun je foto's insturen en bekijken.</p>
           <p v-if="selected.description">{{ selected.description }}</p>
-          <div class="point-actions"><button class="secondary-action" @click="selectedId = null">Alle punten</button><button v-if="!admin" class="primary-action" @click="emit('action', selected)">{{ selected.type === 'PUZZLE' ? 'Open puzzel' : selected.type === 'CAPTURE_POINT' ? 'Start capture' : 'Scan eendje' }}</button></div>
+          <div class="point-actions"><button class="secondary-action" @click="selectedId = null">Alle punten</button><button v-if="!admin || selected.type === 'PHOTO_POINT'" class="primary-action" @click="emit('action', selected)">{{ selected.type === 'PUZZLE' ? 'Open puzzel' : selected.type === 'CAPTURE_POINT' ? 'Start capture' : selected.type === 'PHOTO_POINT' ? 'Open fotopunt' : 'Scan eendje' }}</button></div>
         </template>
         <template v-else>
           <p v-if="!visible.length" class="empty-points">Geen punten in deze categorie. Kies een ander filter of wacht tot de beheerder punten plaatst.</p>
-          <button v-for="object in nearby" :key="object.id" class="point-row" @click="choose(object, true)"><span class="point-symbol" aria-hidden="true">{{ object.type === 'PUZZLE' ? '◆' : object.type === 'CAPTURE_POINT' ? '◉' : '♧' }}</span><span><strong>{{ object.name }}</strong><small>{{ typeLabel(object) }} · {{ distanceLabel(object) }}</small></span><span aria-hidden="true">›</span></button>
+          <button v-for="object in nearby" :key="object.id" class="point-row" @click="choose(object, true)"><span class="point-symbol" aria-hidden="true" v-html="objectIcon(object.type)"></span><span><strong>{{ object.name }}</strong><small>{{ typeLabel(object) }} · {{ distanceLabel(object) }}</small></span><span aria-hidden="true">›</span></button>
         </template>
       </div>
     </aside>

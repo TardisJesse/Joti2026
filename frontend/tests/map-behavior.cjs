@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const vm = require('node:vm')
-const { parse, compileScript } = require('@vue/compiler-sfc')
+const { parse, compileScript } = require('vue/compiler-sfc')
 const ts = require('typescript')
 const source = compileScript(parse(fs.readFileSync('src/components/GameMap.vue', 'utf8')).descriptor, { id: 'map-test' }).content
 const code = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true } }).outputText
@@ -30,8 +30,8 @@ function mount(locations = []) {
   const module = { exports: {} }
   vm.runInNewContext(code, {
     exports: module.exports, module,
-    require: name => name === 'vue' ? { defineComponent: value => value, ref: value => ({ value }), onMounted: fn => mounted = fn, onBeforeUnmount: fn => dispose = fn, watch: (_, fn) => update = fn } : name === 'maplibre-gl' ? { Map: FakeMap, Marker, Popup, NavigationControl: class {}, AttributionControl: class {} } : {},
-    document: { createElement: () => ({ style: {}, handlers: {}, setAttribute() {}, addEventListener(name, fn) { this.handlers[name] = fn } }) },
+    require: name => name === 'vue' ? { defineComponent: value => value, ref: value => ({ value }), onMounted: fn => mounted = fn, onBeforeUnmount: fn => dispose = fn, watch: (_, fn) => update = fn } : name === 'maplibre-gl' ? { Map: FakeMap, Marker, Popup, NavigationControl: class {}, AttributionControl: class {} } : { objectIcon: type => `<svg>${type}</svg>` },
+    document: { createElement: () => ({ style: {}, handlers: {}, children: [], appendChild(child) { this.children.push(child) }, setAttribute() {}, addEventListener(name, fn) { this.handlers[name] = fn } }) },
     ResizeObserver: class { observe() {} disconnect() {} },
   })
   const props = { locations, ownTeamId: 'own', objects: [{ id: 'puzzle', name: 'Testpuzzel', type: 'PUZZLE', longitude: 4.3, latitude: 51.9 }] }
@@ -39,11 +39,14 @@ function mount(locations = []) {
   mounted()
   return { props, events, pins, map, update: () => update(), load: () => map.fire('load'), dispose: () => dispose(), get actions() { return exposed } }
 }
-const fix = { team_id: 'own', name: 'Testteam', location: { lat: 51.94, lng: 4.35 } }
+const fix = { team_id: 'own', name: 'team-internal-id', team_name: 'Testteam', profile_image: 'data:image/jpeg;base64,test', location: { lat: 51.94, lng: 4.35 } }
 const other = { team_id: 'other', location: { lat: 52, lng: 5 } }
 const app = mount([other, fix])
 assert.equal(app.map.options.center[0], fix.location.lng, 'Start on the own team, not the first other team')
 app.load()
+const portrait = app.pins.find(pin => pin.className?.includes('is-current-player'))
+assert.equal(portrait.title, 'Testteam', 'Show team names instead of internal usernames')
+assert.equal(portrait.children[0].src, fix.profile_image, 'Photo sits inside the player marker')
 app.props.selectedObject = { type: 'CAPTURE_POINT', latitude: 51.94, longitude: 4.35, activation_radius_meters: 80 }
 app.update()
 const circle = app.map.sources['capture-area'].data.features[0].geometry.coordinates[0]

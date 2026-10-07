@@ -5,6 +5,7 @@ from fastapi import HTTPException
 from redis import Redis
 from redis.exceptions import RedisError
 from .config import settings
+from datetime import datetime, timezone
 
 try: redis_client: Redis | None = Redis.from_url(settings().redis_url, decode_responses=True)
 except RedisError: redis_client = None
@@ -36,6 +37,12 @@ def get_location(user_id: str) -> dict[str, Any] | None:
 def require_nearby(user_id: str, lat: float, lng: float, radius: int):
     loc = get_location(user_id)
     if not loc: raise HTTPException(409, "Share a recent GPS location first")
+    try:
+        updated = datetime.fromisoformat(str(loc['updated_at']))
+        if updated.tzinfo is None: updated = updated.replace(tzinfo=timezone.utc)
+        age = (datetime.now(timezone.utc) - updated).total_seconds()
+        if age < 0 or age > settings().location_ttl_seconds: raise ValueError()
+    except (ValueError, KeyError): raise HTTPException(409, 'Share a recent GPS location first')
     if float(loc["accuracy"]) > settings().maximum_accuracy: raise HTTPException(409, "GPS accuracy is too low")
     if distance_meters(float(loc["lat"]), float(loc["lng"]), lat, lng) > radius: raise HTTPException(403, "You are outside the activation radius")
 def begin_capture(point_id: str, team_id: str, cooldown_seconds: int):

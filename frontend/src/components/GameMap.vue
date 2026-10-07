@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import maplibregl, { type Map, type Marker, type GeoJSONSource } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { objectIcon } from '../icons'
 const props = defineProps<{ objects: any[]; locations: any[]; editable?: boolean; ownTeamId?: string; selectedObject?: any }>()
 const emit = defineEmits<{ place: [coords: { latitude: number; longitude: number }]; radarMode: [active: boolean]; select: [object: any] }>()
 const element = ref<HTMLDivElement | null>(null)
@@ -14,12 +15,11 @@ const allartHq = [4.3553432, 51.94281191] as [number, number]
 // Map credits: OpenFreeMap https://openfreemap.org/ · © OpenMapTiles https://openmaptiles.org/
 // Data: © OpenStreetMap contributors https://www.openstreetmap.org/copyright
 const style = 'https://tiles.openfreemap.org/styles/dark'
-const glyph = (type: string) => type === 'PUZZLE' ? '◆' : type === 'CAPTURE_POINT' ? '◉' : '🦆'
 function drawCaptureArea() {
   if (!mapReady || !map) return
   const point = props.selectedObject
   const features: any[] = []
-  if (point?.type === 'CAPTURE_POINT' && Number(point.activation_radius_meters) > 0) {
+  if (['CAPTURE_POINT', 'PHOTO_POINT'].includes(point?.type) && Number(point.activation_radius_meters) > 0) {
     // Destination-point formula: the radius is in metres, independent of zoom.
     const angular = Number(point.activation_radius_meters) / 6371000
     const lat = point.latitude * Math.PI / 180, lng = point.longitude * Math.PI / 180
@@ -70,16 +70,24 @@ function draw() {
   if (!map) return
   markers.forEach(marker => marker.remove()); markers = []
   for (const item of props.objects) {
-    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.textContent = glyph(item.type); pin.title = item.name
+    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.innerHTML = objectIcon(item.type); pin.title = item.name
     pin.setAttribute('aria-label', item.name)
     if (item.type === 'CAPTURE_POINT') { pin.style.background = item.owner_team_color || '#ffcf6a'; pin.style.color = '#031426'; pin.title = item.name + ' · ' + (item.owner_team_name || 'Onbezet') }
     pin.addEventListener('click', event => { event.stopPropagation(); emit('select', item) })
     markers.push(new maplibregl.Marker({ element: pin, anchor: item.type === 'CAPTURE_POINT' ? 'center' : 'bottom' }).setLngLat([item.longitude, item.latitude]).setPopup(new maplibregl.Popup({ offset: 25 }).setText(item.name + ' · ' + item.activation_radius_meters + 'm')).addTo(map))
+    pin.setAttribute('aria-label', item.name)
   }
   for (const player of props.locations) {
     if (!player.location) continue
-    const pin = document.createElement('span'); pin.className = 'player-pin' + (player.team_id === props.ownTeamId ? ' is-current-player' : ''); pin.textContent = '◉'; pin.title = player.team_id === props.ownTeamId ? 'Eigen GPS-positie' : player.name
-    markers.push(new maplibregl.Marker({ element: pin }).setLngLat([player.location.lng, player.location.lat]).setPopup(new maplibregl.Popup({ offset: 12 }).setText(player.name)).addTo(map))
+    const name = player.team_name || player.name || 'Team'
+    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'player-pin' + (player.team_id === props.ownTeamId ? ' is-current-player' : ''); pin.title = name; pin.setAttribute('aria-label', name)
+    if (player.profile_image) {
+      const image = document.createElement('img'); image.src = player.profile_image; image.alt = ''; pin.appendChild(image)
+    } else pin.textContent = name.slice(0, 2).toUpperCase()
+    const marker = new maplibregl.Marker({ element: pin }).setLngLat([player.location.lng, player.location.lat]).setPopup(new maplibregl.Popup({ offset: 28 }).setText(name)).addTo(map)
+    pin.setAttribute('aria-label', name)
+    pin.addEventListener('click', event => { event.stopPropagation(); marker.togglePopup() })
+    markers.push(marker)
   }
 }
 function centerOnFirstGps() {

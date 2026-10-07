@@ -13,9 +13,14 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column("games", sa.Column("game_code", sa.String(length=32), nullable=True))
-    op.create_index("ix_games_game_code", "games", ["game_code"], unique=True)
-    op.create_unique_constraint("uq_team_game_name", "teams", ["game_id", "name"])
+    inspector = sa.inspect(op.get_bind())
+    if 'game_code' not in {c['name'] for c in inspector.get_columns('games')}:
+        op.add_column("games", sa.Column("game_code", sa.String(length=32), nullable=True))
+    if 'ix_games_game_code' not in {i['name'] for i in inspector.get_indexes('games')}:
+        op.create_index("ix_games_game_code", "games", ["game_code"], unique=True)
+    if 'uq_team_game_name' not in {c['name'] for c in inspector.get_unique_constraints('teams')}:
+        with op.batch_alter_table('teams') as batch:
+            batch.create_unique_constraint("uq_team_game_name", ["game_id", "name"])
 
 
 def downgrade():

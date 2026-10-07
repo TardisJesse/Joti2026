@@ -17,8 +17,8 @@ class IdTimeMixin:
 
 class GameStatus(str, enum.Enum): DRAFT="DRAFT"; READY="READY"; RUNNING="RUNNING"; PAUSED="PAUSED"; FINISHED="FINISHED"
 class UserRole(str, enum.Enum): PLAYER="PLAYER"; TEAM_LEADER="TEAM_LEADER"; ADMIN="ADMIN"
-class ObjectType(str, enum.Enum): PUZZLE="PUZZLE"; CAPTURE_POINT="CAPTURE_POINT"; PHYSICAL_DUCK="PHYSICAL_DUCK"
-class ScoreType(str, enum.Enum): PUZZLE_SOLVED="PUZZLE_SOLVED"; CAPTURE_COMPLETED="CAPTURE_COMPLETED"; DUCK_FOUND="DUCK_FOUND"; ADMIN_ADJUSTMENT="ADMIN_ADJUSTMENT"
+class ObjectType(str, enum.Enum): PUZZLE="PUZZLE"; CAPTURE_POINT="CAPTURE_POINT"; PHYSICAL_DUCK="PHYSICAL_DUCK"; PHOTO_POINT="PHOTO_POINT"
+class ScoreType(str, enum.Enum): PUZZLE_SOLVED="PUZZLE_SOLVED"; CAPTURE_COMPLETED="CAPTURE_COMPLETED"; DUCK_FOUND="DUCK_FOUND"; ADMIN_ADJUSTMENT="ADMIN_ADJUSTMENT"; CAPTURE_INCOME="CAPTURE_INCOME"; PHOTO_SUBMITTED="PHOTO_SUBMITTED"
 
 
 class Game(IdTimeMixin, Base):
@@ -45,6 +45,7 @@ class User(IdTimeMixin, Base):
     role: Mapped[UserRole] = mapped_column(Enum(UserRole), default=UserRole.PLAYER)
     password_hash: Mapped[str] = mapped_column(String(512))
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    profile_image: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class GameObject(IdTimeMixin, Base):
@@ -82,6 +83,24 @@ class CapturePoint(IdTimeMixin, Base):
     cooldown_seconds: Mapped[int] = mapped_column(Integer, default=300)
     capture_reward: Mapped[int] = mapped_column(Integer, default=250)
     owner_team_id: Mapped[str | None] = mapped_column(ForeignKey("teams.id"), nullable=True)
+    points_per_minute: Mapped[int] = mapped_column(Integer, default=1)
+    income_updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    income_remainder_seconds: Mapped[float] = mapped_column(Float, default=0)
+
+
+class PhotoPoint(IdTimeMixin, Base):
+    __tablename__ = "photo_points"
+    game_object_id: Mapped[str] = mapped_column(ForeignKey("game_objects.id", ondelete="CASCADE"), unique=True)
+    reward_points: Mapped[int] = mapped_column(Integer, default=500)
+
+
+class PhotoSubmission(IdTimeMixin, Base):
+    __tablename__ = "photo_submissions"
+    __table_args__ = (UniqueConstraint("photo_point_id", "team_id", name="uq_photo_submission_team"),)
+    photo_point_id: Mapped[str] = mapped_column(ForeignKey("photo_points.id"), index=True)
+    team_id: Mapped[str] = mapped_column(ForeignKey("teams.id"), index=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    image: Mapped[str] = mapped_column(Text)
 
 
 class Duck(IdTimeMixin, Base):

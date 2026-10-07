@@ -1,12 +1,30 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue'
 import { api } from '../api'
+import { prepareImage } from '../images'
+import { objectIcon } from '../icons'
 
-type Kind = 'puzzle' | 'scan' | 'capture' | 'remove'
+type Kind = 'puzzle' | 'scan' | 'capture' | 'remove' | 'photo'
+const props = defineProps<{ admin?: boolean }>()
 const emit = defineEmits<{ updated: []; notice: [message: string] }>()
 const dialog = ref<HTMLDialogElement | null>(null)
 const kind = ref<Kind>('puzzle'), object = ref<any>(null), input = ref(''), question = ref('')
 const busy = ref(false), loading = ref(false), error = ref(''), result = ref(''), success = ref(false)
+const photo = ref(''), gallery = ref<any[]>([]), photoAllowed = ref(false), photoBusy = ref(false)
+async function choosePhoto(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0], request = version
+  if (!file) return
+  photoBusy.value = true; error.value = ''
+  try { const image = await prepareImage(file); if (request === version) photo.value = image }
+  catch (e: any) { if (request === version) error.value = e.message || 'Foto laden mislukt.' }
+  finally { photoBusy.value = false }
+}
+async function loadPhotos(id: string, request: number) {
+  const response = await api('/api/photos/' + id)
+  if (request !== version) return
+  gallery.value = response.photos; photoAllowed.value = true; success.value = response.submitted || Boolean(props.admin)
+  if (response.submitted) result.value = 'Je team heeft hier al een foto ingestuurd.'
+}
 const activeCapture = ref<string | null>(null)
 let poll = 0, version = 0, disposed = false
 const duration = ref(60), remaining = ref(60)
@@ -27,6 +45,7 @@ async function open(nextKind: Kind, nextObject?: any) {
   const request = ++version
   kind.value = nextKind; object.value = nextObject; input.value = ''; question.value = ''
   error.value = ''; result.value = ''; success.value = false; loading.value = false
+  photo.value = ''; gallery.value = []; photoAllowed.value = false
   dialog.value?.showModal()
   if (nextKind === 'puzzle') {
     loading.value = true
@@ -34,6 +53,12 @@ async function open(nextKind: Kind, nextObject?: any) {
       const details = await api('/api/game-objects/' + nextObject.id)
       if (request === version) question.value = details.question || nextObject.description || 'Vul je antwoord in.'
     } catch (e: any) { if (request === version) error.value = e.message }
+    finally { if (request === version) loading.value = false }
+  }
+  if (nextKind === 'photo') {
+    loading.value = true
+    try { await loadPhotos(nextObject.id, request) }
+    catch (e: any) { if (request === version) error.value = e.message }
     finally { if (request === version) loading.value = false }
   }
 }
@@ -56,13 +81,20 @@ async function checkCapture(id: string) {
   }
 }
 async function submit() {
-  if (busy.value || loading.value || success.value || capturing.value) return
+  if (busy.value || loading.value || photoBusy.value || success.value || capturing.value) return
   const request = version, actionKind = kind.value, target = object.value
   if ((actionKind === 'puzzle' || actionKind === 'scan') && !input.value.trim()) { error.value = 'Vul eerst ' + (actionKind === 'puzzle' ? 'je antwoord' : 'de NFC-code') + ' in.'; return }
   if (actionKind === 'capture' && activeCapture.value) { error.value = 'Er loopt al een capture. Rond die eerst af.'; return }
+  if (actionKind === 'photo' && (!photo.value || !photoAllowed.value)) { error.value = 'Kies eerst een teamfoto terwijl je binnen de cirkel staat.'; return }
   busy.value = true; error.value = ''; result.value = ''
   try {
-    if (actionKind === 'remove') {
+    if (actionKind === 'photo') {
+      const response = await api('/api/photos/' + target.id, { method: 'POST', body: JSON.stringify({ image: photo.value }) })
+      if (disposed || request !== version) return
+      success.value = true; photo.value = ''; emit('updated')
+      await loadPhotos(target.id, request)
+      result.value = 'Teamfoto ingestuurd! +' + response.points + ' punten'
+    } else if (actionKind === 'remove') {
       await api('/api/admin/game-objects/' + target.id + '?game_id=' + encodeURIComponent(target.game_id), { method: 'DELETE' })
       if (disposed || request !== version) return
       result.value = 'Punt verwijderd uit de spelronde.'; success.value = true; emit('updated')
@@ -90,18 +122,20 @@ defineExpose({ open })
 
 <template>
   <dialog ref="dialog" class="game-dialog" aria-labelledby="game-dialog-title" aria-describedby="game-dialog-description">
-    <div class="dialog-heading"><span class="dialog-symbol" aria-hidden="true">{{ kind === 'puzzle' ? '◆' : kind === 'capture' ? '⚑' : '◎' }}</span><button type="button" class="dialog-close" aria-label="Venster sluiten" @click="close">✕</button></div>
-    <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
+    <div class="dialog-heading"><span class="dialog-symbol" aria-hidden="true" v-html="objectIcon(kind === 'puzzle' ? 'PUZZLE' : kind === 'capture' ? 'CAPTURE_POINT' : kind === 'photo' ? 'PHOTO_POINT' : 'PHYSICAL_DUCK')"></span><button type="button" class="dialog-close" aria-label="Venster sluiten" @click="close">✕</button></div>
+    <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'photo' ? 'FOTOPUNT' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
     <h2 id="game-dialog-title">{{ title }}</h2>
-    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien punten voor je team.' : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Lees het eendje met je NFC-lezer en plak of typ de bijbehorende code hieronder.' }}</p>
+    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien punten voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Lees het eendje met je NFC-lezer en plak of typ de bijbehorende code hieronder.' }}</p>
     <form @submit.prevent="submit">
       <p v-if="loading" role="status">Puzzel laden…</p>
       <p v-else-if="kind === 'puzzle' && question" class="puzzle-question">{{ question }}</p>
       <label v-if="(kind === 'puzzle' || kind === 'scan') && !success" class="dialog-label">{{ kind === 'puzzle' ? 'Jouw antwoord' : 'NFC-code' }}<input v-model="input" :disabled="busy || loading" :placeholder="kind === 'puzzle' ? 'Typ je antwoord…' : 'Plak of typ de code…'" autocomplete="off" :autocapitalize="kind === 'scan' ? 'none' : 'sentences'" :spellcheck="kind !== 'scan'" required /></label>
+      <template v-if="kind === 'photo' && photoAllowed && !success"><label class="dialog-label">Teamfoto<input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" :disabled="busy || photoBusy" @change="choosePhoto" /></label><p v-if="photoBusy" role="status">Foto voorbereiden…</p><img v-if="photo" :src="photo" alt="Voorbeeld van je teamfoto" class="photo-preview" /></template>
+      <div v-if="kind === 'photo' && photoAllowed" class="photo-gallery"><h3>Teamfoto’s op dit punt</h3><p v-if="!gallery.length">Nog geen foto's. Maak de eerste met je team!</p><figure v-for="item in gallery" :key="item.id"><img :src="item.image" :alt="'Teamfoto van ' + item.team_name" /><figcaption>{{ item.team_name }}</figcaption></figure></div>
       <p v-if="error" class="dialog-error" role="alert">{{ error }}</p>
       <p v-if="result" class="dialog-result" :class="{ success }" role="status">{{ result }}</p>
       <div v-if="capturing" class="capture-state" role="status"><span class="capture-beacon" aria-hidden="true"></span><p>{{ captureMessage }}</p><progress :value="progress" max="100" aria-label="Capturevoortgang"></progress><strong class="capture-clock">{{ remaining > 0 ? `${remaining} seconden resterend` : 'Tijd voorbij · server bevestigt…' }}</strong><small>Je kunt dit venster sluiten. De controle blijft lopen zolang de app open is.</small></div>
-      <div class="dialog-actions"><button type="button" class="secondary-action" @click="close">{{ success ? 'Sluiten' : capturing ? 'Terug naar kaart' : 'Terug' }}</button><button v-if="!success && !capturing" type="submit" class="primary-action" :disabled="busy || loading || (kind === 'puzzle' && !question)">{{ busy ? 'Even wachten…' : kind === 'puzzle' ? 'Antwoord versturen' : kind === 'capture' ? 'Start capture' : kind === 'remove' ? 'Verwijderen' : 'Code controleren' }}</button></div>
+      <div class="dialog-actions"><button type="button" class="secondary-action" @click="close">{{ success ? 'Sluiten' : capturing ? 'Terug naar kaart' : 'Terug' }}</button><button v-if="!success && !capturing" type="submit" class="primary-action" :disabled="busy || loading || photoBusy || (kind === 'puzzle' && !question) || (kind === 'photo' && (!photoAllowed || !photo))">{{ busy ? 'Even wachten…' : kind === 'photo' ? 'Teamfoto insturen' : kind === 'puzzle' ? 'Antwoord versturen' : kind === 'capture' ? 'Start capture' : kind === 'remove' ? 'Verwijderen' : 'Code controleren' }}</button></div>
     </form>
   </dialog>
 </template>

@@ -19,6 +19,7 @@ class LocationInput(BaseModel):
     timestamp: datetime | None = None
 class AnswerInput(BaseModel): answer: str = Field(min_length=1, max_length=500)
 class ScanInput(BaseModel): token: str = Field(min_length=16, max_length=256)
+class ImageInput(BaseModel): image: str = Field(min_length=1, max_length=2800000)
 
 class GameObjectInput(BaseModel):
     game_id: str = Field(min_length=36, max_length=36)
@@ -35,5 +36,6 @@ class GameObjectInput(BaseModel):
     answer: str | None = Field(default=None, max_length=500)
     max_attempts: int | None = Field(default=None, ge=1, le=100)
     capture_seconds: int = Field(default=60, ge=5, le=3600)
+    points_per_minute: int = Field(default=1, ge=1, le=100000)
     cooldown_seconds: int = Field(default=300, ge=0, le=86400)
     search_radius_meters: int = Field(default=50, ge=5, le=1000)

@@ -17,7 +17,9 @@ def upgrade():
         color = next_team_color(colors)
         colors.add(color)
         connection.execute(sa.text('UPDATE teams SET color = :color WHERE id = :id'), {'color': color, 'id': row['id']})
-    op.create_unique_constraint('uq_team_game_color', 'teams', ['game_id', 'color'])
+    if 'uq_team_game_color' not in {c['name'] for c in sa.inspect(connection).get_unique_constraints('teams')}:
+        with op.batch_alter_table('teams') as batch:
+            batch.create_unique_constraint('uq_team_game_color', ['game_id', 'color'])
 
 
 def downgrade():
