@@ -43,7 +43,7 @@ async function run() {
     })
     await page.goto('http://127.0.0.1:5179')
     await page.getByLabel('TEAMNAAM', { exact: true }).fill('Valken')
-    await page.getByRole('button', { name: 'DOE MEE MET SPEL' }).click()
+    await page.getByRole('button', { name: 'START OF HERVAT JE TEAM' }).click()
     await page.locator('.field-radar').waitFor()
     assert.equal(await page.locator('.profile-editor').count(), 0, 'No photo editor above the map')
     await page.locator('nav button').filter({ hasText: 'Scoreboard' }).click()

@@ -2,6 +2,7 @@ import asyncio, logging, math, os, time
 from contextlib import suppress
 from .game_clock import expire_due_games, expire_game, game_dto
 from .capture_income import settle_capture_income
+from .bonus import bonus_state
 from .images import normalize_image
 from .team_colors import next_team_color
 from .services import capture_started
@@ -155,10 +156,16 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     if game is None:
         raise HTTPException(404, "Unknown game code. Ask an admin to create the game round.")
     if expire_game(db, game): db.commit()
+    team = db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first()
+    if team:
+        player = db.query(User).filter(User.team_id == team.id, User.active.is_(True), User.role != UserRole.ADMIN).order_by(User.created_at, User.id).first()
+        if not player:
+            raise HTTPException(403, 'Dit team is uitgeschakeld. Vraag de beheerder om hulp.')
+        return {"access_token": create_token(player), "token_type": "bearer", "user": dto_user(player, db), "game": game_dto(game)}
     if game.status == GameStatus.FINISHED:
         raise HTTPException(409, "This game round has finished")
-    if db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first():
-        raise HTTPException(409, "This team name is already active in this game round")
+    if len(team_name) < 2:
+        raise HTTPException(422, 'Vul een teamnaam van minstens twee tekens in')
     team = Team(game_id=game.id, name=team_name, color=next_team_color(color for (color,) in db.query(Team.color).filter_by(game_id=game.id).all()))
     db.add(team); db.flush()
     player = User(name=f"team-{team.id}", team_id=team.id, role=UserRole.TEAM_LEADER, password_hash=hash_password(os.urandom(24).hex()))
@@ -259,8 +266,11 @@ def locations(game_id: str | None = None, user: User = Depends(current_user), db
 @app.get("/api/game-objects")
 def game_objects(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
+    settle_capture_income(db, game.id)
+    db.commit()
     rows = db.query(GameObject, CapturePoint, Team).outerjoin(CapturePoint, CapturePoint.game_object_id == GameObject.id).outerjoin(Team, Team.id == CapturePoint.owner_team_id).filter(GameObject.game_id == game.id, GameObject.active.is_(True)).all()
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    bonus = bonus_state(game, sorted(x.id for x, point, owner in rows if point))
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -278,6 +288,7 @@ async def create_game_object(payload: GameObjectInput, admin: User = Depends(req
     game = selected_game(admin, db, payload.game_id)
     if object_type == ObjectType.PUZZLE and (not payload.question or not payload.answer):
         raise HTTPException(422, "A puzzle needs both a question and answer")
+    settle_capture_income(db, game.id)
     obj = GameObject(game_id=game.id, type=object_type, name=payload.name, description=payload.description,
                      latitude=payload.latitude, longitude=payload.longitude,
                      activation_radius_meters=payload.activation_radius_meters)

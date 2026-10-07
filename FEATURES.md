@@ -50,3 +50,18 @@ migrations.
   `npm run test:ui`. The test uses Edge on Windows and Playwright Chromium on
   other platforms. It mocks API responses, tests player/admin flows, and writes
   mobile and desktop screenshots to `frontend/tests`.
+
+## Rotating bonus locations and returning teams
+
+After ten minutes of running play, one active capture point becomes a bonus
+location for five minutes. The bonus doubles ownership income (not the one-off
+capture reward). Every ten playing minutes the next post takes its turn.
+Players see a rotating rainbow marker border, a map banner, and a notice.
+Pauses freeze the bonus clock; restarts retain it. Settlement includes bonus
+intervals missed while offline and stops at the round deadline. Only active
+capture points participate; add capture points in the admin object editor.
+
+Joining with the same game code and case-insensitive team name returns the
+existing active team account, including its score and photo. Existing teams
+can return to finished rounds to view results; new teams cannot join them.
+These two values grant team access; there is no separate player password.

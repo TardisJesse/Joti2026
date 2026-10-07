@@ -12,4 +12,5 @@ import './dashboard-stack.css'
 import './mobile-field.css'
 import './photos.css'
 import './round-ui.css'
+import './bonus.css'
 createApp(App).use(createPinia()).mount('#app')

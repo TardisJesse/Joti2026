@@ -71,6 +71,7 @@ function draw() {
   markers.forEach(marker => marker.remove()); markers = []
   for (const item of props.objects) {
     const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.innerHTML = objectIcon(item.type); pin.title = item.name
+    if (item.bonus_active) { pin.className += ' bonus-location'; pin.title += ' · BONUS: dubbele punten'; const ring = document.createElement('span'); ring.className = 'bonus-ring'; ring.setAttribute('aria-hidden', 'true'); pin.appendChild(ring) }
     pin.setAttribute('aria-label', item.name)
     if (item.type === 'CAPTURE_POINT') { pin.style.background = item.owner_team_color || '#ffcf6a'; pin.style.color = '#031426'; pin.title = item.name + ' · ' + (item.owner_team_name || 'Onbezet') }
     pin.addEventListener('click', event => { event.stopPropagation(); emit('select', item) })

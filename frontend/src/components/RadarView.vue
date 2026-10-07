@@ -9,6 +9,7 @@ const radar = ref(false), expanded = ref(false), selectedId = ref<string | null>
 const categories = [{ id: 'ALL', label: 'Alles' }, { id: 'PUZZLE', label: 'Puzzels' }, { id: 'PHYSICAL_DUCK', label: 'Eendjes' }, { id: 'CAPTURE_POINT', label: 'Posten' }, { id: 'PHOTO_POINT', label: "Foto’s" }]
 const visible = computed(() => props.objects.filter(object => filter.value === 'ALL' || object.type === filter.value))
 const selected = computed(() => visible.value.find(object => object.id === selectedId.value))
+const bonus = computed(() => props.objects.find(object => object.bonus_active))
 const own = computed(() => props.locations.find(player => props.ownTeamId && player.team_id === props.ownTeamId)?.location)
 const typeLabel = (object: any) => categories.find(category => category.id === object.type)?.label || 'Spelpunt'
 function distance(object: any) {
@@ -34,6 +35,7 @@ watch(filter, () => { selectedId.value = null })
 <template>
   <section class="field-radar" aria-label="Spelkaart">
     <header class="radar-heading"><div><p class="eyebrow">ONTDEK HET SPEELVELD</p><h1>Radar</h1></div><span class="gps-state" :class="{ problem: gpsProblem }">{{ admin ? 'Ronde-overzicht' : gpsLabel }}</span></header>
+    <button v-if="bonus" class="bonus-banner" @click="filter = 'ALL'; choose(bonus, true)">🌈 BONUS: {{ bonus.name }} · 2× punten per minuut <small>Tot {{ new Date(bonus.bonus_ends_at).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) }} · Bekijk locatie →</small></button>
     <div class="map-filters" role="group" aria-label="Filter spelpunten">
       <button v-for="category in categories" :key="category.id" :aria-pressed="filter === category.id" @click="filter = category.id">{{ category.label }}</button>
     </div>
@@ -50,7 +52,7 @@ watch(filter, () => { selectedId.value = null })
           <p v-if="selected.type === 'CAPTURE_POINT'" class="point-owner"><span :style="{ background: selected.owner_team_color || '#ffcf6a' }"></span>{{ selected.owner_team_name ? 'In bezit van ' + selected.owner_team_name : 'Onbezet' }}</p>
           <button v-if="admin" class="secondary-action" @click="emit('remove', selected)">Punt verwijderen</button>
           <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">De gekleurde cirkel is de capturezone. Blijf binnen deze zone om de vlag te veroveren.</p>
-          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">+{{ selected.points_per_minute || 1 }} punt(en) per minuut voor het team dat deze post bezit.</p>
+          <p v-if="selected.type === 'CAPTURE_POINT'" class="point-meta">+{{ (selected.points_per_minute || 1) * (selected.bonus_multiplier || 1) }} punt(en) per minuut voor het team dat deze post bezit. <strong v-if="selected.bonus_active">🌈 Tijdelijke bonus: 2× punten!</strong></p>
           <p v-if="selected.type === 'PHOTO_POINT'" class="point-meta">Maak hier een foto met je team. Binnen de cirkel kun je foto's insturen en bekijken.</p>
           <p v-if="selected.description">{{ selected.description }}</p>
           <div class="point-actions"><button class="secondary-action" @click="selectedId = null">Alle punten</button><button v-if="!admin || selected.type === 'PHOTO_POINT'" class="primary-action" @click="emit('action', selected)">{{ selected.type === 'PUZZLE' ? 'Open puzzel' : selected.type === 'CAPTURE_POINT' ? 'Start capture' : selected.type === 'PHOTO_POINT' ? 'Open fotopunt' : 'Scan eendje' }}</button></div>
