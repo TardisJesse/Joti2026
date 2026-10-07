@@ -20,6 +20,7 @@ async function run() {
       if (endpoint === '/api/games/join') result = { access_token: 'test', user: user() }
       if (endpoint === '/api/auth/login') { admin = true; result = { access_token: 'admin-test', user: { id: 'admin', name: 'admin', role: 'ADMIN', team_id: null } } }
       if (endpoint === '/api/admin/games') result = [{ id: 'game', code: 'RONDE-A', name: 'Round', status: 'RUNNING' }]
+      if (endpoint === '/api/game') result = { id: 'game', code: 'RONDE-A', name: 'Round', status: 'RUNNING', ends_at: null, timer_remaining_seconds: null, server_now: new Date().toISOString() }
       if (endpoint === '/api/auth/me') result = user()
       if (endpoint === '/api/game-objects') result = objects
       if (endpoint === '/api/scores') result = [
@@ -43,11 +44,14 @@ async function run() {
     await page.goto('http://127.0.0.1:5179')
     await page.getByLabel('TEAMNAAM', { exact: true }).fill('Valken')
     await page.getByRole('button', { name: 'DOE MEE MET SPEL' }).click()
+    await page.locator('.field-radar').waitFor()
+    assert.equal(await page.locator('.profile-editor').count(), 0, 'No photo editor above the map')
+    await page.locator('nav button').filter({ hasText: 'Scoreboard' }).click()
+    await page.locator('.profile-plus').waitFor()
+    assert.equal(await page.locator('.profile-plus').textContent(), '+', 'Empty profile photo uses a plus')
+    await page.screenshot({ path: path.join(__dirname, 'scoreboard-empty-profile-mobile.png'), fullPage: true })
     await page.locator('.profile-editor input').setInputFiles(path.join(__dirname, 'team-photo.png'))
     await page.locator('.profile-editor img').waitFor()
-    await page.locator('.is-current-player img').waitFor()
-    assert.equal(await page.locator('.is-current-player').getAttribute('aria-label'), 'Valken')
-    await page.locator('nav button').filter({ hasText: 'Scoreboard' }).click()
     await page.locator('.podium-place').first().waitFor()
     assert.equal(await page.locator('.podium-place').count(), 3)
     assert.equal(await page.locator('.place-1 h2').textContent(), 'Arenden')
@@ -57,6 +61,9 @@ async function run() {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'Mobile page must not overflow')
     await page.screenshot({ path: path.join(__dirname, 'scoreboard-mobile.png'), fullPage: true })
     await page.getByRole('button', { name: 'Radar kaart' }).click()
+    await page.locator('.is-current-player img').waitFor()
+    assert.equal(await page.locator('.profile-editor').count(), 0, 'Editor stays exclusive to scoreboard')
+    assert.equal(await page.locator('.is-current-player').getAttribute('aria-label'), 'Valken')
     await page.getByRole('button', { name: /2 spelpunten/ }).click()
     await page.locator('.point-row').filter({ hasText: 'Teamfoto bij HQ' }).click()
     await page.getByRole('button', { name: 'Open fotopunt' }).click()

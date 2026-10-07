@@ -1,6 +1,7 @@
 # Profiles, capture income and photo points
 
-Players can set or change their profile photo immediately after joining. Their
+Players can set or change their profile photo on the scoreboard. A clickable
+plus appears in the profile circle until a photo has been added. Their
 photo is shown in the GPS marker and represents their team on the scoreboard.
 The scoreboard shows the three leaders on a podium, then ranks all remaining
 teams by descending score. Ties use team name, then team ID. Admin map popups
@@ -19,6 +20,15 @@ or submit a team photo. Each team can submit and earn the reward once per point.
 Admins can review galleries without the location restriction. The challenge
 asks players to include themselves and their team; image content is not
 automatically checked.
+
+Admins have a separate **Timer** tab. Setting a duration (1–1440 minutes) starts
+the selected round and sends a shared red countdown to everyone's top bar.
+At zero, the server finishes the round and blocks further scoring. A background
+clock enforces the deadline without connected browsers, and overdue rounds are
+finished after a server restart. Capture income is capped at the deadline.
+Pausing a round freezes its remaining time; starting it again resumes the timer.
+Admins can restart or remove the timer. Removing it leaves the round's current
+status unchanged.
 
 Uploads support JPEG, PNG and WebP. The browser resizes photos, and the server
 decodes and re-encodes them to strip metadata and store bounded raster images

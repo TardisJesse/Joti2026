@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-const props = defineProps<{ scores: any[]; ownTeamId?: string | null }>()
+import ProfileImage from './ProfileImage.vue'
+const props = defineProps<{ scores: any[]; ownTeamId?: string | null; profile?: any }>()
+const emit = defineEmits<{ saved: [user: any] }>()
 const ranked = computed(() => [...props.scores].sort((a, b) => b.score - a.score || a.name.localeCompare(b.name) || a.team_id.localeCompare(b.team_id)))
 const leaders = computed(() => ranked.value.slice(0, 3))
 </script>
 <template>
   <section class="score-page"><p class="eyebrow">LIVE RANKINGS</p><h1>Scoreboard</h1>
+    <ProfileImage v-if="profile" :image="profile.profile_image" :name="profile.team_name || profile.name" @saved="emit('saved', $event)" />
     <p v-if="!ranked.length">Er zijn nog geen teams in deze ronde.</p>
     <div v-else class="podium" aria-label="Top drie">
       <article v-for="(team, index) in leaders" :key="team.team_id" class="podium-place" :class="['place-' + (index + 1), { 'own-team': team.team_id === ownTeamId }]" :style="{ '--team-color': team.color }">

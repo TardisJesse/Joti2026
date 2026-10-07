@@ -11,4 +11,5 @@ import './persistent-footer.css'
 import './dashboard-stack.css'
 import './mobile-field.css'
 import './photos.css'
+import './round-ui.css'
 createApp(App).use(createPinia()).mount('#app')

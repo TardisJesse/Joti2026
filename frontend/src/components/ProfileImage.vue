@@ -18,8 +18,12 @@ async function upload(event: Event) {
 </script>
 <template>
   <section class="profile-editor" aria-label="Profielfoto">
-    <img v-if="image" :src="image" :alt="'Profielfoto van ' + name" class="avatar" />
-    <span v-else class="avatar avatar-fallback" aria-hidden="true">{{ name.slice(0, 2).toUpperCase() }}</span>
-    <div><strong>{{ name }}</strong><label class="photo-picker">{{ busy ? 'Foto opslaan…' : image ? 'Profielfoto wijzigen' : 'Profielfoto instellen' }}<input type="file" accept="image/jpeg,image/png,image/webp" :disabled="busy" @change="upload" /></label><small>Je foto verschijnt op de kaart en het scoreboard.</small><p v-if="error" role="alert">{{ error }}</p></div>
+    <label class="profile-photo-picker" :class="{ busy }">
+      <img v-if="image" :src="image" :alt="'Profielfoto van ' + name" class="avatar" />
+      <span v-else class="avatar avatar-fallback profile-plus" aria-hidden="true">+</span>
+      <span v-if="image" class="photo-edit-badge" aria-hidden="true">+</span>
+      <input type="file" accept="image/jpeg,image/png,image/webp" :aria-label="image ? 'Profielfoto wijzigen' : 'Profielfoto toevoegen'" :disabled="busy" @change="upload" />
+    </label>
+    <div><strong>{{ name }}</strong><small>{{ busy ? 'Foto opslaan…' : image ? 'Tik op je foto om die te wijzigen' : 'Tik op + om je foto toe te voegen' }}</small><p v-if="error" role="alert">{{ error }}</p></div>
   </section>
 </template>

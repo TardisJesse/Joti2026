@@ -1,9 +1,12 @@
-import asyncio, os, time
+import asyncio, logging, math, os, time
+from contextlib import suppress
+from .game_clock import expire_due_games, expire_game, game_dto
 from .capture_income import settle_capture_income
 from .images import normalize_image
 from .team_colors import next_team_color
 from .services import capture_started
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from .capture_income import utc
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from .push import router as push_router, notify_capture
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,7 +17,7 @@ from .config import settings
 from .database import SessionLocal, db_session
 from .models import *
 from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInput,
-                      GameStatusInput, LocationInput, LoginInput, ScanInput, ImageInput)
+                      GameStatusInput, GameTimerInput, LocationInput, LoginInput, ScanInput, ImageInput)
 from .security import create_token, current_user, hash_password, require_admin, verify_password
 from .services import (begin_capture, broadcast, cancel_capture, complete_capture, get_location,
                        hash_token, require_nearby, set_location, subscribers)
@@ -22,6 +25,31 @@ from .services import (begin_capture, broadcast, cancel_capture, complete_captur
 app = FastAPI(title="CyberJoti API", version="0.1.0")
 app.include_router(push_router)
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split(","), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+
+async def round_clock_loop():
+    while True:
+        try:
+            finished = await asyncio.to_thread(expire_due_games, SessionLocal)
+            for game in finished:
+                await broadcast(f"game:{game['id']}:events", {'type': 'GAME_UPDATED', 'data': game})
+        except Exception:
+            logging.getLogger(__name__).exception('Round timer check failed')
+        await asyncio.sleep(1)
+
+
+@app.on_event('startup')
+async def start_round_clock():
+    app.state.round_clock = asyncio.create_task(round_clock_loop())
+
+
+@app.on_event('shutdown')
+async def stop_round_clock():
+    task = getattr(app.state, 'round_clock', None)
+    if task:
+        task.cancel()
+        with suppress(asyncio.CancelledError):
+            await task
 
 
 @app.on_event("startup")
@@ -61,6 +89,7 @@ def team_game(user: User, db: Session) -> Game:
     game = db.get(Game, team.game_id) if team else None
     if not game:
         raise HTTPException(404, "Game round not found")
+    if expire_game(db, game): db.commit()
     return game
 
 
@@ -72,10 +101,13 @@ def selected_game(user: User, db: Session, game_id: str | None = None) -> Game:
     game = db.get(Game, game_id)
     if not game:
         raise HTTPException(404, "Game round not found")
+    if expire_game(db, game): db.commit()
     return game
 
 
 def require_running(game: Game) -> None:
+    if game.status == GameStatus.FINISHED or (game.status == GameStatus.RUNNING and game.ends_at and utc(game.ends_at) <= datetime.now(timezone.utc)):
+        raise HTTPException(409, 'Deze spelronde is afgelopen')
     if game.status != GameStatus.RUNNING:
         raise HTTPException(409, "This game round has not started yet")
 
@@ -86,6 +118,7 @@ def object_for(object_id: str, expected: ObjectType, user: User, db: Session):
     game = team_game(user, db)
     if obj.game_id != game.id:
         raise HTTPException(404, "Game object not found")
+    game = db.query(Game).filter_by(id=game.id).populate_existing().with_for_update().one()
     require_running(game)
     return obj
 def require_team(user: User):
@@ -121,6 +154,7 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     game = db.query(Game).filter(func.lower(Game.game_code) == code.lower()).with_for_update().first()
     if game is None:
         raise HTTPException(404, "Unknown game code. Ask an admin to create the game round.")
+    if expire_game(db, game): db.commit()
     if game.status == GameStatus.FINISHED:
         raise HTTPException(409, "This game round has finished")
     if db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first():
@@ -129,12 +163,20 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     db.add(team); db.flush()
     player = User(name=f"team-{team.id}", team_id=team.id, role=UserRole.TEAM_LEADER, password_hash=hash_password(os.urandom(24).hex()))
     db.add(player); db.commit()
-    return {"access_token": create_token(player), "token_type": "bearer", "user": dto_user(player, db), "game": {"id": game.id, "code": game.game_code, "name": game.name, "status": game.status}}
+    return {"access_token": create_token(player), "token_type": "bearer", "user": dto_user(player, db), "game": game_dto(game)}
+
+
+@app.get('/api/game')
+def current_game(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
+    return game_dto(selected_game(user, db, game_id))
 
 
 @app.get("/api/admin/games")
 def admin_games(admin: User = Depends(require_admin), db: Session = Depends(db_session)):
-    return [{"id": game.id, "code": game.game_code, "name": game.name, "status": game.status} for game in db.query(Game).order_by(Game.created_at.desc())]
+    games = db.query(Game).order_by(Game.created_at.desc()).all()
+    for game in games:
+        if expire_game(db, game): db.commit()
+    return [game_dto(game) for game in games]
 
 
 @app.post("/api/admin/games")
@@ -144,18 +186,58 @@ def create_game(payload: GameCreateInput, admin: User = Depends(require_admin), 
         raise HTTPException(409, "This game code already exists")
     game = Game(game_code=code, name=payload.name or f"Spelronde {code}", status=GameStatus.READY)
     db.add(game); db.commit()
-    return {"id": game.id, "code": game.game_code, "name": game.name, "status": game.status}
+    return game_dto(game)
 
 
 @app.put("/api/admin/games/{game_id}/status")
-def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
-    game = db.get(Game, game_id)
+def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depends(require_admin), db: Session = Depends(db_session), background_tasks: BackgroundTasks = None):
+    game = selected_game(admin, db, game_id)
     try: status = GameStatus(payload.status)
     except ValueError: raise HTTPException(422, "Unknown game status")
     if not game: raise HTTPException(404, "Game round not found")
-    settle_capture_income(db, game.id)
+    if game.status == GameStatus.FINISHED and status == GameStatus.PAUSED:
+        raise HTTPException(409, 'Deze spelronde is al afgelopen')
+    at = settle_capture_income(db, game.id)
+    if game.status != status:
+        if status == GameStatus.PAUSED and game.ends_at and game.status == GameStatus.RUNNING:
+            game.timer_remaining_seconds = max(0, math.ceil((utc(game.ends_at) - at).total_seconds()))
+            game.ends_at = None
+        elif status == GameStatus.RUNNING and game.timer_remaining_seconds:
+            game.ends_at = at + timedelta(seconds=game.timer_remaining_seconds)
+            game.timer_remaining_seconds = None
+        elif status != GameStatus.RUNNING:
+            game.ends_at = None; game.timer_remaining_seconds = None
+        elif game.status == GameStatus.FINISHED:
+            game.ends_at = None
     game.status = status; db.commit()
-    return {"id": game.id, "status": game.status}
+    if background_tasks:
+        background_tasks.add_task(broadcast, f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': game_dto(game)})
+    return game_dto(game)
+
+
+@app.put('/api/admin/games/{game_id}/timer')
+async def set_round_timer(game_id: str, payload: GameTimerInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game = selected_game(admin, db, game_id)
+    at = settle_capture_income(db, game.id)
+    game.ends_at = at + timedelta(seconds=payload.duration_seconds)
+    game.timer_remaining_seconds = None
+    game.starts_at = game.starts_at or at
+    game.status = GameStatus.RUNNING
+    db.commit()
+    result = game_dto(game)
+    await broadcast(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})
+    return result
+
+
+@app.delete('/api/admin/games/{game_id}/timer')
+async def remove_round_timer(game_id: str, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game = selected_game(admin, db, game_id)
+    settle_capture_income(db, game.id)
+    game.ends_at = None; game.timer_remaining_seconds = None
+    db.commit()
+    result = game_dto(game)
+    await broadcast(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})
+    return result
 
 @app.post("/api/location")
 async def location(payload: LocationInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
@@ -234,6 +316,7 @@ async def answer(object_id: str, payload: AnswerInput, user: User = Depends(curr
     attempts = db.query(PuzzleAttempt).filter_by(puzzle_id=puzzle.id, team_id=user.team_id).count()
     if puzzle.max_attempts is not None and attempts >= puzzle.max_attempts: raise HTTPException(429, "Maximum attempts reached")
     correct = verify_password(payload.answer.strip().lower(), puzzle.answer_hash)
+    require_running(db.get(Game, obj.game_id))
     db.add(PuzzleAttempt(puzzle_id=puzzle.id, team_id=user.team_id, user_id=user.id, correct=correct))
     if correct: db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.PUZZLE_SOLVED, points=puzzle.reward_points, reference_id=puzzle.id))
     db.commit()
@@ -262,6 +345,7 @@ async def capture_status(object_id: str, background_tasks: BackgroundTasks, user
     started = capture_started.get((point.id, user.team_id))
     if started is None: db.commit(); return {"state": "IDLE", "owner_team_id": point.owner_team_id}
     if complete_capture(point.id, user.team_id, point.capture_seconds, point.cooldown_seconds):
+        require_running(db.get(Game, obj.game_id))
         if point.owner_team_id != user.team_id:
             point.income_remainder_seconds = 0
         point.income_updated_at = income_time
@@ -292,6 +376,7 @@ async def submit_photo(object_id: str, payload: ImageInput, user: User = Depends
     require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
     point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).one()
     image = normalize_image(payload.image)
+    require_running(db.get(Game, obj.game_id))
     try:
         db.add(PhotoSubmission(photo_point_id=point.id, team_id=user.team_id, user_id=user.id, image=image))
         db.flush()
@@ -312,6 +397,7 @@ async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: 
     if not obj or obj.game_id != game.id: raise HTTPException(404, "Unknown duck token")
     require_running(game)
     require_nearby(user.id, obj.latitude, obj.longitude, duck.search_radius_meters)
+    require_running(game)
     try:
         db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=duck.reward_points, reference_id=duck.id)); db.commit()
     except IntegrityError:

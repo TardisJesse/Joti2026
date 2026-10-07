@@ -12,6 +12,8 @@ class GameCreateInput(BaseModel):
     name: str | None = Field(default=None, max_length=160)
 class GameStatusInput(BaseModel):
     status: str
+class GameTimerInput(BaseModel):
+    duration_seconds: int = Field(ge=60, le=86400)
 class LocationInput(BaseModel):
     latitude: float = Field(ge=-90, le=90)
     longitude: float = Field(ge=-180, le=180)

@@ -28,6 +28,7 @@ class Game(IdTimeMixin, Base):
     status: Mapped[GameStatus] = mapped_column(Enum(GameStatus), default=GameStatus.DRAFT, index=True)
     starts_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     ends_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    timer_remaining_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class Team(IdTimeMixin, Base):
