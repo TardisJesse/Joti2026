@@ -1,0 +1,121 @@
+[
+  {
+    "duration": 13,
+    "headline": "MAAK JOUW TEAM GROOT",
+    "title": "Welkom op CyberJoti",
+    "narration": "Jullie team heeft een eigen kanaal. Trek eropuit, werk samen en verzamel volgers. Het team met de meeste volgers bij het einde wint.",
+    "kind": "intro",
+    "bullets": [
+      "Een team. Een kanaal. Een missie.",
+      "Verzamel volgers en bereik het podium."
+    ]
+  },
+  {
+    "duration": 12,
+    "headline": "KENNIS TREKT VOLGERS",
+    "title": "Puzzel",
+    "narration": "Zoek het vraagteken op de kaart. Ga naar de locatie en los de puzzel samen op. Een goed antwoord levert jullie team volgers op.",
+    "kind": "puzzle",
+    "bullets": [
+      "Ga naar het vraagteken.",
+      "Los samen de vraag op.",
+      "Verdien de ingestelde beloning."
+    ]
+  },
+  {
+    "duration": 13,
+    "headline": "MAAK CONTENT MET JE TEAM",
+    "title": "Fotopunt",
+    "narration": "Ga binnen de fotocirkel staan en maak de gevraagde foto met je team. Eén inzending per team levert volgers op. Op de locatie kun je de teamfoto’s bekijken.",
+    "kind": "photo",
+    "bullets": [
+      "Maak de gevraagde teamfoto.",
+      "Eén beloning per team en per fotopunt.",
+      "Bekijk foto’s op de locatie."
+    ]
+  },
+  {
+    "duration": 17,
+    "headline": "VERGROOT JULLIE BEREIK",
+    "title": "Zendmast",
+    "narration": "Start een capture en blijf binnen de cirkel tot de verovering klaar is. Je krijgt een veroveringsbeloning. Zolang je team de zendmast bezit, komen er volgers per minuut bij. Andere teams kunnen de post overnemen.",
+    "kind": "tower",
+    "bullets": [
+      "Blijf tijdens de capture binnen de cirkel.",
+      "Verdien volgers bij verovering én per minuut.",
+      "Andere teams kunnen de post overnemen."
+    ]
+  },
+  {
+    "duration": 12,
+    "headline": "ZOEK HET FYSIEKE EENDJE",
+    "title": "NFC-eend",
+    "narration": "Zoek het echte eendje in het speelveld. Lees de NFC-tag en voer de code in terwijl je in de buurt bent. Je team krijgt de beloning één keer per eendje.",
+    "kind": "duck",
+    "bullets": [
+      "Vind het echte eendje.",
+      "Lees de NFC-tag en voer de code in.",
+      "Eén beloning per team en per eend."
+    ]
+  },
+  {
+    "duration": 15,
+    "headline": "INFORMATIE IS JOUW VOORSPRONG",
+    "title": "Scannerpunt",
+    "narration": "Open de scanner binnen de scannercirkel. Je ziet dan recente locaties van andere teams. Zodra je weggaat of de scanner sluit, verdwijnen ze. Dit levert geen volgers op. Het gebruik blijft geheim.",
+    "kind": "scanner",
+    "bullets": [
+      "Zie andere teams zolang je hier blijft.",
+      "Bij weggaan verdwijnt het overzicht.",
+      "Geen volgers. Scannergebruik blijft geheim."
+    ]
+  },
+  {
+    "duration": 13,
+    "headline": "DE REGENBOOG IS EEN BONUS",
+    "title": "Bonuslocatie",
+    "narration": "Na tien speelminuten verschijnt een bonuspost met een draaiende regenboogrand. Die geeft vijf minuten dubbele volgers per minuut. De veroveringsbeloning blijft gelijk. Elke tien speelminuten wisselt de bonuspost.",
+    "kind": "bonus",
+    "bullets": [
+      "Elke tien speelminuten: een bonuspost.",
+      "Vijf minuten dubbele volgers per minuut.",
+      "Herken de draaiende regenboogrand."
+    ]
+  },
+  {
+    "duration": 10,
+    "headline": "WEET WAT JE KUNT VERDIENEN",
+    "title": "Beloningen en nieuws",
+    "narration": "Bekijk de beloning bij ieder spelpunt. De aantallen verschillen per opdracht. Volg veroveringen, bonuslocaties en de spelstatus in de live nieuwsfeed.",
+    "kind": "news",
+    "bullets": [
+      "Bekijk de beloning bij het spelpunt.",
+      "Volg veroveringen en bonuslocaties.",
+      "Eén punt in de telling is één volger."
+    ]
+  },
+  {
+    "duration": 15,
+    "headline": "SPEEL SAMEN. SPEEL SPORTIEF.",
+    "title": "De spelregels",
+    "narration": "Blijf samen en binnen het speelgebied. Gebruik echte GPS en voer opdrachten ter plekke uit. Maak de gevraagde teamfoto en speel sportief. De beheerder helpt bij vragen en kan de ronde pauzeren.",
+    "kind": "rules",
+    "bullets": [
+      "Blijf samen en binnen het speelgebied.",
+      "Gebruik echte GPS en voer opdrachten ter plekke uit.",
+      "Volg de opdracht en speel sportief."
+    ]
+  },
+  {
+    "duration": 15,
+    "headline": "KLAAR VOOR HET SPEELVELD?",
+    "title": "Start en finish",
+    "narration": "Meld je aan met spelcode en teamnaam. Zet jullie profielfoto op het scoreboard. Met dezelfde gegevens kun je je team hervatten. Bij nul stopt het verdienen van volgers. Bekijk het podium. Veel plezier!",
+    "kind": "finish",
+    "bullets": [
+      "Spelcode + teamnaam: start of hervat je team.",
+      "Volg de rode timer. Bij nul stopt het spel.",
+      "Wie heeft de meeste volgers?"
+    ]
+  }
+]

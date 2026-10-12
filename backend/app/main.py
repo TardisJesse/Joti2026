@@ -3,12 +3,13 @@ from contextlib import suppress
 from .game_clock import expire_due_games, expire_game, game_dto
 from .capture_income import settle_capture_income
 from .bonus import bonus_state
+from .news import add_news, news_dto, collect_news
 from .images import normalize_image
 from .team_colors import next_team_color
 from .services import capture_started
 from datetime import datetime, timedelta, timezone
 from .capture_income import utc
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Response, WebSocket, WebSocketDisconnect
 from .push import router as push_router, notify_capture
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import func
@@ -34,6 +35,8 @@ async def round_clock_loop():
             finished = await asyncio.to_thread(expire_due_games, SessionLocal)
             for game in finished:
                 await broadcast(f"game:{game['id']}:events", {'type': 'GAME_UPDATED', 'data': game})
+            for event in await asyncio.to_thread(collect_news, SessionLocal):
+                await broadcast(f"game:{event['game_id']}:events", {'type': 'NEWS_EVENT', 'data': event})
         except Exception:
             logging.getLogger(__name__).exception('Round timer check failed')
         await asyncio.sleep(1)
@@ -205,6 +208,7 @@ def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depend
     if game.status == GameStatus.FINISHED and status == GameStatus.PAUSED:
         raise HTTPException(409, 'Deze spelronde is al afgelopen')
     at = settle_capture_income(db, game.id)
+    previous_status = game.status
     if game.status != status:
         if status == GameStatus.PAUSED and game.ends_at and game.status == GameStatus.RUNNING:
             game.timer_remaining_seconds = max(0, math.ceil((utc(game.ends_at) - at).total_seconds()))
@@ -216,7 +220,11 @@ def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depend
             game.ends_at = None; game.timer_remaining_seconds = None
         elif game.status == GameStatus.FINISHED:
             game.ends_at = None
-    game.status = status; db.commit()
+    game.status = status
+    if previous_status != status and status in (GameStatus.RUNNING, GameStatus.PAUSED, GameStatus.FINISHED):
+        label = 'hervat' if status == GameStatus.RUNNING and previous_status == GameStatus.PAUSED else 'gestart' if status == GameStatus.RUNNING else 'gepauzeerd' if status == GameStatus.PAUSED else 'afgelopen'
+        add_news(db, game.id, 'GAME_STATUS', f'De spelronde is {label}.')
+    db.commit()
     if background_tasks:
         background_tasks.add_task(broadcast, f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': game_dto(game)})
     return game_dto(game)
@@ -230,6 +238,7 @@ async def set_round_timer(game_id: str, payload: GameTimerInput, admin: User = D
     game.timer_remaining_seconds = None
     game.starts_at = game.starts_at or at
     game.status = GameStatus.RUNNING
+    add_news(db, game.id, 'GAME_STATUS', 'De speltimer is gestart. De ronde loopt!')
     db.commit()
     result = game_dto(game)
     await broadcast(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})
@@ -263,6 +272,33 @@ def locations(game_id: str | None = None, user: User = Depends(current_user), db
     if user.role != UserRole.ADMIN: query = query.filter(User.id == user.id)
     return [{"player_id": player.id, "name": player.name, "team_name": db.get(Team, player.team_id).name, "profile_image": player.profile_image, "team_id": player.team_id, "location": get_location(player.id)} for player in query.all() if get_location(player.id)]
 
+@app.get("/api/news")
+def round_news(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
+    game = selected_game(user, db, game_id)
+    return [news_dto(row) for row in db.query(NewsEvent).filter_by(game_id=game.id).order_by(NewsEvent.created_at.desc(), NewsEvent.id.desc()).limit(50)]
+
+
+@app.get('/api/scanners/{object_id}/locations')
+def scanner_locations(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session), response: Response = None):
+    if response is not None: response.headers['Cache-Control'] = 'no-store'
+    obj = object_for(object_id, ObjectType.SCANNER_POINT, user, db)
+    require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
+    at = datetime.now(timezone.utc)
+    result = {}
+    players = db.query(User, Team).join(Team, User.team_id == Team.id).filter(Team.game_id == obj.game_id, Team.id != user.team_id, User.active.is_(True), User.role != UserRole.ADMIN).all()
+    for player, team in players:
+        location = get_location(player.id)
+        if not location: continue
+        try:
+            updated = utc(datetime.fromisoformat(str(location['updated_at'])))
+            age = (at - updated).total_seconds()
+            if not 0 <= age <= settings().location_ttl_seconds or float(location['accuracy']) > settings().maximum_accuracy: continue
+            if team.id in result and result[team.id]['location']['updated_at'] >= updated.isoformat(): continue
+            result[team.id] = {'player_id': player.id, 'team_id': team.id, 'team_name': team.name, 'name': team.name, 'profile_image': player.profile_image, 'location': {**location, 'updated_at': updated.isoformat()}}
+        except (KeyError, ValueError, TypeError): continue
+    return {'scanner_id': obj.id, 'locations': list(result.values()), 'server_now': at.isoformat()}
+
+
 @app.get("/api/game-objects")
 def game_objects(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
@@ -270,7 +306,11 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
     db.commit()
     rows = db.query(GameObject, CapturePoint, Team).outerjoin(CapturePoint, CapturePoint.game_object_id == GameObject.id).outerjoin(Team, Team.id == CapturePoint.owner_team_id).filter(GameObject.game_id == game.id, GameObject.active.is_(True)).all()
     bonus = bonus_state(game, sorted(x.id for x, point, owner in rows if point))
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    ids = [x.id for x, point, owner in rows]
+    rewards = {}
+    for model in (Puzzle, PhotoPoint, Duck):
+        rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -300,7 +340,7 @@ async def create_game_object(payload: GameObjectInput, admin: User = Depends(req
         db.add(CapturePoint(game_object_id=obj.id, capture_seconds=payload.capture_seconds, cooldown_seconds=payload.cooldown_seconds, capture_reward=payload.reward_points, points_per_minute=payload.points_per_minute))
     elif object_type == ObjectType.PHOTO_POINT:
         db.add(PhotoPoint(game_object_id=obj.id, reward_points=payload.reward_points))
-    else:
+    elif object_type == ObjectType.PHYSICAL_DUCK:
         # A random token is returned once so the organiser can write it to an NFC tag.
         import secrets
         token = secrets.token_urlsafe(24); db.add(Duck(game_object_id=obj.id, scan_token_hash=hash_token(token), reward_points=payload.reward_points, search_radius_meters=payload.search_radius_meters)); response["scan_token"] = token
@@ -360,10 +400,15 @@ async def capture_status(object_id: str, background_tasks: BackgroundTasks, user
         if point.owner_team_id != user.team_id:
             point.income_remainder_seconds = 0
         point.income_updated_at = income_time
-        point.owner_team_id = user.team_id; db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="COMPLETED")); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.CAPTURE_COMPLETED, points=point.capture_reward, reference_id=os.urandom(16).hex())); db.commit()
+        point.owner_team_id = user.team_id
+        event = CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="COMPLETED")
+        db.add(event); db.flush()
+        owner = db.get(Team, user.team_id)
+        add_news(db, obj.game_id, 'CAPTURE_COMPLETED', f'Team {owner.name} heeft {obj.name} veroverd!', team_name=owner.name, source_key=f'capture:{event.id}')
+        db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.CAPTURE_COMPLETED, points=point.capture_reward, reference_id=os.urandom(16).hex())); db.commit()
         owner = db.get(Team, user.team_id)
         background_tasks.add_task(notify_capture, obj.game_id, obj.name, owner.name)
-        await broadcast(f"game:{obj.game_id}:events", {"type": "CAPTURE_COMPLETED", "data": {"object_id": object_id, "object_name": obj.name, "owner_team_id": owner.id, "owner_team_name": owner.name, "owner_team_color": owner.color}})
+        await broadcast(f"game:{obj.game_id}:events", {"type": "CAPTURE_COMPLETED", "data": {"event_id": event.id, "object_id": object_id, "object_name": obj.name, "owner_team_id": owner.id, "owner_team_name": owner.name, "owner_team_color": owner.color}})
         return {"state": "COMPLETED", "owner_team_id": user.team_id}
     db.commit()
     return {"state": "CAPTURING", "owner_team_id": point.owner_team_id, "capture_seconds": point.capture_seconds, "remaining_seconds": max(0, point.capture_seconds - (time.monotonic() - started))}

@@ -6,7 +6,7 @@ from fastapi import BackgroundTasks, HTTPException
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from app.database import Base
-from app.models import Game, GameStatus, Team, User, UserRole, GameObject, ObjectType, CapturePoint
+from app.models import Game, GameStatus, Team, User, UserRole, GameObject, ObjectType, CapturePoint, NewsEvent
 from app.main import game_objects, capture_status, delete_game_object
 from app.services import capture_started, subscribers, cooldowns
 from app.team_colors import next_team_color
@@ -47,12 +47,15 @@ class CaptureTests(unittest.TestCase):
         self.assertEqual(result['state'], 'COMPLETED')
         event = queue.get_nowait()
         self.assertEqual(event['data']['owner_team_name'], 'Cyan')
+        self.assertTrue(event['data']['event_id'])
+        self.assertEqual(self.db.query(NewsEvent).one().team_name,'Cyan')
         self.assertTrue(unrelated.empty())
         self.assertEqual(tasks.tasks[0].args[0], self.game.id)
         rows = game_objects(None, self.player, self.db)
         self.assertEqual(rows[0]['owner_team_color'], '#00dff2')
         with patch('app.main.require_nearby'):
             self.assertEqual(asyncio.run(capture_status(self.point.id, BackgroundTasks(), self.player, self.db))['state'], 'IDLE')
+        self.assertEqual(self.db.query(NewsEvent).count(),1)
 
     def test_soft_delete_scope(self):
         with self.assertRaises(HTTPException) as denied:

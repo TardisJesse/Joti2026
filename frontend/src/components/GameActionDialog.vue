@@ -84,7 +84,7 @@ async function checkCapture(id: string) {
 async function submit() {
   if (busy.value || loading.value || photoBusy.value || success.value || capturing.value) return
   const request = version, actionKind = kind.value, target = object.value
-  if (actionKind !== 'remove' && props.gameRunning === false) { error.value = 'De spelronde is gestopt. Je kunt geen punten meer verdienen.'; return }
+  if (actionKind !== 'remove' && props.gameRunning === false) { error.value = 'De spelronde is gestopt. Je kunt geen volgers meer verdienen.'; return }
   if ((actionKind === 'puzzle' || actionKind === 'scan') && !input.value.trim()) { error.value = 'Vul eerst ' + (actionKind === 'puzzle' ? 'je antwoord' : 'de NFC-code') + ' in.'; return }
   if (actionKind === 'capture' && activeCapture.value) { error.value = 'Er loopt al een capture. Rond die eerst af.'; return }
   if (actionKind === 'photo' && (!photo.value || !photoAllowed.value)) { error.value = 'Kies eerst een teamfoto terwijl je binnen de cirkel staat.'; return }
@@ -95,7 +95,7 @@ async function submit() {
       if (disposed || request !== version) return
       success.value = true; photo.value = ''; emit('updated')
       await loadPhotos(target.id, request)
-      result.value = 'Teamfoto ingestuurd! +' + response.points + ' punten'
+      result.value = 'Teamfoto ingestuurd! +' + response.points + ' volgers'
     } else if (actionKind === 'remove') {
       await api('/api/admin/game-objects/' + target.id + '?game_id=' + encodeURIComponent(target.game_id), { method: 'DELETE' })
       if (disposed || request !== version) return
@@ -112,7 +112,7 @@ async function submit() {
       })
       if (disposed || request !== version) return
       success.value = actionKind === 'scan' || response.correct
-      result.value = success.value ? (actionKind === 'scan' ? response.name + ' gevonden! +' : 'Goed antwoord! +') + response.points + ' punten' : 'Dat antwoord klopt nog niet. Probeer het opnieuw.'
+      result.value = success.value ? (actionKind === 'scan' ? response.name + ' gevonden! +' : 'Goed antwoord! +') + response.points + ' volgers' : 'Dat antwoord klopt nog niet. Probeer het opnieuw.'
       emit('updated')
     }
   } catch (e: any) { if (!disposed && request === version) error.value = e.message }
@@ -127,7 +127,7 @@ defineExpose({ open })
     <div class="dialog-heading"><span class="dialog-symbol" aria-hidden="true" v-html="objectIcon(kind === 'puzzle' ? 'PUZZLE' : kind === 'capture' ? 'CAPTURE_POINT' : kind === 'photo' ? 'PHOTO_POINT' : 'PHYSICAL_DUCK')"></span><button type="button" class="dialog-close" aria-label="Venster sluiten" @click="close">✕</button></div>
     <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'photo' ? 'FOTOPUNT' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
     <h2 id="game-dialog-title">{{ title }}</h2>
-    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien punten voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Lees het eendje met je NFC-lezer en plak of typ de bijbehorende code hieronder.' }}</p>
+    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien volgers voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Lees het eendje met je NFC-lezer en plak of typ de bijbehorende code hieronder.' }}</p>
     <form @submit.prevent="submit">
       <p v-if="loading" role="status">Puzzel laden…</p>
       <p v-else-if="kind === 'puzzle' && question" class="puzzle-question">{{ question }}</p>
@@ -137,7 +137,7 @@ defineExpose({ open })
       <p v-if="error" class="dialog-error" role="alert">{{ error }}</p>
       <p v-if="result" class="dialog-result" :class="{ success }" role="status">{{ result }}</p>
       <div v-if="capturing" class="capture-state" role="status"><span class="capture-beacon" aria-hidden="true"></span><p>{{ captureMessage }}</p><progress :value="progress" max="100" aria-label="Capturevoortgang"></progress><strong class="capture-clock">{{ remaining > 0 ? `${remaining} seconden resterend` : 'Tijd voorbij · server bevestigt…' }}</strong><small>Je kunt dit venster sluiten. De controle blijft lopen zolang de app open is.</small></div>
-      <p v-if="kind !== 'remove' && props.gameRunning === false" class="dialog-result" role="status">De spelronde is gepauzeerd of afgelopen. Je kunt nu geen punten verdienen.</p>
+      <p v-if="kind !== 'remove' && props.gameRunning === false" class="dialog-result" role="status">De spelronde is gepauzeerd of afgelopen. Je kunt nu geen volgers verdienen.</p>
       <div class="dialog-actions"><button type="button" class="secondary-action" @click="close">{{ success ? 'Sluiten' : capturing ? 'Terug naar kaart' : 'Terug' }}</button><button v-if="!success && !capturing" type="submit" class="primary-action" :disabled="busy || loading || photoBusy || (kind !== 'remove' && props.gameRunning === false) || (kind === 'puzzle' && !question) || (kind === 'photo' && (!photoAllowed || !photo))">{{ busy ? 'Even wachten…' : kind === 'photo' ? 'Teamfoto insturen' : kind === 'puzzle' ? 'Antwoord versturen' : kind === 'capture' ? 'Start capture' : kind === 'remove' ? 'Verwijderen' : 'Code controleren' }}</button></div>
     </form>
   </dialog>

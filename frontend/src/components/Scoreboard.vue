@@ -15,9 +15,9 @@ const leaders = computed(() => ranked.value.slice(0, 3))
         <span class="podium-rank">{{ index + 1 }}</span>
         <img v-if="team.profile_image" :src="team.profile_image" :alt="'Foto van ' + team.name" class="avatar" />
         <span v-else class="avatar avatar-fallback" aria-hidden="true">{{ team.name.slice(0, 2).toUpperCase() }}</span>
-        <h2>{{ team.name }}</h2><strong><span :key="team.score" class="score-value">{{ team.score }}</span> <small>PTS</small></strong><span v-if="team.team_id === ownTeamId" class="your-team">Jouw team</span>
+        <h2>{{ team.name }}</h2><strong><span :key="team.score" class="score-value">{{ team.score }}</span> <small>VOLGERS</small></strong><span v-if="team.team_id === ownTeamId" class="your-team">Jouw team</span>
       </article>
     </TransitionGroup>
-    <TransitionGroup v-if="ranked.length > 3" tag="ol" name="rank-shift" start="4" class="rank-list"><li v-for="(team, index) in ranked.slice(3)" :key="team.team_id" :class="{ 'own-team': team.team_id === ownTeamId }" :style="{ '--entry-delay': Math.min(index, 5) * 45 + 'ms' }"><em>#{{ index + 4 }}</em><img v-if="team.profile_image" :src="team.profile_image" :alt="'Foto van ' + team.name" class="avatar" /><span v-else class="avatar avatar-fallback" :style="{ borderColor: team.color }" aria-hidden="true">{{ team.name.slice(0, 2).toUpperCase() }}</span><span>{{ team.name }}</span><strong><span :key="team.score" class="score-value">{{ team.score }}</span> PTS</strong></li></TransitionGroup>
+    <TransitionGroup v-if="ranked.length > 3" tag="ol" name="rank-shift" start="4" class="rank-list"><li v-for="(team, index) in ranked.slice(3)" :key="team.team_id" :class="{ 'own-team': team.team_id === ownTeamId }" :style="{ '--entry-delay': Math.min(index, 5) * 45 + 'ms' }"><em>#{{ index + 4 }}</em><img v-if="team.profile_image" :src="team.profile_image" :alt="'Foto van ' + team.name" class="avatar" /><span v-else class="avatar avatar-fallback" :style="{ borderColor: team.color }" aria-hidden="true">{{ team.name.slice(0, 2).toUpperCase() }}</span><span>{{ team.name }}</span><strong><span :key="team.score" class="score-value">{{ team.score }}</span> VOLGERS</strong></li></TransitionGroup>
   </section>
 </template>

@@ -17,7 +17,7 @@ class IdTimeMixin:
 
 class GameStatus(str, enum.Enum): DRAFT="DRAFT"; READY="READY"; RUNNING="RUNNING"; PAUSED="PAUSED"; FINISHED="FINISHED"
 class UserRole(str, enum.Enum): PLAYER="PLAYER"; TEAM_LEADER="TEAM_LEADER"; ADMIN="ADMIN"
-class ObjectType(str, enum.Enum): PUZZLE="PUZZLE"; CAPTURE_POINT="CAPTURE_POINT"; PHYSICAL_DUCK="PHYSICAL_DUCK"; PHOTO_POINT="PHOTO_POINT"
+class ObjectType(str, enum.Enum): PUZZLE="PUZZLE"; CAPTURE_POINT="CAPTURE_POINT"; PHYSICAL_DUCK="PHYSICAL_DUCK"; PHOTO_POINT="PHOTO_POINT"; SCANNER_POINT="SCANNER_POINT"
 class ScoreType(str, enum.Enum): PUZZLE_SOLVED="PUZZLE_SOLVED"; CAPTURE_COMPLETED="CAPTURE_COMPLETED"; DUCK_FOUND="DUCK_FOUND"; ADMIN_ADJUSTMENT="ADMIN_ADJUSTMENT"; CAPTURE_INCOME="CAPTURE_INCOME"; PHOTO_SUBMITTED="PHOTO_SUBMITTED"
 
 
@@ -31,6 +31,17 @@ class Game(IdTimeMixin, Base):
     timer_remaining_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
     bonus_elapsed_seconds: Mapped[float] = mapped_column(Float, default=0, server_default="0")
     bonus_updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class NewsEvent(IdTimeMixin, Base):
+    __tablename__ = "news_events"
+    __table_args__ = (UniqueConstraint("game_id", "source_key", name="uq_news_game_source"),)
+    game_id: Mapped[str] = mapped_column(ForeignKey("games.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(40))
+    message: Mapped[str] = mapped_column(String(500))
+    team_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    source_key: Mapped[str] = mapped_column(String(100))
+    published: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
 
 
 class Team(IdTimeMixin, Base):

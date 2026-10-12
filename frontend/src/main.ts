@@ -14,4 +14,5 @@ import './photos.css'
 import './round-ui.css'
 import './bonus.css'
 import './motion.css'
+import './field-features.css'
 createApp(App).use(createPinia()).mount('#app')

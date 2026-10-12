@@ -36,7 +36,7 @@ async function run() {
     await page.waitForTimeout(250)
     assert.notEqual(await ring.evaluate(element => getComputedStyle(element).transform), before, 'Rainbow border actually moves')
     await page.locator('.bonus-banner').click()
-    await page.getByText('+2 punt(en) per minuut', { exact: false }).waitFor()
+    await page.getByText('+2 volger(s) per minuut', { exact: false }).waitFor()
     await page.screenshot({ path: path.join(__dirname, 'bonus-mobile.png'), fullPage: true })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     assert.equal(await ring.evaluate(element => getComputedStyle(element).animationName), 'none')
@@ -46,7 +46,7 @@ async function run() {
     await page.locator('.app').waitFor()
     await page.locator('nav button').filter({ hasText: 'Scoreboard' }).click()
     assert.equal(joins, 2)
-    await page.getByText(/^42\s*PTS$/).waitFor()
+    await page.getByText(/^42\s*VOLGERS$/).waitFor()
     assert.deepEqual(errors, [])
     console.log('Bonus UI passed: moving rainbow, double-income details, reduced motion, logout and rejoin.')
   } finally { await browser.close() }

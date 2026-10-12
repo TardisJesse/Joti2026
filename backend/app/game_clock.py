@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .capture_income import settle_capture_income, utc
 from .models import CapturePoint, Game, GameObject, GameStatus
 from .services import capture_started
+from .news import add_news
 
 
 def game_dto(game: Game) -> dict:
@@ -21,6 +22,7 @@ def expire_game(db: Session, game: Game, at: datetime | None = None) -> bool:
         return False
     settle_capture_income(db, game.id, at)
     game.status = GameStatus.FINISHED
+    add_news(db, game.id, 'GAME_FINISHED', 'De spelronde is afgelopen. Bekijk de eindstand!', at=at)
     game.timer_remaining_seconds = None
     point_ids = {point.id for point in db.query(CapturePoint).join(GameObject, CapturePoint.game_object_id == GameObject.id).filter(GameObject.game_id == game.id)}
     for key in list(capture_started):

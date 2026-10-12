@@ -65,3 +65,34 @@ Joining with the same game code and case-insensitive team name returns the
 existing active team account, including its score and photo. Existing teams
 can return to finished rounds to view results; new teams cannot join them.
 These two values grant team access; there is no separate player password.
+
+## Followers, introduction, news and scanners
+
+Visible rewards and scores now use **volgers**; the existing score schema and
+amounts are unchanged. Object metadata includes the configured one-off reward.
+
+The sign-in screen and dashboard offer **Speluitleg**. The 135-second MP4 uses
+the existing duck mascot, Dutch Windows voice narration, animated activity
+symbols and a Dutch WebVTT caption track. The separate download has embedded
+subtitles for use on a beamer, avoiding double captions in the app. It never
+autoplays, stops on closing, and includes a complete text alternative. Download
+the MP4 for a shared start moment. Source scene timings, narration and renderer
+are in `video-source`; imported MP4s can be edited in Canva. The renderer uses
+Pillow and imageio-ffmpeg and expects Dutch voice WAVs for each scene.
+
+`GET /api/news` returns the latest 50 persisted events, scoped to the player's
+round (admins select `game_id`). New events also arrive as `NEWS_EVENT` messages.
+Capture, bonus activation and round/timer status changes appear in the feed.
+There is no historical backfill, per-minute income spam or scanner usage news.
+Bonus events are idempotent per round/cycle; clients deduplicate by event ID and
+refresh the feed after reconnecting.
+
+Admins can add **Scannerpunt**, with a 40-metre default radius and no reward.
+`GET /api/scanners/{object_id}/locations` requires a running round and a nearby,
+fresh, accurate GPS fix on every request. It returns one recent location per
+other active team in the same round, with photo/name; stale/inaccurate fixes
+are omitted and responses cannot be cached. Players poll every five seconds
+while open. Closing, moving out, invalid GPS, failed requests, switching screens
+or ending/pausing the round clears all revealed markers and cancels requests.
+The admin's existing full map remains unchanged. Run migration 0008 before
+starting the backend; PostgreSQL enum additions remain after downgrade.
