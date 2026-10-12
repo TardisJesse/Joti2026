@@ -20,7 +20,7 @@ async function run() {
       if (endpoint === '/api/games/join') result = { access_token: 'test', user: user() }
       if (endpoint === '/api/auth/login') { admin = true; result = { access_token: 'admin-test', user: { id: 'admin', name: 'admin', role: 'ADMIN', team_id: null } } }
       if (endpoint === '/api/admin/games') result = [{ id: 'game', code: 'RONDE-A', name: 'Round', status: 'RUNNING' }]
-      if (endpoint === '/api/game') result = { id: 'game', code: 'RONDE-A', name: 'Round', status: 'RUNNING', ends_at: null, timer_remaining_seconds: null, server_now: new Date().toISOString() }
+      if (endpoint === '/api/game') result = { id: 'game', code: 'RONDE-A', name: 'Round', status: 'RUNNING', play_area: { type: 'Polygon', coordinates: [[[4.29,51.89],[4.32,51.89],[4.32,51.92],[4.29,51.89]]] }, ends_at: null, timer_remaining_seconds: null, server_now: new Date().toISOString() }
       if (endpoint === '/api/auth/me') result = user()
       if (endpoint === '/api/game-objects') result = objects
       if (endpoint === '/api/scores') result = [

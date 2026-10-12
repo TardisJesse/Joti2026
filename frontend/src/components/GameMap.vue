@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import maplibregl, { type Map, type Marker, type GeoJSONSource } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { objectIcon } from '../icons'
-const props = defineProps<{ objects: any[]; locations: any[]; editable?: boolean; ownTeamId?: string; selectedObject?: any }>()
+const props = defineProps<{ objects: any[]; locations: any[]; editable?: boolean; ownTeamId?: string; selectedObject?: any; playArea?: any }>()
 const emit = defineEmits<{ place: [coords: { latitude: number; longitude: number }]; radarMode: [active: boolean]; select: [object: any] }>()
 const element = ref<HTMLDivElement | null>(null)
 let map: Map | undefined, markers: Marker[] = [], centeredOnGps = false, mapReady = false, automaticCameraMove = false
@@ -15,6 +15,17 @@ const allartHq = [4.3553432, 51.94281191] as [number, number]
 // Map credits: OpenFreeMap https://openfreemap.org/ · © OpenMapTiles https://openmaptiles.org/
 // Data: © OpenStreetMap contributors https://www.openstreetmap.org/copyright
 const style = 'https://tiles.openfreemap.org/styles/dark'
+function drawPlayArea() {
+  if (!mapReady || !map) return
+  const data = { type: 'FeatureCollection' as const, features: props.playArea ? [{ type: 'Feature' as const, properties: {}, geometry: props.playArea }] : [] }
+  const source = map.getSource('play-area') as GeoJSONSource | undefined
+  if (source) source.setData(data)
+  else {
+    map.addSource('play-area', { type: 'geojson', data })
+    map.addLayer({ id: 'play-area-fill', type: 'fill', source: 'play-area', paint: { 'fill-color': '#ff8b50', 'fill-opacity': 0.025 } })
+    map.addLayer({ id: 'play-area-border', type: 'line', source: 'play-area', paint: { 'line-color': '#ff8b50', 'line-width': 3, 'line-dasharray': [3, 2] } })
+  }
+}
 function drawCaptureArea() {
   if (!mapReady || !map) return
   const points = props.objects.filter(point => point.type === 'CAPTURE_POINT')
@@ -114,7 +125,7 @@ onMounted(() => {
     mapReady = true
     const pin = document.createElement('span'); pin.className = 'hq-pin'; pin.textContent = '⌂'; pin.title = 'Allart van Heemstede HQ'
     new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat(allartHq).setPopup(new maplibregl.Popup({ offset: 16 }).setText('Allart van Heemstede HQ · Lemsterlandhoeve 70')).addTo(map!)
-    draw(); drawCaptureArea()
+    drawPlayArea(); draw(); drawCaptureArea()
     if (player) showRadar(); else centerOnFirstGps()
   })
   map.on('click', event => { if (props.editable) emit('place', { latitude: event.lngLat.lat, longitude: event.lngLat.lng }) })
@@ -125,7 +136,8 @@ onMounted(() => {
   observer = new ResizeObserver(() => map?.resize())
   observer.observe(element.value!)
 })
-watch(() => [props.objects, props.locations, props.selectedObject], () => {
+watch(() => [props.objects, props.locations, props.selectedObject, props.playArea], () => {
+  drawPlayArea()
   drawCaptureArea()
   draw(); centerOnFirstGps()
   const player = ownPlayer()

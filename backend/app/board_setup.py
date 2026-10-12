@@ -32,7 +32,7 @@ def install_boards(db, pack=None):
             db.add(game); db.flush()
         if db.query(BoardInstallation).filter_by(game_id=game.id, version=pack['version']).first():
             results.append({'round': game.name, 'skipped': True}); continue
-        snapshot = {'name': game.name, 'status': game.status.value,
+        snapshot = {'name': game.name, 'status': game.status.value, 'play_area_json': game.play_area_json,
                     'ends_at': utc(game.ends_at).isoformat() if game.ends_at else None,
                     'timer_remaining_seconds': game.timer_remaining_seconds,
                     'bonus_elapsed_seconds': game.bonus_elapsed_seconds,
@@ -70,6 +70,7 @@ def install_boards(db, pack=None):
             elif obj.type != ObjectType.SCANNER_POINT:
                 raise ValueError('This board contains an unsupported activity')
         game.name = board['name']; game.status = GameStatus.READY
+        if pack.get('play_area'): game.play_area_json = json.dumps(pack['play_area'])
         game.ends_at = None; game.timer_remaining_seconds = None
         game.bonus_elapsed_seconds = 0; game.bonus_updated_at = None
         db.add(BoardInstallation(game_id=game.id, version=pack['version'], snapshot_json=json.dumps(snapshot), object_ids_json=json.dumps(ids)))
@@ -88,6 +89,7 @@ def restore_boards(db, version):
             capture = db.query(CapturePoint).filter_by(game_object_id=obj.id).first()
             if capture: capture.income_updated_at = datetime.now(timezone.utc)
         game = db.get(Game, record.game_id)
+        game.play_area_json = snapshot.get('play_area_json')
         for field in ('name', 'timer_remaining_seconds', 'bonus_elapsed_seconds'):
             setattr(game, field, snapshot[field])
         game.status = GameStatus(snapshot['status'])

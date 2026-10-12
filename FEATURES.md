@@ -135,3 +135,13 @@ The immutable board pack is in backend/app/data/allart_joti_2026_v1.json.
 It contains answer hashes, not plaintext puzzle solutions. Locally prepared
 organiser maps, full briefing and solution key are in board-design; the solution
 key is deliberately not shipped in the app or repository.
+
+## Approved compact Allart field (12 October 2026)
+
+Ronde A and Ronde B now each contain 26 missions at the approved coordinates: eight capture masts, eight photo challenges, eight puzzles and two scanners. Both rounds use the same locations, with different photo and puzzle content. M7 and M8 occupy the central park around Holywood; S1 is on the public Boerderijpad near Holywood, while S2 remains near Allart. Ronde-Test retains its six existing training missions.
+
+The western boundary is the user's map pin at latitude 51.937997, longitude 4.330215, replacing Vlietzicht. The seven approved anchors define the orange dashed field boundary displayed on player and administrator maps. The boundary is delivered by the round-scoped game API and clears when switching to a round without a boundary. It is a play-area outline, not a suggested walking route. All mission circles fit inside the boundary and do not overlap. The longest indicative walk from HQ to a mission is 2.135 km. Recommend 90 minutes and free mission choice.
+
+Immutable content: `backend/app/data/allart_joti_2026_compact_v2.json`. Puzzle answers are hashed; the organizer's answer key remains a local file outside the published repository. Main-round rewards remain 30 followers per capture plus five per minute, 60 per photo, 40–80 per puzzle, and zero for scanners.
+
+Migration `0010_compact_allart_board` deactivates the previous main-round objects, keeps players, profile images and historical scoring/photo records, saves the previous installation for rollback and prepares A/B in READY state with no active timer. Ronde-Test's status/timer and objects are preserved; only its field outline is added. The version is installed once, preventing later deployments from resetting administrator edits. Downgrade restores the previous main-round objects and permits reinstallation; the nullable outline column is retained for compatibility with the current ORM.

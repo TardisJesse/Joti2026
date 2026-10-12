@@ -31,6 +31,7 @@ class Game(IdTimeMixin, Base):
     timer_remaining_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
     bonus_elapsed_seconds: Mapped[float] = mapped_column(Float, default=0, server_default="0")
     bonus_updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    play_area_json: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class NewsEvent(IdTimeMixin, Base):

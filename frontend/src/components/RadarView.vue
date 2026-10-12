@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import GameMap from './GameMap.vue'
 import { objectIcon } from '../icons'
 import { api } from '../api'
-const props = defineProps<{ objects: any[]; locations: any[]; ownTeamId?: string; admin: boolean; gpsLabel: string; gpsProblem: boolean; gameRunning?: boolean; initialObject?: any }>()
+const props = defineProps<{ objects: any[]; locations: any[]; ownTeamId?: string; admin: boolean; gpsLabel: string; gpsProblem: boolean; gameRunning?: boolean; initialObject?: any; playArea?: any }>()
 const emit = defineEmits<{ retryGps: []; action: [object: any]; remove: [object: any] }>()
 const map = ref<InstanceType<typeof GameMap>>()
 const radar = ref(false), expanded = ref(false), selectedId = ref<string | null>(null), filter = ref('ALL')
@@ -67,7 +67,7 @@ watch(filter, () => { selectedId.value = null })
       <button v-for="category in categories" :key="category.id" :aria-pressed="filter === category.id" @click="filter = category.id">{{ category.label }}</button>
     </div>
     <div class="radar-shell">
-      <GameMap ref="map" :objects="visible" :locations="displayLocations" :own-team-id="ownTeamId" :selected-object="selected" @radar-mode="radar = $event" @select="choose($event)" />
+      <GameMap ref="map" :play-area="playArea" :objects="visible" :locations="displayLocations" :own-team-id="ownTeamId" :selected-object="selected" @radar-mode="radar = $event" @select="choose($event)" />
       <div v-if="radar" class="radar-rings" aria-hidden="true"><i></i><i></i><i></i></div>
       <button v-if="!admin" class="locate-button" @click="locate"><span aria-hidden="true">◎</span>{{ gpsProblem || !own ? 'GPS inschakelen' : 'Mijn positie' }}</button>
     </div>

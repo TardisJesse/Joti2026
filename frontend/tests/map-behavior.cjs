@@ -93,3 +93,10 @@ assert.equal(late.map.moves.at(-1).center[0], 4.35)
 assert.deepEqual(late.events.at(-1), ['radarMode', true])
 late.dispose()
 console.log('Map behavior passed: own GPS, late GPS, manual exploration, recenter, selection and cleanup.')
+const boundary = { type: 'Polygon', coordinates: [[[4.34,51.93],[4.36,51.93],[4.36,51.95],[4.34,51.93]]] }
+app.props.playArea = boundary
+app.update()
+assert.equal(app.map.sources['play-area'].data.features[0].geometry, boundary, 'Round boundary appears on the map')
+app.props.playArea = undefined
+app.update()
+assert.equal(app.map.sources['play-area'].data.features.length, 0, 'Changing to a round without a boundary clears the old boundary')

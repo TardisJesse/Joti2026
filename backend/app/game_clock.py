@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import json
 from sqlalchemy.orm import Session
 from .capture_income import settle_capture_income, utc
 from .models import CapturePoint, Game, GameObject, GameStatus
@@ -10,6 +11,7 @@ def game_dto(game: Game) -> dict:
     return {'id': game.id, 'code': game.game_code, 'name': game.name,
             'status': game.status, 'ends_at': utc(game.ends_at).isoformat() if game.ends_at else None,
             'timer_remaining_seconds': game.timer_remaining_seconds,
+            'play_area': json.loads(game.play_area_json) if game.play_area_json else None,
             'server_now': datetime.now(timezone.utc).isoformat()}
 
 
