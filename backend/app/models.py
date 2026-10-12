@@ -44,6 +44,15 @@ class NewsEvent(IdTimeMixin, Base):
     published: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
 
 
+class BoardInstallation(IdTimeMixin, Base):
+    __tablename__ = "board_installations"
+    __table_args__ = (UniqueConstraint("game_id", "version", name="uq_board_game_version"),)
+    game_id: Mapped[str] = mapped_column(ForeignKey("games.id", ondelete="CASCADE"), index=True)
+    version: Mapped[str] = mapped_column(String(80))
+    snapshot_json: Mapped[str] = mapped_column(Text)
+    object_ids_json: Mapped[str] = mapped_column(Text)
+
+
 class Team(IdTimeMixin, Base):
     __tablename__ = "teams"
     __table_args__ = (UniqueConstraint("game_id", "name", name="uq_team_game_name"), UniqueConstraint("game_id", "color", name="uq_team_game_color"))

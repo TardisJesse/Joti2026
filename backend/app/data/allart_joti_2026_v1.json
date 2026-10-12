@@ -1,0 +1,2719 @@
+{
+  "version": "allart-joti-2026-v1",
+  "hq": {
+    "name": "Scouting Allart van Heemstede",
+    "latitude": 51.94281191,
+    "longitude": 4.3553432,
+    "address": "Lemsterlandhoeve 70, Vlaardingen"
+  },
+  "map_timestamp": "2026-10-12T18:16:30Z",
+  "sources": [
+    "https://www.scouting.nl/scoutinggroep/scouting-allart-van-heemstede",
+    "https://www.openstreetmap.org/copyright",
+    "https://jotajoti.info/",
+    "https://www.staatsbosbeheer.nl/uit-in-de-natuur/wandelroute-boerenpad-holierhoeksepolder"
+  ],
+  "boards": [
+    {
+      "key": "TEST",
+      "code": "RONDE-TEST",
+      "name": "Ronde-Test",
+      "theme": "Maak kennis met CyberJoti",
+      "recommended_minutes": 20,
+      "walking_loop_m": 693,
+      "route": [
+        [
+          4.3550052,
+          51.9428382
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.354689,
+          51.9427921
+        ],
+        [
+          4.354412,
+          51.9428596
+        ],
+        [
+          4.3541338,
+          51.9428915
+        ],
+        [
+          4.3537268,
+          51.9429258
+        ],
+        [
+          4.3534479,
+          51.9429455
+        ],
+        [
+          4.3531702,
+          51.9429591
+        ],
+        [
+          4.3529339,
+          51.9429647
+        ],
+        [
+          4.3528434,
+          51.9429622
+        ],
+        [
+          4.3527632,
+          51.9429562
+        ],
+        [
+          4.3525787,
+          51.942925
+        ],
+        [
+          4.3524723,
+          51.9430915
+        ],
+        [
+          4.352416,
+          51.9431958
+        ],
+        [
+          4.3523888,
+          51.9432401
+        ],
+        [
+          4.3523011,
+          51.9433805
+        ],
+        [
+          4.3523998,
+          51.943433
+        ],
+        [
+          4.3538325,
+          51.9437733
+        ],
+        [
+          4.3523998,
+          51.943433
+        ],
+        [
+          4.3523011,
+          51.9433805
+        ],
+        [
+          4.3523888,
+          51.9432401
+        ],
+        [
+          4.352416,
+          51.9431958
+        ],
+        [
+          4.3524723,
+          51.9430915
+        ],
+        [
+          4.3525787,
+          51.942925
+        ],
+        [
+          4.3527632,
+          51.9429562
+        ],
+        [
+          4.3528434,
+          51.9429622
+        ],
+        [
+          4.3529339,
+          51.9429647
+        ],
+        [
+          4.3531702,
+          51.9429591
+        ],
+        [
+          4.3534479,
+          51.9429455
+        ],
+        [
+          4.3537268,
+          51.9429258
+        ],
+        [
+          4.3541338,
+          51.9428915
+        ],
+        [
+          4.354412,
+          51.9428596
+        ],
+        [
+          4.354689,
+          51.9427921
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.3550052,
+          51.9428382
+        ]
+      ],
+      "objects": [
+        {
+          "id": "3c6fee42-4ded-563e-8aaa-a48eeb1d1f73",
+          "type": "PHOTO_POINT",
+          "name": "Foto Kanaalavatar",
+          "description": "Maak een vrolijke teamfoto bij de start. Laat alle teamleden zien; deze oefening laat zien hoe een fotopunt werkt. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9428382,
+          "longitude": 4.3550052,
+          "activation_radius_meters": 20,
+          "reward_points": 10,
+          "osm_node_id": 12286009467,
+          "osm_way_ids": [
+            7534993
+          ],
+          "walk_from_hq_m": 0
+        },
+        {
+          "id": "9e483448-f12f-5122-88e5-3f5395a9bba3",
+          "type": "PUZZLE",
+          "name": "Puzzel Hallo JOTI",
+          "description": "Lees je eerste korte wereldbericht. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9428915,
+          "longitude": 4.3541338,
+          "activation_radius_meters": 20,
+          "reward_points": 10,
+          "osm_node_id": 44516848,
+          "osm_way_ids": [
+            179183814,
+            1327935606
+          ],
+          "walk_from_hq_m": 71,
+          "question": "Welke vier letters vormen de afkorting van Jamboree On The Internet? Antwoord met de vier letters.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$Of4AW6lwmCsZxEgOyzFNCQ$toIz1Hr3VssKrIAobR/dRIfpMgDHIRx6BZWr3qYEiBI",
+          "max_attempts": 4
+        },
+        {
+          "id": "19b642f9-d52e-533b-b0f8-aea9f3647526",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Oefenzender",
+          "description": "Oefen een capture. Houd deze cirkel 15 seconden vast. De oefenmast geeft 10 volgers bij verovering en 1 per minuut tijdens bezit. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9429455,
+          "longitude": 4.3534479,
+          "activation_radius_meters": 20,
+          "reward_points": 10,
+          "osm_node_id": 12286066486,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 118,
+          "capture_seconds": 15,
+          "cooldown_seconds": 30,
+          "points_per_minute": 1
+        },
+        {
+          "id": "b852de29-bb2c-5dcd-8aa9-f7d1519fc8a1",
+          "type": "SCANNER_POINT",
+          "name": "Scanner Oefenradar",
+          "description": "Open de scanner binnen de cirkel. Je ziet alleen andere teams met een recente GPS-locatie. Het gebruik blijft geheim. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9429562,
+          "longitude": 4.3527632,
+          "activation_radius_meters": 20,
+          "reward_points": 0,
+          "osm_node_id": 1895318500,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 165
+        },
+        {
+          "id": "18b43606-103b-511a-b990-e895b9395ddf",
+          "type": "PHOTO_POINT",
+          "name": "Foto Wij hebben bereik",
+          "description": "Maak een teamselfie met overdreven antennearmen. Laat iedereen zien en houd de voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9433805,
+          "longitude": 4.3523011,
+          "activation_radius_meters": 20,
+          "reward_points": 10,
+          "osm_node_id": 5825734263,
+          "osm_way_ids": [
+            768813622,
+            1150409655
+          ],
+          "walk_from_hq_m": 233
+        },
+        {
+          "id": "fd1c9c69-18c0-545e-a728-a9d8c0938ac4",
+          "type": "PUZZLE",
+          "name": "Puzzel Kanaal klaar",
+          "description": "Een eenvoudige code om het antwoorden te oefenen. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9437733,
+          "longitude": 4.3538325,
+          "activation_radius_meters": 20,
+          "reward_points": 10,
+          "osm_node_id": 5825734266,
+          "osm_way_ids": [
+            768813622
+          ],
+          "walk_from_hq_m": 347,
+          "question": "Gebruik A=1, B=2, ... Z=26. Decodeer 11-1-13-16. Antwoord met alleen het woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$vZ0R+SueahKUDK5XJCIyIg$+37sdtjJsDnbmNBKNPdo5XqJNK16DNQLKYtnilnZSb8",
+          "max_attempts": 4
+        }
+      ]
+    },
+    {
+      "key": "A",
+      "code": "RONDE-A",
+      "name": "Ronde A",
+      "theme": "Wereldvriendschap",
+      "recommended_minutes": 90,
+      "walking_loop_m": 4148,
+      "route": [
+        [
+          4.3550052,
+          51.9428382
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.354689,
+          51.9427921
+        ],
+        [
+          4.354412,
+          51.9428596
+        ],
+        [
+          4.3541338,
+          51.9428915
+        ],
+        [
+          4.3537268,
+          51.9429258
+        ],
+        [
+          4.3534479,
+          51.9429455
+        ],
+        [
+          4.3531702,
+          51.9429591
+        ],
+        [
+          4.3529339,
+          51.9429647
+        ],
+        [
+          4.3528434,
+          51.9429622
+        ],
+        [
+          4.3527632,
+          51.9429562
+        ],
+        [
+          4.3525787,
+          51.942925
+        ],
+        [
+          4.3524723,
+          51.9430915
+        ],
+        [
+          4.352416,
+          51.9431958
+        ],
+        [
+          4.3523888,
+          51.9432401
+        ],
+        [
+          4.3523011,
+          51.9433805
+        ],
+        [
+          4.3522645,
+          51.9434344
+        ],
+        [
+          4.3522034,
+          51.943534
+        ],
+        [
+          4.3521756,
+          51.9435829
+        ],
+        [
+          4.3521648,
+          51.9436168
+        ],
+        [
+          4.3520319,
+          51.943658
+        ],
+        [
+          4.351822,
+          51.94379
+        ],
+        [
+          4.3517028,
+          51.9438151
+        ],
+        [
+          4.3514648,
+          51.944046
+        ],
+        [
+          4.3518496,
+          51.9442136
+        ],
+        [
+          4.3521313,
+          51.9443754
+        ],
+        [
+          4.3522316,
+          51.9444265
+        ],
+        [
+          4.3527561,
+          51.9446609
+        ],
+        [
+          4.3528661,
+          51.9447232
+        ],
+        [
+          4.3528825,
+          51.9447658
+        ],
+        [
+          4.352892,
+          51.9450601
+        ],
+        [
+          4.3528922,
+          51.9450867
+        ],
+        [
+          4.3528725,
+          51.9451168
+        ],
+        [
+          4.3527766,
+          51.9452269
+        ],
+        [
+          4.3527736,
+          51.9452544
+        ],
+        [
+          4.3527957,
+          51.9452805
+        ],
+        [
+          4.3529416,
+          51.9453497
+        ],
+        [
+          4.352959,
+          51.9453662
+        ],
+        [
+          4.3529577,
+          51.9453885
+        ],
+        [
+          4.352554,
+          51.9458356
+        ],
+        [
+          4.3523133,
+          51.9461468
+        ],
+        [
+          4.3520088,
+          51.9465188
+        ],
+        [
+          4.3519944,
+          51.9465587
+        ],
+        [
+          4.3520112,
+          51.9465986
+        ],
+        [
+          4.3520394,
+          51.9466285
+        ],
+        [
+          4.3520696,
+          51.9466434
+        ],
+        [
+          4.3521044,
+          51.9466577
+        ],
+        [
+          4.3521631,
+          51.9466674
+        ],
+        [
+          4.3522771,
+          51.9466798
+        ],
+        [
+          4.3524414,
+          51.9467052
+        ],
+        [
+          4.3525838,
+          51.9467423
+        ],
+        [
+          4.3525405,
+          51.9468514
+        ],
+        [
+          4.3525181,
+          51.9469222
+        ],
+        [
+          4.3524856,
+          51.9470699
+        ],
+        [
+          4.3524793,
+          51.9471952
+        ],
+        [
+          4.3521719,
+          51.9473139
+        ],
+        [
+          4.3515143,
+          51.947525
+        ],
+        [
+          4.3513618,
+          51.9475738
+        ],
+        [
+          4.3512769,
+          51.9475853
+        ],
+        [
+          4.3511791,
+          51.9475844
+        ],
+        [
+          4.3511007,
+          51.9475716
+        ],
+        [
+          4.3509546,
+          51.9475263
+        ],
+        [
+          4.3509014,
+          51.9475206
+        ],
+        [
+          4.3508424,
+          51.9475303
+        ],
+        [
+          4.35071,
+          51.9475968
+        ],
+        [
+          4.3505035,
+          51.9477081
+        ],
+        [
+          4.350299,
+          51.9478611
+        ],
+        [
+          4.3501913,
+          51.9480177
+        ],
+        [
+          4.3500826,
+          51.9484292
+        ],
+        [
+          4.3500531,
+          51.9484864
+        ],
+        [
+          4.3499956,
+          51.9485516
+        ],
+        [
+          4.349874,
+          51.9486664
+        ],
+        [
+          4.3497387,
+          51.9487258
+        ],
+        [
+          4.3495157,
+          51.9487817
+        ],
+        [
+          4.3494269,
+          51.9488109
+        ],
+        [
+          4.3493668,
+          51.9488567
+        ],
+        [
+          4.3493243,
+          51.9489094
+        ],
+        [
+          4.3490912,
+          51.949175
+        ],
+        [
+          4.3490171,
+          51.94923
+        ],
+        [
+          4.3487639,
+          51.9493728
+        ],
+        [
+          4.3486143,
+          51.9494704
+        ],
+        [
+          4.3485258,
+          51.9495364
+        ],
+        [
+          4.3484554,
+          51.9496106
+        ],
+        [
+          4.3483238,
+          51.9495774
+        ],
+        [
+          4.3458265,
+          51.9488102
+        ],
+        [
+          4.3453307,
+          51.9486456
+        ],
+        [
+          4.345049,
+          51.9485291
+        ],
+        [
+          4.3446737,
+          51.948354
+        ],
+        [
+          4.344258,
+          51.9480828
+        ],
+        [
+          4.3439402,
+          51.9478114
+        ],
+        [
+          4.343607,
+          51.9474778
+        ],
+        [
+          4.3434405,
+          51.9473436
+        ],
+        [
+          4.3433845,
+          51.9473049
+        ],
+        [
+          4.3433567,
+          51.9472863
+        ],
+        [
+          4.3432023,
+          51.9472089
+        ],
+        [
+          4.3430239,
+          51.9471006
+        ],
+        [
+          4.3428696,
+          51.9469196
+        ],
+        [
+          4.3428456,
+          51.9468144
+        ],
+        [
+          4.3428771,
+          51.946617
+        ],
+        [
+          4.3428162,
+          51.9465191
+        ],
+        [
+          4.3427205,
+          51.9464564
+        ],
+        [
+          4.3419533,
+          51.9459918
+        ],
+        [
+          4.3414049,
+          51.9456481
+        ],
+        [
+          4.3417827,
+          51.945408
+        ],
+        [
+          4.3417528,
+          51.945347
+        ],
+        [
+          4.3417413,
+          51.9452902
+        ],
+        [
+          4.3418288,
+          51.9451154
+        ],
+        [
+          4.3419533,
+          51.9449791
+        ],
+        [
+          4.3420593,
+          51.9448782
+        ],
+        [
+          4.3423312,
+          51.944712
+        ],
+        [
+          4.3423473,
+          51.9446581
+        ],
+        [
+          4.3423358,
+          51.9446041
+        ],
+        [
+          4.3421791,
+          51.9444848
+        ],
+        [
+          4.3424833,
+          51.9443157
+        ],
+        [
+          4.3435133,
+          51.9437575
+        ],
+        [
+          4.3436953,
+          51.943678
+        ],
+        [
+          4.3435133,
+          51.9437575
+        ],
+        [
+          4.3424833,
+          51.9443157
+        ],
+        [
+          4.3421791,
+          51.9444848
+        ],
+        [
+          4.3423358,
+          51.9446041
+        ],
+        [
+          4.3423473,
+          51.9446581
+        ],
+        [
+          4.3423312,
+          51.944712
+        ],
+        [
+          4.3420593,
+          51.9448782
+        ],
+        [
+          4.3419533,
+          51.9449791
+        ],
+        [
+          4.3418288,
+          51.9451154
+        ],
+        [
+          4.3417413,
+          51.9452902
+        ],
+        [
+          4.3417528,
+          51.945347
+        ],
+        [
+          4.3417827,
+          51.945408
+        ],
+        [
+          4.3414049,
+          51.9456481
+        ],
+        [
+          4.3419533,
+          51.9459918
+        ],
+        [
+          4.3427205,
+          51.9464564
+        ],
+        [
+          4.3428162,
+          51.9465191
+        ],
+        [
+          4.3428771,
+          51.946617
+        ],
+        [
+          4.3428456,
+          51.9468144
+        ],
+        [
+          4.3428696,
+          51.9469196
+        ],
+        [
+          4.3430239,
+          51.9471006
+        ],
+        [
+          4.3432023,
+          51.9472089
+        ],
+        [
+          4.3433567,
+          51.9472863
+        ],
+        [
+          4.3433845,
+          51.9473049
+        ],
+        [
+          4.3442255,
+          51.9466908
+        ],
+        [
+          4.3457035,
+          51.9455884
+        ],
+        [
+          4.3474801,
+          51.944242
+        ],
+        [
+          4.3477299,
+          51.9440956
+        ],
+        [
+          4.3478654,
+          51.9440474
+        ],
+        [
+          4.3479725,
+          51.944044
+        ],
+        [
+          4.3481008,
+          51.9440556
+        ],
+        [
+          4.3481812,
+          51.9440578
+        ],
+        [
+          4.3482668,
+          51.9440492
+        ],
+        [
+          4.3483399,
+          51.9440366
+        ],
+        [
+          4.3482079,
+          51.9438775
+        ],
+        [
+          4.3480412,
+          51.9436578
+        ],
+        [
+          4.3478573,
+          51.9433956
+        ],
+        [
+          4.3476714,
+          51.943072
+        ],
+        [
+          4.3475373,
+          51.9429054
+        ],
+        [
+          4.3474731,
+          51.9428495
+        ],
+        [
+          4.3471901,
+          51.9426351
+        ],
+        [
+          4.3470712,
+          51.94255
+        ],
+        [
+          4.3469683,
+          51.9425095
+        ],
+        [
+          4.3469038,
+          51.9424987
+        ],
+        [
+          4.3469291,
+          51.9424624
+        ],
+        [
+          4.3469531,
+          51.9424387
+        ],
+        [
+          4.3470548,
+          51.9423765
+        ],
+        [
+          4.3472868,
+          51.9422429
+        ],
+        [
+          4.3475202,
+          51.9421082
+        ],
+        [
+          4.3476432,
+          51.9420427
+        ],
+        [
+          4.3477126,
+          51.9419968
+        ],
+        [
+          4.3477488,
+          51.9419596
+        ],
+        [
+          4.3477632,
+          51.9419052
+        ],
+        [
+          4.3477469,
+          51.9417421
+        ],
+        [
+          4.3477604,
+          51.941679
+        ],
+        [
+          4.3477988,
+          51.941618
+        ],
+        [
+          4.3478828,
+          51.9415697
+        ],
+        [
+          4.3478927,
+          51.941626
+        ],
+        [
+          4.3479081,
+          51.9416996
+        ],
+        [
+          4.3481548,
+          51.9420038
+        ],
+        [
+          4.348301,
+          51.9421942
+        ],
+        [
+          4.3484506,
+          51.9423149
+        ],
+        [
+          4.3484871,
+          51.9423554
+        ],
+        [
+          4.3484985,
+          51.9423899
+        ],
+        [
+          4.3485015,
+          51.9424771
+        ],
+        [
+          4.348519,
+          51.942516
+        ],
+        [
+          4.3485408,
+          51.9425406
+        ],
+        [
+          4.3486135,
+          51.9425831
+        ],
+        [
+          4.3487184,
+          51.9426092
+        ],
+        [
+          4.3496933,
+          51.9427959
+        ],
+        [
+          4.3498907,
+          51.9428354
+        ],
+        [
+          4.349935,
+          51.9428336
+        ],
+        [
+          4.3499679,
+          51.9428237
+        ],
+        [
+          4.3500879,
+          51.942768
+        ],
+        [
+          4.3501152,
+          51.9427538
+        ],
+        [
+          4.3501192,
+          51.9427459
+        ],
+        [
+          4.3501597,
+          51.9426556
+        ],
+        [
+          4.3501734,
+          51.9426263
+        ],
+        [
+          4.3506366,
+          51.9427134
+        ],
+        [
+          4.350775,
+          51.9427301
+        ],
+        [
+          4.3509155,
+          51.9427388
+        ],
+        [
+          4.3510402,
+          51.9427344
+        ],
+        [
+          4.3512236,
+          51.9427142
+        ],
+        [
+          4.3513688,
+          51.9426976
+        ],
+        [
+          4.3514633,
+          51.9426921
+        ],
+        [
+          4.3515492,
+          51.9426972
+        ],
+        [
+          4.3516441,
+          51.9427127
+        ],
+        [
+          4.3525787,
+          51.942925
+        ],
+        [
+          4.3527632,
+          51.9429562
+        ],
+        [
+          4.3528434,
+          51.9429622
+        ],
+        [
+          4.3529339,
+          51.9429647
+        ],
+        [
+          4.3531702,
+          51.9429591
+        ],
+        [
+          4.3534479,
+          51.9429455
+        ],
+        [
+          4.3537268,
+          51.9429258
+        ],
+        [
+          4.3541338,
+          51.9428915
+        ],
+        [
+          4.354412,
+          51.9428596
+        ],
+        [
+          4.354689,
+          51.9427921
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.3550052,
+          51.9428382
+        ]
+      ],
+      "objects": [
+        {
+          "id": "97d2c5ba-2ccf-5143-b1c7-10957bdfdf41",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Wereldvriendschap",
+          "description": "Veenpad oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9452269,
+          "longitude": 4.3527766,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 7146782183,
+          "osm_way_ids": [
+            145476483
+          ],
+          "walk_from_hq_m": 511,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "22cda073-1dd7-582d-b2dc-7cbacb6223f2",
+          "type": "CAPTURE_POINT",
+          "name": "Mast ScoutLink",
+          "description": "Veenpad noord. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9480177,
+          "longitude": 4.3501913,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 1588889023,
+          "osm_way_ids": [
+            145476485
+          ],
+          "walk_from_hq_m": 976,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "6a88fd87-02a7-52f3-921c-41bac9259938",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Oceanië",
+          "description": "Vroonweerseweg west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9464564,
+          "longitude": 4.3427205,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 275364621,
+          "osm_way_ids": [
+            146404599
+          ],
+          "walk_from_hq_m": 1318,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "6b1f1065-c4ce-58f8-a940-ba598b73e5cb",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Europa",
+          "description": "Veenpad westelijke lus. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.943678,
+          "longitude": 4.3436953,
+          "activation_radius_meters": 30,
+          "reward_points": 30,
+          "osm_node_id": 1596759180,
+          "osm_way_ids": [
+            146404629
+          ],
+          "walk_from_hq_m": 1740,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "d88400ea-b51d-55a7-887e-a308947874f0",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Allart retour",
+          "description": "Hoevenronde west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.942768,
+          "longitude": 4.3500879,
+          "activation_radius_meters": 30,
+          "reward_points": 30,
+          "osm_node_id": 12286087189,
+          "osm_way_ids": [
+            7534648
+          ],
+          "walk_from_hq_m": 367,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "422923c4-270f-59ec-92c4-99ad768d6557",
+          "type": "PHOTO_POINT",
+          "name": "Foto Menselijke wifi",
+          "description": "Maak met het hele team een wifi-symbool: vorm drie oplopende signaalbogen met jullie armen. Iedereen staat herkenbaar op de foto. Laat zien dat jullie bereik werelds is. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9435829,
+          "longitude": 4.3521756,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 7177475110,
+          "osm_way_ids": [
+            456628539
+          ],
+          "walk_from_hq_m": 257
+        },
+        {
+          "id": "dc26daa7-c1ed-542c-9999-c3ac5a3251a2",
+          "type": "PHOTO_POINT",
+          "name": "Foto De livestream loopt vast",
+          "description": "Beeld met alle teamleden een totaal bevroren livestream uit. Hoe ongemakkelijker de gezichten, hoe beter. Iedereen blijft met de voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9475853,
+          "longitude": 4.3512769,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 1588888992,
+          "osm_way_ids": [
+            145476485
+          ],
+          "walk_from_hq_m": 873
+        },
+        {
+          "id": "bbbdb75f-660a-5bca-80f9-5cdce38ac1db",
+          "type": "PHOTO_POINT",
+          "name": "Foto Wereldvriendschap",
+          "description": "Maak een albumcover voor jullie internationale scoutband. Vorm samen een hart of een wereldcirkel en geef ieder teamlid een eigen overdreven rocksterpose. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9472483,
+          "longitude": 4.3428977,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 1596760071,
+          "osm_way_ids": [
+            146404631
+          ],
+          "walk_from_hq_m": 1259
+        },
+        {
+          "id": "9620126f-a5c8-5041-bd27-04d1b790a3fe",
+          "type": "PHOTO_POINT",
+          "name": "Foto Antenne zonder stroom",
+          "description": "Beeld met jullie hele team een zelfgebouwde zendmast uit. Eén persoon is de presentator, de anderen zijn de antenneonderdelen. Alle voeten blijven op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9478114,
+          "longitude": 4.3439402,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 275372865,
+          "osm_way_ids": [
+            437508656
+          ],
+          "walk_from_hq_m": 1139
+        },
+        {
+          "id": "875e4a7c-6f52-5940-9cac-b0622991b7c9",
+          "type": "PHOTO_POINT",
+          "name": "Foto Offline kampvuur",
+          "description": "Maak een denkbeeldig kampvuur met alleen houdingen en gezichten: vuur, rook, kok en hongerige scouts. Gebruik geen echt vuur. Iedereen staat op de teamfoto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9417421,
+          "longitude": 4.3477469,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 1596758550,
+          "osm_way_ids": [
+            146404609
+          ],
+          "walk_from_hq_m": 623
+        },
+        {
+          "id": "0acc97b2-0fdf-5be4-a5b0-33b1483d27b1",
+          "type": "PHOTO_POINT",
+          "name": "Foto Vijf sterren verbinding",
+          "description": "Doe alsof jullie zojuist contact hebben met scouts aan de andere kant van de wereld. Maak een juichende teamselfie met een duidelijk scoutsgebaar. Iedereen doet mee. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9426976,
+          "longitude": 4.3513688,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 12286066462,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 266
+        },
+        {
+          "id": "45317990-eec7-5c1e-a4bb-9cbce26e3bc0",
+          "type": "PUZZLE",
+          "name": "Puzzel Scoutcode",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9429647,
+          "longitude": 4.3529339,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 12286066485,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 154,
+          "question": "Lees het NAVO-spelalfabet: Sierra – Charlie – Oscar – Uniform – Tango. Welke vijf letters vormen samen het woord? Antwoord met alleen dat woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$tNBLQftoEAN6ltpbWQXrRA$PzuUArf0WgvY+vXEGWNpK8tbiFI6OIyHYQWU2uPAQOU",
+          "max_attempts": 4
+        },
+        {
+          "id": "a8084ebb-49e8-57c6-9411-c5c2eb2738b5",
+          "type": "PUZZLE",
+          "name": "Puzzel Morsecontact",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9461468,
+          "longitude": 4.3523133,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 12291810442,
+          "osm_way_ids": [
+            145476483
+          ],
+          "walk_from_hq_m": 629,
+          "question": "Ontcijfer de morsecode: .--- / --- / - / .. . Iedere schuine streep scheidt een letter. Welk scouting-evenement lees je? Antwoord met de vier letters.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$RoILWkJlipBEu/kxudHFjw$UDYTjBFRV+AZdQDRT43rKW+2z8eXnahRHpfJcU59+wM",
+          "max_attempts": 4
+        },
+        {
+          "id": "70478503-0114-5457-a907-64564a180b10",
+          "type": "PUZZLE",
+          "name": "Puzzel Vriend op afstand",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9488109,
+          "longitude": 4.3494269,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 1588889061,
+          "osm_way_ids": [
+            145476485
+          ],
+          "walk_from_hq_m": 1087,
+          "question": "Gebruik A=1, B=2, ... Z=26. Decodeer 22-18-9-5-14-4. Antwoord met alleen het Nederlandse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$9Do9jq4Br++64i5+D/vmbQ$SEGj4FD5Z6jQrWoC9mGzuKmmGYR2hOnc3pSDBKw7Doc",
+          "max_attempts": 4
+        },
+        {
+          "id": "aa730628-9931-5e52-b665-1e969cd91785",
+          "type": "PUZZLE",
+          "name": "Puzzel Een bericht in bits",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9446581,
+          "longitude": 4.3423473,
+          "activation_radius_meters": 30,
+          "reward_points": 80,
+          "osm_node_id": 1596759593,
+          "osm_way_ids": [
+            146404629
+          ],
+          "walk_from_hq_m": 1579,
+          "question": "Deze vier ASCII-bytes vormen een woord: 01010111 01001001 01000110 01001001. Een ASCII-letter A is 01000001. Welk woord lees je? Antwoord met vier letters.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$KJIIEfNcpR/pGiH64CkTww$vp4p0wS2nlaQSH1Kn0YUPvWViI1MUrt13kZa1IdCMXY",
+          "max_attempts": 4
+        },
+        {
+          "id": "b4ae0d43-37e4-5cd2-8665-7e8cf98b114d",
+          "type": "PUZZLE",
+          "name": "Puzzel Iedereen verbonden",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9426092,
+          "longitude": 4.3487184,
+          "activation_radius_meters": 30,
+          "reward_points": 60,
+          "osm_node_id": 12286109062,
+          "osm_way_ids": [
+            7534648
+          ],
+          "walk_from_hq_m": 467,
+          "question": "Vijf scoutteams maken ieder één verbinding met elk ander team. Een verbinding A-B telt hetzelfde als B-A. Hoeveel verschillende verbindingen zijn er? Antwoord met alleen het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s+Wa1/yZREYHOB4kWF8vfw$S9942u+FQMzgAOd7OiT4FtBsOprQxpkcUtYqTwd2m9Q",
+          "max_attempts": 4
+        },
+        {
+          "id": "d1f720e0-52a8-5f91-80d9-2a8610afdb30",
+          "type": "PUZZLE",
+          "name": "Puzzel Tijdzone-reporter",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9424387,
+          "longitude": 4.3469531,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 44514152,
+          "osm_way_ids": [
+            146404609,
+            179183823,
+            449249310
+          ],
+          "walk_from_hq_m": 724,
+          "question": "Bij het wereldcontact is het 12:00 UTC. De andere groep gebruikt UTC+3. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt, bijvoorbeeld 0900.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$byU4hVdqyHcvTv1BvN8htg$ZCG8bASA3JnOij5lA4hxT+3X7cP39OrpHC52wr/X4FE",
+          "max_attempts": 4
+        },
+        {
+          "id": "f963fee4-885b-54bc-a1f6-c43866397da8",
+          "type": "PUZZLE",
+          "name": "Puzzel Reken het bereik uit",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9428596,
+          "longitude": 4.354412,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 1895318497,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 52,
+          "question": "Een zendmast geeft 5 volgers per minuut. Jullie bezitten hem precies 7 minuten; de laatste 2 minuten tellen dubbel door een bonus. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$p6C1IG4Vkn0YlRa46fToww$YjD+ZviEwQMPGv7vcmnmy5jx5Rpo2Rvp0/u9cNHbUTo",
+          "max_attempts": 4
+        },
+        {
+          "id": "76f09114-03e8-555c-8ced-e5870d47f90b",
+          "type": "PUZZLE",
+          "name": "Puzzel Veilig wereldcontact",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9485291,
+          "longitude": 4.345049,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 275372868,
+          "osm_way_ids": [
+            437508656
+          ],
+          "walk_from_hq_m": 1028,
+          "question": "Welke reactie past bij veilig JOTI-contact? A: je huisadres delen. B: je groep en land noemen zonder privégegevens. C: je wachtwoord delen. Antwoord met alleen A, B of C.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$2PiGkUV0qdw2Zwd3eGkxXw$Sr1NEbv0uHtXlrSZAyrhDjYtqpeBe8QbgtLgq+3Jk9g",
+          "max_attempts": 4
+        },
+        {
+          "id": "befd218d-c235-52fb-a45e-b935786f8068",
+          "type": "SCANNER_POINT",
+          "name": "Scanner Polderradar",
+          "description": "Open hier de scanner om de recente locaties van andere teams te zien. Het overzicht verdwijnt zodra je de cirkel verlaat. Scannergebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9469222,
+          "longitude": 4.3525181,
+          "activation_radius_meters": 30,
+          "reward_points": 0,
+          "osm_node_id": 1597587278,
+          "osm_way_ids": [
+            146404601,
+            146404602,
+            437508654,
+            437508655
+          ],
+          "walk_from_hq_m": 749
+        },
+        {
+          "id": "5a0e2eb8-fbb8-5742-8fe9-2c2a5d58c7c3",
+          "type": "SCANNER_POINT",
+          "name": "Scanner Retourradar",
+          "description": "Open hier de scanner om de recente locaties van andere teams te zien. Het overzicht verdwijnt zodra je de cirkel verlaat. Scannergebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9443754,
+          "longitude": 4.3521313,
+          "activation_radius_meters": 30,
+          "reward_points": 0,
+          "osm_node_id": 1588888910,
+          "osm_way_ids": [
+            145476483
+          ],
+          "walk_from_hq_m": 389
+        }
+      ]
+    },
+    {
+      "key": "B",
+      "code": "RONDE-B",
+      "name": "Ronde B",
+      "theme": "Herstel het wereldnetwerk",
+      "recommended_minutes": 90,
+      "walking_loop_m": 4205,
+      "route": [
+        [
+          4.3550052,
+          51.9428382
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.3553479,
+          51.9426003
+        ],
+        [
+          4.3556489,
+          51.9425061
+        ],
+        [
+          4.3557877,
+          51.9424575
+        ],
+        [
+          4.3559185,
+          51.9424046
+        ],
+        [
+          4.356169,
+          51.9422878
+        ],
+        [
+          4.3566487,
+          51.9420496
+        ],
+        [
+          4.3569227,
+          51.9419254
+        ],
+        [
+          4.3570521,
+          51.94202
+        ],
+        [
+          4.3572228,
+          51.9421392
+        ],
+        [
+          4.3572909,
+          51.9421872
+        ],
+        [
+          4.3572965,
+          51.9422029
+        ],
+        [
+          4.3572945,
+          51.9422181
+        ],
+        [
+          4.3572869,
+          51.9422335
+        ],
+        [
+          4.3564038,
+          51.9434768
+        ],
+        [
+          4.3563343,
+          51.9435387
+        ],
+        [
+          4.3562442,
+          51.9435807
+        ],
+        [
+          4.3562608,
+          51.9436108
+        ],
+        [
+          4.3562918,
+          51.943679
+        ],
+        [
+          4.3563046,
+          51.9437386
+        ],
+        [
+          4.3563477,
+          51.9437382
+        ],
+        [
+          4.3563938,
+          51.9437415
+        ],
+        [
+          4.3569522,
+          51.943795
+        ],
+        [
+          4.3570191,
+          51.9435525
+        ],
+        [
+          4.3572164,
+          51.9432613
+        ],
+        [
+          4.3573041,
+          51.9431436
+        ],
+        [
+          4.3572951,
+          51.9433192
+        ],
+        [
+          4.3571769,
+          51.9437808
+        ],
+        [
+          4.3572392,
+          51.9438373
+        ],
+        [
+          4.3573218,
+          51.9438775
+        ],
+        [
+          4.3582529,
+          51.9441369
+        ],
+        [
+          4.3604734,
+          51.9447373
+        ],
+        [
+          4.3606937,
+          51.9447747
+        ],
+        [
+          4.3606571,
+          51.9451628
+        ],
+        [
+          4.3606657,
+          51.9456452
+        ],
+        [
+          4.3606724,
+          51.9468527
+        ],
+        [
+          4.3606706,
+          51.9471294
+        ],
+        [
+          4.3606677,
+          51.9475826
+        ],
+        [
+          4.3597029,
+          51.9476204
+        ],
+        [
+          4.359548,
+          51.9476527
+        ],
+        [
+          4.3594764,
+          51.9477345
+        ],
+        [
+          4.3594096,
+          51.947858
+        ],
+        [
+          4.3593605,
+          51.9479356
+        ],
+        [
+          4.3592794,
+          51.9480637
+        ],
+        [
+          4.3590869,
+          51.9483492
+        ],
+        [
+          4.3590625,
+          51.9483854
+        ],
+        [
+          4.3590404,
+          51.9484182
+        ],
+        [
+          4.3590321,
+          51.9484305
+        ],
+        [
+          4.3591393,
+          51.9484575
+        ],
+        [
+          4.3592105,
+          51.9484736
+        ],
+        [
+          4.359283,
+          51.9484882
+        ],
+        [
+          4.3593743,
+          51.9485056
+        ],
+        [
+          4.3596098,
+          51.9485484
+        ],
+        [
+          4.3598951,
+          51.9485956
+        ],
+        [
+          4.3600769,
+          51.9486297
+        ],
+        [
+          4.3602054,
+          51.9486536
+        ],
+        [
+          4.3602656,
+          51.9486646
+        ],
+        [
+          4.3603434,
+          51.948677
+        ],
+        [
+          4.3604314,
+          51.948689
+        ],
+        [
+          4.3604966,
+          51.9486989
+        ],
+        [
+          4.3605762,
+          51.948715
+        ],
+        [
+          4.3606708,
+          51.9487377
+        ],
+        [
+          4.3607625,
+          51.9487626
+        ],
+        [
+          4.3608598,
+          51.9487906
+        ],
+        [
+          4.3610801,
+          51.9488435
+        ],
+        [
+          4.3614194,
+          51.948926
+        ],
+        [
+          4.3617066,
+          51.9490012
+        ],
+        [
+          4.3618296,
+          51.9490336
+        ],
+        [
+          4.3619539,
+          51.9490648
+        ],
+        [
+          4.3621244,
+          51.949109
+        ],
+        [
+          4.3622635,
+          51.9491493
+        ],
+        [
+          4.3623834,
+          51.9491894
+        ],
+        [
+          4.3625113,
+          51.949236
+        ],
+        [
+          4.3627285,
+          51.9493214
+        ],
+        [
+          4.3627639,
+          51.9492912
+        ],
+        [
+          4.3628121,
+          51.9492491
+        ],
+        [
+          4.3628503,
+          51.9492095
+        ],
+        [
+          4.3628711,
+          51.9491453
+        ],
+        [
+          4.3628833,
+          51.9490789
+        ],
+        [
+          4.3628711,
+          51.9489772
+        ],
+        [
+          4.3628816,
+          51.9489205
+        ],
+        [
+          4.362925,
+          51.9488552
+        ],
+        [
+          4.362991,
+          51.9487931
+        ],
+        [
+          4.3630726,
+          51.9487567
+        ],
+        [
+          4.3631629,
+          51.948685
+        ],
+        [
+          4.3632515,
+          51.9486229
+        ],
+        [
+          4.363321,
+          51.948609
+        ],
+        [
+          4.3633956,
+          51.9486197
+        ],
+        [
+          4.3637187,
+          51.9487117
+        ],
+        [
+          4.3638454,
+          51.9487503
+        ],
+        [
+          4.3640921,
+          51.9488145
+        ],
+        [
+          4.364198,
+          51.9488477
+        ],
+        [
+          4.3643508,
+          51.9488905
+        ],
+        [
+          4.3648878,
+          51.949071
+        ],
+        [
+          4.3649293,
+          51.949083
+        ],
+        [
+          4.3650608,
+          51.9491229
+        ],
+        [
+          4.3652814,
+          51.9491909
+        ],
+        [
+          4.3653748,
+          51.9492157
+        ],
+        [
+          4.3655084,
+          51.9492522
+        ],
+        [
+          4.3655704,
+          51.94927
+        ],
+        [
+          4.3656184,
+          51.9492814
+        ],
+        [
+          4.3657151,
+          51.9492955
+        ],
+        [
+          4.3658817,
+          51.9493273
+        ],
+        [
+          4.3660103,
+          51.949357
+        ],
+        [
+          4.3661297,
+          51.9493812
+        ],
+        [
+          4.3661914,
+          51.9493818
+        ],
+        [
+          4.3662371,
+          51.9493456
+        ],
+        [
+          4.3663305,
+          51.9493742
+        ],
+        [
+          4.3664348,
+          51.9494019
+        ],
+        [
+          4.366532,
+          51.9494219
+        ],
+        [
+          4.3666291,
+          51.9494345
+        ],
+        [
+          4.3667935,
+          51.9494711
+        ],
+        [
+          4.3669571,
+          51.949505
+        ],
+        [
+          4.3671893,
+          51.9495478
+        ],
+        [
+          4.3669571,
+          51.949505
+        ],
+        [
+          4.3667935,
+          51.9494711
+        ],
+        [
+          4.3666291,
+          51.9494345
+        ],
+        [
+          4.366532,
+          51.9494219
+        ],
+        [
+          4.3664348,
+          51.9494019
+        ],
+        [
+          4.3663305,
+          51.9493742
+        ],
+        [
+          4.3662371,
+          51.9493456
+        ],
+        [
+          4.3662993,
+          51.9492423
+        ],
+        [
+          4.3663423,
+          51.9491313
+        ],
+        [
+          4.366307,
+          51.9489835
+        ],
+        [
+          4.3662589,
+          51.9488703
+        ],
+        [
+          4.3661921,
+          51.9487671
+        ],
+        [
+          4.366008,
+          51.9486141
+        ],
+        [
+          4.3659087,
+          51.9485084
+        ],
+        [
+          4.3658327,
+          51.9483951
+        ],
+        [
+          4.3657777,
+          51.9482084
+        ],
+        [
+          4.3656491,
+          51.9479971
+        ],
+        [
+          4.3655462,
+          51.9478083
+        ],
+        [
+          4.3654422,
+          51.9476813
+        ],
+        [
+          4.3653532,
+          51.9475932
+        ],
+        [
+          4.3654422,
+          51.9476813
+        ],
+        [
+          4.3655462,
+          51.9478083
+        ],
+        [
+          4.3656491,
+          51.9479971
+        ],
+        [
+          4.3657777,
+          51.9482084
+        ],
+        [
+          4.3658327,
+          51.9483951
+        ],
+        [
+          4.3659087,
+          51.9485084
+        ],
+        [
+          4.366008,
+          51.9486141
+        ],
+        [
+          4.3661921,
+          51.9487671
+        ],
+        [
+          4.366262,
+          51.9487035
+        ],
+        [
+          4.3664035,
+          51.9483546
+        ],
+        [
+          4.3664615,
+          51.9483271
+        ],
+        [
+          4.3665799,
+          51.9482736
+        ],
+        [
+          4.3666697,
+          51.9481433
+        ],
+        [
+          4.3669644,
+          51.9477346
+        ],
+        [
+          4.3674903,
+          51.9470188
+        ],
+        [
+          4.3675489,
+          51.9469292
+        ],
+        [
+          4.3675659,
+          51.9469043
+        ],
+        [
+          4.3676653,
+          51.9467597
+        ],
+        [
+          4.3676984,
+          51.9467084
+        ],
+        [
+          4.3677192,
+          51.9466836
+        ],
+        [
+          4.3664745,
+          51.9463763
+        ],
+        [
+          4.3647912,
+          51.9459659
+        ],
+        [
+          4.3649241,
+          51.9457636
+        ],
+        [
+          4.3647732,
+          51.9456825
+        ],
+        [
+          4.3646639,
+          51.9456044
+        ],
+        [
+          4.3643177,
+          51.9455113
+        ],
+        [
+          4.3641129,
+          51.9454381
+        ],
+        [
+          4.3638432,
+          51.9456878
+        ],
+        [
+          4.3637434,
+          51.9457809
+        ],
+        [
+          4.3638432,
+          51.9456878
+        ],
+        [
+          4.3641129,
+          51.9454381
+        ],
+        [
+          4.3639906,
+          51.9453962
+        ],
+        [
+          4.3637957,
+          51.9453127
+        ],
+        [
+          4.3635343,
+          51.9452971
+        ],
+        [
+          4.3632747,
+          51.9452313
+        ],
+        [
+          4.3632054,
+          51.9452017
+        ],
+        [
+          4.3626852,
+          51.9450804
+        ],
+        [
+          4.3619259,
+          51.9448976
+        ],
+        [
+          4.3618459,
+          51.9448775
+        ],
+        [
+          4.3616197,
+          51.9448284
+        ],
+        [
+          4.3612688,
+          51.9447522
+        ],
+        [
+          4.3612089,
+          51.9447881
+        ],
+        [
+          4.3606937,
+          51.9447747
+        ],
+        [
+          4.3604734,
+          51.9447373
+        ],
+        [
+          4.3582529,
+          51.9441369
+        ],
+        [
+          4.3573218,
+          51.9438775
+        ],
+        [
+          4.3572392,
+          51.9438373
+        ],
+        [
+          4.3571769,
+          51.9437808
+        ],
+        [
+          4.3572951,
+          51.9433192
+        ],
+        [
+          4.3573041,
+          51.9431436
+        ],
+        [
+          4.3572164,
+          51.9432613
+        ],
+        [
+          4.3570191,
+          51.9435525
+        ],
+        [
+          4.3569522,
+          51.943795
+        ],
+        [
+          4.3563938,
+          51.9437415
+        ],
+        [
+          4.3563477,
+          51.9437382
+        ],
+        [
+          4.3563046,
+          51.9437386
+        ],
+        [
+          4.3562918,
+          51.943679
+        ],
+        [
+          4.3562608,
+          51.9436108
+        ],
+        [
+          4.3562442,
+          51.9435807
+        ],
+        [
+          4.3563343,
+          51.9435387
+        ],
+        [
+          4.3564038,
+          51.9434768
+        ],
+        [
+          4.3572869,
+          51.9422335
+        ],
+        [
+          4.3572945,
+          51.9422181
+        ],
+        [
+          4.3572965,
+          51.9422029
+        ],
+        [
+          4.3572909,
+          51.9421872
+        ],
+        [
+          4.3572228,
+          51.9421392
+        ],
+        [
+          4.3570521,
+          51.94202
+        ],
+        [
+          4.3569227,
+          51.9419254
+        ],
+        [
+          4.3566487,
+          51.9420496
+        ],
+        [
+          4.356169,
+          51.9422878
+        ],
+        [
+          4.3559185,
+          51.9424046
+        ],
+        [
+          4.3557877,
+          51.9424575
+        ],
+        [
+          4.3556489,
+          51.9425061
+        ],
+        [
+          4.3553479,
+          51.9426003
+        ],
+        [
+          4.3549248,
+          51.9427274
+        ],
+        [
+          4.3550052,
+          51.9428382
+        ]
+      ],
+      "objects": [
+        {
+          "id": "51c95640-6dc4-5b5c-b2fa-9fc1ce1ba9f5",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Herstart",
+          "description": "Woudhoek zuidwest. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9456452,
+          "longitude": 4.3606657,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 44531392,
+          "osm_way_ids": [
+            7534752,
+            146404635,
+            146404653
+          ],
+          "walk_from_hq_m": 963,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "2e6ef4ae-52e4-52b1-b745-6c697ff347bd",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Wereldrouter",
+          "description": "Woudhoekpad west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.947858,
+          "longitude": 4.3594096,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 1596760250,
+          "osm_way_ids": [
+            146404605,
+            1553955960
+          ],
+          "walk_from_hq_m": 1281,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "46960eba-30cd-5382-87ee-7e72862b9a7e",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Azië",
+          "description": "Woudhoek noordoost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9495478,
+          "longitude": 4.3671893,
+          "activation_radius_meters": 40,
+          "reward_points": 30,
+          "osm_node_id": 1588827351,
+          "osm_way_ids": [
+            145472954,
+            145472965
+          ],
+          "walk_from_hq_m": 1818,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "2269e73a-75c4-596f-ae01-e5e0b8dd1eea",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Afrika",
+          "description": "Woudhoek oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9475932,
+          "longitude": 4.3653532,
+          "activation_radius_meters": 30,
+          "reward_points": 30,
+          "osm_node_id": 1588827181,
+          "osm_way_ids": [
+            145472976
+          ],
+          "walk_from_hq_m": 1826,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "d6223e6a-3cc2-5ccd-85c4-de751b497da6",
+          "type": "CAPTURE_POINT",
+          "name": "Mast Hallo wereld",
+          "description": "Woudhoekpad zuid. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9459659,
+          "longitude": 4.3647912,
+          "activation_radius_meters": 30,
+          "reward_points": 30,
+          "osm_node_id": 1596759811,
+          "osm_way_ids": [
+            146404606,
+            146404623
+          ],
+          "walk_from_hq_m": 1209,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "1edfe97d-20a7-5d92-8eb7-384c731a39c5",
+          "type": "PHOTO_POINT",
+          "name": "Foto Het pakketje is verdwaald",
+          "description": "Beeld een dataverbinding uit met jullie hele team. Geef een onzichtbaar pakketje door, maar één router begrijpt er zichtbaar niets van. Alle teamleden staan op de foto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9435387,
+          "longitude": 4.3563343,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 6632732343,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 381
+        },
+        {
+          "id": "27d54848-2c59-5820-b2d1-1b62b15fb54d",
+          "type": "PHOTO_POINT",
+          "name": "Foto De robotupdate",
+          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9486378,
+          "longitude": 4.3602136,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 6624901346,
+          "osm_way_ids": [
+            1015351732
+          ],
+          "walk_from_hq_m": 1314
+        },
+        {
+          "id": "444e6759-9e10-5149-b68d-6b42bd1304ee",
+          "type": "PHOTO_POINT",
+          "name": "Foto Error 404: captain kwijt",
+          "description": "Maak een teamfoto waarop de captain zichtbaar is, maar iedereen overdreven de verkeerde kant op zoekt. De captain kijkt recht naar de camera. Iedereen is herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9491909,
+          "longitude": 4.3652814,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 12090594111,
+          "osm_way_ids": [
+            145472969
+          ],
+          "walk_from_hq_m": 1745
+        },
+        {
+          "id": "8b9a1399-a6a1-5f8e-bc0c-16cf0e746ff9",
+          "type": "PHOTO_POINT",
+          "name": "Foto Ctrl Alt Del",
+          "description": "Maak drie verschillende herstartposes: Ctrl, Alt en Del. Verdeel de poses over alle teamleden en doe alsof de hele scoutcomputer opnieuw opstart. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9483951,
+          "longitude": 4.3658327,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 1588827242,
+          "osm_way_ids": [
+            145472976
+          ],
+          "walk_from_hq_m": 1731
+        },
+        {
+          "id": "01589c93-8348-59b8-9b89-a1d8b371eef4",
+          "type": "PHOTO_POINT",
+          "name": "Foto De eend heeft bereik",
+          "description": "Beeld met het hele team onze tech-eend uit: snavel met handen, antennearmen, overdreven duckfaces. Maak jullie beste scouting-eenden-albumcover. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9453127,
+          "longitude": 4.3637957,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 44529936,
+          "osm_way_ids": [
+            7534819,
+            176955333
+          ],
+          "walk_from_hq_m": 1092
+        },
+        {
+          "id": "aacd0a4c-52c2-5021-a8c9-bfd53c47d949",
+          "type": "PHOTO_POINT",
+          "name": "Foto Hallo wereld",
+          "description": "Maak een teamfoto met vijf verschillende manieren van begroeten. Gebruik alleen jullie eigen team, houd het vriendelijk en zorg dat iedereen op de foto staat. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.943,
+          "longitude": 4.3551,
+          "activation_radius_meters": 35,
+          "reward_points": 60,
+          "osm_node_id": 44517381,
+          "osm_way_ids": [
+            7534993
+          ],
+          "walk_from_hq_m": 19
+        },
+        {
+          "id": "a4ee357f-8c90-5a28-afd2-5b5c3b7a9847",
+          "type": "PUZZLE",
+          "name": "Puzzel De hotspotcode",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9419254,
+          "longitude": 4.3569227,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 44511983,
+          "osm_way_ids": [
+            179183814,
+            456629399,
+            705890646
+          ],
+          "walk_from_hq_m": 178,
+          "question": "Lees het NAVO-spelalfabet: Hotel – Oscar – Tango – Sierra – Papa – Oscar – Tango. Welk woord vormen de beginletters? Antwoord met alleen dat woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$i2eotL+DdIW8A9CDiG5daA$KcA9M6zK4nlqIOvCIo1JAxSnuji/JC8dfpthU2Hy47A",
+          "max_attempts": 4
+        },
+        {
+          "id": "e3eb6aa0-0392-5c82-bb55-34d9539fc8a6",
+          "type": "PUZZLE",
+          "name": "Puzzel Een vriendelijke groet",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9471294,
+          "longitude": 4.3606706,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 6624901313,
+          "osm_way_ids": [
+            146404635,
+            705263971
+          ],
+          "walk_from_hq_m": 1128,
+          "question": "Ontcijfer --. / .-. / --- / . / - . Een schuine streep scheidt letters. Welk Nederlands woord ontstaat? Antwoord met het woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$0umQZ909i7k5gx5dmCkDkA$UNasdGFhJ4reagZSGu8g/jpxAlvIQMlq3pwx+kYeLgs",
+          "max_attempts": 4
+        },
+        {
+          "id": "42967f19-0feb-5b4e-9a42-1f1665f92043",
+          "type": "PUZZLE",
+          "name": "Puzzel Samen wereldwijd",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9493214,
+          "longitude": 4.3627285,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 1588827334,
+          "osm_way_ids": [
+            7535004,
+            145472957,
+            440327760
+          ],
+          "walk_from_hq_m": 1501,
+          "question": "Gebruik A=1 tot Z=26. Decodeer 19-1-13-5-14. Antwoord met alleen het Nederlandse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$PgKQjdGOCZdojbvYlmTdfQ$LxC8F16hyrAsljm9Oe2KXolV5EFpT1DowFFhbkHUKHM",
+          "max_attempts": 4
+        },
+        {
+          "id": "dad77b36-4ae3-56ae-b5f0-3c792082fc5e",
+          "type": "PUZZLE",
+          "name": "Puzzel Hello in bits",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9485542,
+          "longitude": 4.3643266,
+          "activation_radius_meters": 30,
+          "reward_points": 80,
+          "osm_node_id": 1588827246,
+          "osm_way_ids": [
+            145473883
+          ],
+          "walk_from_hq_m": 1687,
+          "question": "Deze ASCII-bytes vormen een Engelse begroeting: 01001000 01000101 01001100 01001100 01001111. Een ASCII-letter A is 01000001. Antwoord met het Engelse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$WaPldqcsBdEXhIDM7l082Q$C1HTV8M6NVY1XlIpiD/Di0q1h6n/NqGQvkMZ0i0s0oM",
+          "max_attempts": 4
+        },
+        {
+          "id": "e3a861dc-be19-56e4-be24-08c15525e194",
+          "type": "PUZZLE",
+          "name": "Puzzel Zes kanalen tegelijk",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9477346,
+          "longitude": 4.3669644,
+          "activation_radius_meters": 30,
+          "reward_points": 60,
+          "osm_node_id": 1588827183,
+          "osm_way_ids": [
+            145472989
+          ],
+          "walk_from_hq_m": 1553,
+          "question": "Zes scoutteams maken ieder één verbinding met elk ander team. A-B en B-A zijn dezelfde verbinding. Hoeveel verschillende verbindingen zijn er? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$f3Mqalqwo7cwXG1yXNDc3g$oe99JDM0UWYfm0LVXX6qYC8ldCZP2BFB//87SYDDbjU",
+          "max_attempts": 4
+        },
+        {
+          "id": "9c4d1f9b-9463-5d9e-ba53-6295acd5182d",
+          "type": "PUZZLE",
+          "name": "Puzzel De wereldklok",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9447881,
+          "longitude": 4.3612089,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 5484099756,
+          "osm_way_ids": [
+            491213171
+          ],
+          "walk_from_hq_m": 902,
+          "question": "Het is 15:30 UTC. Een andere scoutgroep gebruikt UTC-4. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$Xexr//Zl6j/yILBffql1KQ$8YaDfc17g16jUz5eAOAANyTdufDTAhS3oRzrdr6jaoI",
+          "max_attempts": 4
+        },
+        {
+          "id": "e12e2b45-209f-5307-a1c6-89884496cbd0",
+          "type": "PUZZLE",
+          "name": "Puzzel De bonusberekening",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9424046,
+          "longitude": 4.3559185,
+          "activation_radius_meters": 30,
+          "reward_points": 50,
+          "osm_node_id": 12282108100,
+          "osm_way_ids": [
+            179183814
+          ],
+          "walk_from_hq_m": 91,
+          "question": "Een mast geeft 5 volgers per minuut. Jullie bezitten hem precies 8 minuten, waarvan de laatste 3 minuten dubbel tellen. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s0GNghGTWwS2VKkea58ZvQ$3jbWKpfE7bqpQxbt7aGrIvQR17wnvwn/r7hTYIQypbM",
+          "max_attempts": 4
+        },
+        {
+          "id": "49884ed2-aabc-598d-bf05-69ca8dca2009",
+          "type": "PUZZLE",
+          "name": "Puzzel Iedereen welkom",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.946727,
+          "longitude": 4.366894,
+          "activation_radius_meters": 30,
+          "reward_points": 40,
+          "osm_node_id": 1588827141,
+          "osm_way_ids": [
+            145472974
+          ],
+          "walk_from_hq_m": 1502,
+          "question": "Iemand in de internationale chat begrijpt jullie taal niet. Wat doe je? A: uitlachen. B: negeren. C: rustig uitleggen met eenvoudige woorden of vertaling. Antwoord met alleen A, B of C.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$nUhDgg9z0foD2UzketrhIg$Rj6z8Y88xn4h2VmA0tos1PBUNJxpUtZBGggwaY0UtTs",
+          "max_attempts": 4
+        },
+        {
+          "id": "93fe4986-60c2-5c5e-9724-bfa730f13278",
+          "type": "SCANNER_POINT",
+          "name": "Scanner Wereldradar",
+          "description": "Open hier de scanner om de recente locaties van andere teams te zien. Het overzicht verdwijnt zodra je de cirkel verlaat. Scannergebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.9441369,
+          "longitude": 4.3582529,
+          "activation_radius_meters": 30,
+          "reward_points": 0,
+          "osm_node_id": 4833552997,
+          "osm_way_ids": [
+            491213171
+          ],
+          "walk_from_hq_m": 684
+        },
+        {
+          "id": "8d9dc976-8d98-55ae-80ac-8152aca8e36e",
+          "type": "SCANNER_POINT",
+          "name": "Scanner Routerradar",
+          "description": "Open hier de scanner om de recente locaties van andere teams te zien. Het overzicht verdwijnt zodra je de cirkel verlaat. Scannergebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "latitude": 51.946929,
+          "longitude": 4.368162,
+          "activation_radius_meters": 30,
+          "reward_points": 0,
+          "osm_node_id": 1588827148,
+          "osm_way_ids": [
+            145472974
+          ],
+          "walk_from_hq_m": 1495
+        }
+      ]
+    }
+  ]
+}

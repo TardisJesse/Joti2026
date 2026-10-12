@@ -377,7 +377,10 @@ async def answer(object_id: str, payload: AnswerInput, user: User = Depends(curr
 @app.post("/api/capture/{object_id}/start")
 async def capture_start(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     require_team(user); obj = object_for(object_id, ObjectType.CAPTURE_POINT, user, db); require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
-    point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one(); started = begin_capture(point.id, user.team_id, point.cooldown_seconds)
+    point = db.query(CapturePoint).filter_by(game_object_id=obj.id).one()
+    if point.owner_team_id == user.team_id:
+        raise HTTPException(409, 'Je team bezit deze zendmast al. De volgers komen automatisch binnen.')
+    started = begin_capture(point.id, user.team_id, point.cooldown_seconds)
     db.add(CaptureEvent(capture_point_id=point.id, team_id=user.team_id, user_id=user.id, event="STARTED")); db.commit()
     await broadcast(f"team:{user.team_id}", {"type": "CAPTURE_STARTED", "data": {"object_id": object_id, "started_at": started}})
     return {"started": True, "capture_seconds": point.capture_seconds, "remaining_seconds": max(0, point.capture_seconds - (time.monotonic() - started))}

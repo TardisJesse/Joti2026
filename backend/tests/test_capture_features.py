@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from app.database import Base
 from app.models import Game, GameStatus, Team, User, UserRole, GameObject, ObjectType, CapturePoint, NewsEvent
-from app.main import game_objects, capture_status, delete_game_object
+from app.main import game_objects, capture_start, capture_status, delete_game_object
 from app.services import capture_started, subscribers, cooldowns
 from app.team_colors import next_team_color
 from app.security import require_admin
@@ -35,6 +35,14 @@ class CaptureTests(unittest.TestCase):
         colors = set()
         for _ in range(100): colors.add(next_team_color(colors))
         self.assertEqual(len(colors), 100)
+
+    def test_own_capture_cannot_be_farmed_for_repeated_rewards(self):
+        self.capture.owner_team_id=self.team.id;self.db.commit()
+        with patch('app.main.require_nearby'):
+            with self.assertRaises(HTTPException) as raised:asyncio.run(capture_start(self.point.id,self.player,self.db))
+        self.assertEqual(raised.exception.status_code,409)
+        self.assertEqual(self.db.query(NewsEvent).count(),0)
+        self.assertNotIn((self.capture.id,self.team.id),capture_started)
 
     def test_capture_owner_event_and_push_scope(self):
         queue = asyncio.Queue(); unrelated = asyncio.Queue()

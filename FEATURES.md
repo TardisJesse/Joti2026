@@ -96,3 +96,42 @@ while open. Closing, moving out, invalid GPS, failed requests, switching screens
 or ending/pausing the round clears all revealed markers and cancels requests.
 The admin's existing full map remains unchanged. Run migration 0008 before
 starting the backend; PostgreSQL enum additions remain after downgrade.
+
+## Allart JOTI 2026 boards
+
+Migration 0009 installs the requested Ronde-Test, Ronde A and Ronde B once.
+It matches existing round codes ignoring separators/case, then exact normalized
+round names; ambiguous matches abort instead of guessing. Existing codes are
+preserved. Old objects are deactivated with an undo snapshot; player profiles,
+teams and historical scores are retained. All three rounds are prepared in
+READY state with their timer stopped and a fresh bonus clock. Start a timer
+from the admin tab when the group is ready. Repeated installation does not
+overwrite subsequent admin changes. A migration downgrade restores the prior
+objects and round settings without deleting gameplay history.
+
+Ronde-Test: 6 stations near the clubhouse, a roughly 0.7 km return walk and a
+20-minute suggested timer. Ronde A: 21 stations in Holierhoek/Veenpad, with a
+roughly 4.1 km example circuit. Ronde B: 21 different stations in Woudhoek via
+the pedestrian/cycle network, roughly 4.2 km. Use 90 minutes for the full outer
+boards; teams freely choose missions. Each outer board has five capture posts,
+six photo challenges, eight puzzles and two private scanners. Capture posts
+give 30 followers on capture and 5/minute, with a 45-second capture. Photo
+challenges give 60, puzzles 40–80, and scanners give no score. The training
+board uses smaller rewards and a 15-second capture. Owned posts cannot be
+recaptured by the same team to farm the one-off reward.
+
+Locations are snapped to mapped walking/cycle paths, excluding explicitly
+private/no-foot ways. The points stay within 2 km of the verified clubhouse
+location; their activation circles do not overlap. Main-board zones range from
+30 to 40 metres, training zones are 20 metres. All capture circles are shown
+on the map; selected photo/scanner zones use their own activity colours.
+Map coordinates and example routes use OpenStreetMap data retrieved on
+12 October 2026; this is a map-based layout, not a field access survey. The
+organiser should inspect paths/current access before the event, and bring
+torches when playing after dark. JOTI tasks focus on world friendship, messages,
+codes and safe online contact. No NFC ducks are added without physical tags.
+
+The immutable board pack is in backend/app/data/allart_joti_2026_v1.json.
+It contains answer hashes, not plaintext puzzle solutions. Locally prepared
+organiser maps, full briefing and solution key are in board-design; the solution
+key is deliberately not shipped in the app or repository.

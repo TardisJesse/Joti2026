@@ -17,9 +17,12 @@ const allartHq = [4.3553432, 51.94281191] as [number, number]
 const style = 'https://tiles.openfreemap.org/styles/dark'
 function drawCaptureArea() {
   if (!mapReady || !map) return
-  const point = props.selectedObject
+  const points = props.objects.filter(point => point.type === 'CAPTURE_POINT')
+  const selected = props.selectedObject
+  if (selected && ['CAPTURE_POINT', 'PHOTO_POINT', 'SCANNER_POINT'].includes(selected.type) && !points.some(point => point.id === selected.id)) points.push(selected)
   const features: any[] = []
-  if (['CAPTURE_POINT', 'PHOTO_POINT', 'SCANNER_POINT'].includes(point?.type) && Number(point.activation_radius_meters) > 0) {
+  for (const point of points) {
+    if (!(Number(point.activation_radius_meters) > 0)) continue
     // Destination-point formula: the radius is in metres, independent of zoom.
     const angular = Number(point.activation_radius_meters) / 6371000
     const lat = point.latitude * Math.PI / 180, lng = point.longitude * Math.PI / 180
@@ -31,15 +34,16 @@ function drawCaptureArea() {
       ring.push([x * 180 / Math.PI, y * 180 / Math.PI])
     }
     ring.push([...ring[0]])
-    features.push({ type: 'Feature', properties: { color: point.owner_team_color || '#ffcf6a' }, geometry: { type: 'Polygon', coordinates: [ring] } })
+    const isSelected = point === selected || Boolean(selected?.id && point.id === selected.id)
+    features.push({ type: 'Feature', properties: { color: point.owner_team_color || (point.type === 'PHOTO_POINT' ? '#ba9aff' : point.type === 'SCANNER_POINT' ? '#62efc4' : '#ffcf6a'), selected: isSelected }, geometry: { type: 'Polygon', coordinates: [ring] } })
   }
   const data = { type: 'FeatureCollection' as const, features }
   const source = map.getSource('capture-area') as GeoJSONSource | undefined
   if (source) source.setData(data)
   else {
     map.addSource('capture-area', { type: 'geojson', data })
-    map.addLayer({ id: 'capture-area-fill', type: 'fill', source: 'capture-area', paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.18 } })
-    map.addLayer({ id: 'capture-area-border', type: 'line', source: 'capture-area', paint: { 'line-color': ['get', 'color'], 'line-width': 3, 'line-opacity': 0.95 } })
+    map.addLayer({ id: 'capture-area-fill', type: 'fill', source: 'capture-area', paint: { 'fill-color': ['get', 'color'], 'fill-opacity': ['case', ['get', 'selected'], 0.18, 0.08] } })
+    map.addLayer({ id: 'capture-area-border', type: 'line', source: 'capture-area', paint: { 'line-color': ['get', 'color'], 'line-width': ['case', ['get', 'selected'], 3, 2], 'line-opacity': 0.95 } })
   }
 }
 function ownPlayer() { return props.ownTeamId ? props.locations.find(x => x.team_id === props.ownTeamId && x.location) : undefined }
