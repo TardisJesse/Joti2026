@@ -13,4 +13,5 @@ import './mobile-field.css'
 import './photos.css'
 import './round-ui.css'
 import './bonus.css'
+import './motion.css'
 createApp(App).use(createPinia()).mount('#app')

@@ -1,0 +1,42 @@
+/* Short, purposeful movement; never transform MapLibre's positioned markers. */
+:root { --motion-ease: cubic-bezier(.22,1,.36,1); }
+.dashboard,.score-page,.admin-page,.field-radar { animation: screen-reveal 360ms var(--motion-ease); }
+.podium-place { animation: podium-reveal 650ms var(--motion-ease) both; animation-delay: var(--entry-delay,0ms); }
+.rank-list li { animation: screen-reveal 400ms var(--motion-ease) both; animation-delay: var(--entry-delay,0ms); }
+.rank-shift-move { transition: transform 550ms var(--motion-ease); }
+.rank-shift-enter-active,.rank-shift-leave-active { transition: opacity 240ms ease; }
+.rank-shift-enter-from,.rank-shift-leave-to { opacity:0; }
+.score-value { display:inline-block; animation: score-pop 420ms var(--motion-ease); }
+.sheet-content { animation: detail-reveal 260ms var(--motion-ease); }
+.game-dialog[open] { animation: dialog-reveal 280ms var(--motion-ease); }
+.game-dialog[open]::backdrop { animation: screen-reveal 220ms ease; }
+.dialog-result.success { animation: success-reveal 500ms var(--motion-ease); }
+.capture-state progress::-webkit-progress-value { transition: width 500ms linear; }
+.capture-state progress::-moz-progress-bar { transition: width 500ms linear; }
+.radar-rings i { animation: radar-breathe 4s ease-in-out infinite; }
+.radar-rings i:nth-child(2) { animation-delay:-1.3s; }
+.radar-rings i:nth-child(3) { animation-delay:-2.6s; }
+.round-timer.is-urgent { animation: timer-breathe 2s ease-in-out infinite; }
+.notice-enter-active,.notice-leave-active { transition: opacity 260ms ease, transform 360ms var(--motion-ease); }
+.notice-enter-from,.notice-leave-to { opacity:0; transform:translate(-50%,-16px); }
+.app button,.login button { transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.app nav button b,.map-pin svg,.profile-photo-picker .avatar { transition: transform 200ms var(--motion-ease); }
+.app nav button.active b { transform:translateY(-2px); }
+.app button:active:not(.map-pin):not(.player-pin) { filter:brightness(.9); }
+@media(hover:hover) {
+  .map-pin:hover svg { transform:scale(1.14); }
+  .profile-photo-picker:hover .avatar { transform:scale(1.05); }
+  .primary-action:hover { box-shadow:0 4px 18px #00dff233; }
+}
+@keyframes screen-reveal { from { opacity:0; } to { opacity:1; } }
+@keyframes podium-reveal { from { opacity:0; translate:0 22px; } to { opacity:1; translate:0 0; } }
+@keyframes detail-reveal { from { opacity:0; translate:0 8px; } to { opacity:1; translate:0 0; } }
+@keyframes dialog-reveal { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:none; } }
+@keyframes score-pop { from { color:#80f5c8; transform:scale(1.18); } to { transform:scale(1); } }
+@keyframes success-reveal { from { opacity:0; translate:0 6px; box-shadow:0 0 0 6px #6ee78733; } to { opacity:1; translate:0 0; box-shadow:0 0 0 0 #6ee78700; } }
+@keyframes radar-breathe { 0%,100% { opacity:.35; scale:.98; } 50% { opacity:.8; scale:1.02; } }
+@keyframes timer-breathe { 0%,100% { border-color:#ef6f77; box-shadow:0 0 0 0 #ef6f7700; } 50% { border-color:#ffc5c8; box-shadow:0 0 0 3px #ef6f7720; } }
+@media(prefers-reduced-motion:reduce) {
+  .app *,.app *::before,.app *::after,.login *,.login *::before,.login *::after { animation:none!important; transition:none!important; }
+  .game-dialog::backdrop { animation:none!important; }
+}
