@@ -10,6 +10,43 @@ const emit = defineEmits<{ updated: []; notice: [message: string] }>()
 const dialog = ref<HTMLDialogElement | null>(null)
 const kind = ref<Kind>('puzzle'), object = ref<any>(null), input = ref(''), question = ref('')
 const busy = ref(false), loading = ref(false), error = ref(''), result = ref(''), success = ref(false)
+const scanning = ref(false), backup = ref(false), nfcMessage = ref('')
+let nfcAbort: AbortController | null = null
+type DuckIdentifier = { serial_number: string } | { duck_number: number } | { token: string }
+type NfcReader = { scan(options: { signal: AbortSignal }): Promise<void>; onreading: ((event: { serialNumber: string }) => void) | null; onreadingerror: (() => void) | null }
+function stopNfc() { nfcAbort?.abort(); nfcAbort = null; scanning.value = false }
+async function scanNfc() {
+  if (scanning.value || busy.value || success.value || props.gameRunning === false) return
+  error.value = ''; nfcMessage.value = ''
+  const Reader = (window as unknown as { NDEFReader?: new () => NfcReader }).NDEFReader
+  if (!window.isSecureContext || !Reader) {
+    nfcMessage.value = !window.isSecureContext ? 'NFC-scannen vereist een beveiligde verbinding (HTTPS). Gebruik het eendnummer hieronder.' : 'Deze browser ondersteunt geen NFC-scanner. Gebruik het eendnummer hieronder; dat werkt ook op iPhone.'
+    backup.value = true; return
+  }
+  const request = version, controller = new AbortController()
+  nfcAbort = controller; scanning.value = true
+  try {
+    const reader = new Reader()
+    reader.onreading = async event => {
+      if (controller.signal.aborted || request !== version || !dialog.value?.open) return
+      stopNfc()
+      if (!event.serialNumber) { nfcMessage.value = 'Deze tag geeft geen serienummer door. Gebruik het eendnummer hieronder.'; backup.value = true; return }
+      await submit({ serial_number: event.serialNumber })
+    }
+    reader.onreadingerror = () => {
+      if (controller.signal.aborted || request !== version) return
+      stopNfc(); nfcMessage.value = 'Tag niet leesbaar. Probeer opnieuw of gebruik het eendnummer hieronder.'; backup.value = true
+    }
+    // Calling scan from this button click triggers the browser permission prompt.
+    await reader.scan({ signal: controller.signal })
+    if (!controller.signal.aborted && request === version) nfcMessage.value = 'Houd je telefoon tegen de NFC-tag in het eendje.'
+  } catch (e: any) {
+    if (controller.signal.aborted || request !== version) return
+    stopNfc(); backup.value = true
+    nfcMessage.value = e.name === 'NotAllowedError' ? 'NFC-toestemming geweigerd. Sta NFC toe in je browser of gebruik het eendnummer hieronder.' : 'NFC niet beschikbaar. Controleer of NFC aanstaat of gebruik het eendnummer hieronder.'
+  }
+}
+function dialogClosed() { stopNfc(); version++; busy.value = false }
 const photo = ref(''), gallery = ref<any[]>([]), photoAllowed = ref(false), photoBusy = ref(false)
 async function choosePhoto(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0], request = version
@@ -42,6 +79,7 @@ const capturing = computed(() => kind.value === 'capture' && activeCapture.value
 const captureMessage = 'Capture bezig. Blijf binnen de gemarkeerde cirkel. Je locatie wordt elke seconde gecontroleerd.'
 
 async function open(nextKind: Kind, nextObject?: any) {
+  stopNfc(); backup.value = false; nfcMessage.value = ''; busy.value = false
   const request = ++version
   kind.value = nextKind; object.value = nextObject; input.value = ''; question.value = ''
   error.value = ''; result.value = ''; success.value = false; loading.value = false
@@ -62,7 +100,7 @@ async function open(nextKind: Kind, nextObject?: any) {
     finally { if (request === version) loading.value = false }
   }
 }
-function close() { dialog.value?.close() }
+function close() { dialogClosed(); dialog.value?.close() }
 function finishCapture(id: string, message: string, won: boolean) {
   clearInterval(countdown)
   activeCapture.value = null
@@ -81,11 +119,16 @@ async function checkCapture(id: string) {
     if (!disposed) finishCapture(id, 'Capturecontrole mislukt: ' + e.message + ' Open het punt om opnieuw te starten.', false)
   }
 }
-async function submit() {
+async function submit(scanIdentifier?: DuckIdentifier) {
   if (busy.value || loading.value || photoBusy.value || success.value || capturing.value) return
   const request = version, actionKind = kind.value, target = object.value
   if (actionKind !== 'remove' && props.gameRunning === false) { error.value = 'De spelronde is gestopt. Je kunt geen volgers meer verdienen.'; return }
-  if ((actionKind === 'puzzle' || actionKind === 'scan') && !input.value.trim()) { error.value = 'Vul eerst ' + (actionKind === 'puzzle' ? 'je antwoord' : 'de NFC-code') + ' in.'; return }
+  if (actionKind === 'puzzle' && !input.value.trim()) { error.value = 'Vul eerst je antwoord in.'; return }
+  if (actionKind === 'scan' && !scanIdentifier) {
+    if (!/^(?:0?[1-9]|1[0-9]|20)$/.test(input.value.trim())) { error.value = 'Vul het nummer op het eendje in: 1 t/m 20.'; return }
+    scanIdentifier = { duck_number: Number(input.value.trim()) }
+    stopNfc()
+  }
   if (actionKind === 'capture' && activeCapture.value) { error.value = 'Er loopt al een capture. Rond die eerst af.'; return }
   if (actionKind === 'photo' && (!photo.value || !photoAllowed.value)) { error.value = 'Kies eerst een teamfoto terwijl je binnen de cirkel staat.'; return }
   busy.value = true; error.value = ''; result.value = ''
@@ -108,7 +151,7 @@ async function submit() {
       poll = window.setTimeout(() => checkCapture(target.id), 1000)
     } else {
       const response = await api(actionKind === 'puzzle' ? '/api/puzzles/' + target.id + '/answer' : '/api/ducks/scan', {
-        method: 'POST', body: JSON.stringify(actionKind === 'puzzle' ? { answer: input.value.trim() } : { token: input.value.trim() }),
+        method: 'POST', body: JSON.stringify(actionKind === 'puzzle' ? { answer: input.value.trim() } : scanIdentifier),
       })
       if (disposed || request !== version) return
       success.value = actionKind === 'scan' || response.correct
@@ -116,34 +159,42 @@ async function submit() {
       emit('updated')
     }
   } catch (e: any) { if (!disposed && request === version) error.value = e.message }
-  finally { busy.value = false }
+  finally { if (request === version) busy.value = false }
 }
-onBeforeUnmount(() => { disposed = true; version++; clearTimeout(poll); clearInterval(countdown); dialog.value?.close() })
+onBeforeUnmount(() => { stopNfc(); disposed = true; version++; clearTimeout(poll); clearInterval(countdown); dialog.value?.close() })
 defineExpose({ open })
 </script>
 
 <template>
-  <dialog ref="dialog" class="game-dialog" aria-labelledby="game-dialog-title" aria-describedby="game-dialog-description">
+  <dialog ref="dialog" class="game-dialog" aria-labelledby="game-dialog-title" aria-describedby="game-dialog-description" @cancel="dialogClosed" @close="dialogClosed">
     <div class="dialog-heading"><span class="dialog-symbol" aria-hidden="true" v-html="objectIcon(kind === 'puzzle' ? 'PUZZLE' : kind === 'capture' ? 'CAPTURE_POINT' : kind === 'photo' ? 'PHOTO_POINT' : 'PHYSICAL_DUCK')"></span><button type="button" class="dialog-close" aria-label="Venster sluiten" @click="close">✕</button></div>
     <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'photo' ? 'FOTOPUNT' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
     <h2 id="game-dialog-title">{{ title }}</h2>
-    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien volgers voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Lees het eendje met je NFC-lezer en plak of typ de bijbehorende code hieronder.' }}</p>
-    <form @submit.prevent="submit">
+    <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien volgers voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Ga naar het eendje, druk op SCAN NFC en geef toestemming. Houd je telefoon tegen de tag. Beide manieren werken alleen als je met recente GPS in de buurt bent.' }}</p>
+    <form @submit.prevent="submit()">
       <p v-if="loading" role="status">Puzzel laden…</p>
       <p v-else-if="kind === 'puzzle' && question" class="puzzle-question">{{ question }}</p>
-      <label v-if="(kind === 'puzzle' || kind === 'scan') && !success" class="dialog-label">{{ kind === 'puzzle' ? 'Jouw antwoord' : 'NFC-code' }}<input v-model="input" :disabled="busy || loading" :placeholder="kind === 'puzzle' ? 'Typ je antwoord…' : 'Plak of typ de code…'" autocomplete="off" :autocapitalize="kind === 'scan' ? 'none' : 'sentences'" :spellcheck="kind !== 'scan'" required /></label>
+      <label v-if="kind === 'puzzle' && !success" class="dialog-label">Jouw antwoord<input v-model="input" :disabled="busy || loading" placeholder="Typ je antwoord…" autocomplete="off" required /></label>
+      <section v-if="kind === 'scan' && !success" class="duck-scan">
+        <button type="button" class="primary-action scan-nfc" :disabled="busy || scanning || props.gameRunning === false" @click="scanNfc"><span class="material-symbols-outlined" aria-hidden="true">contactless</span>{{ scanning ? 'SCANNER ACTIEF…' : 'SCAN NFC' }}</button>
+        <p v-if="nfcMessage" class="nfc-status" role="status">{{ nfcMessage }}</p>
+        <button v-if="scanning" type="button" class="secondary-action" @click="stopNfc">Scannen stoppen</button>
+        <details class="duck-backup" :open="backup" @toggle="backup = ($event.target as HTMLDetailsElement).open"><summary>NFC werkt niet? Voer het eendnummer in</summary><label class="dialog-label">Nummer op het eendje (1–20)<input v-model="input" inputmode="numeric" pattern="(?:0?[1-9]|1[0-9]|20)" maxlength="2" autocomplete="off" :disabled="busy" placeholder="Bijvoorbeeld 3" /></label><button type="submit" class="secondary-action" :disabled="busy || props.gameRunning === false">{{ busy ? 'Controleren…' : 'Eendnummer controleren' }}</button></details>
+      </section>
       <template v-if="kind === 'photo' && photoAllowed && !success"><label class="dialog-label">Teamfoto<input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" :disabled="busy || photoBusy" @change="choosePhoto" /></label><p v-if="photoBusy" role="status">Foto voorbereiden…</p><img v-if="photo" :src="photo" alt="Voorbeeld van je teamfoto" class="photo-preview" /></template>
       <div v-if="kind === 'photo' && photoAllowed" class="photo-gallery"><h3>Teamfoto’s op dit punt</h3><p v-if="!gallery.length">Nog geen foto's. Maak de eerste met je team!</p><figure v-for="item in gallery" :key="item.id"><img :src="item.image" :alt="'Teamfoto van ' + item.team_name" /><figcaption>{{ item.team_name }}</figcaption></figure></div>
       <p v-if="error" class="dialog-error" role="alert">{{ error }}</p>
       <p v-if="result" class="dialog-result" :class="{ success }" role="status">{{ result }}</p>
       <div v-if="capturing" class="capture-state" role="status"><span class="capture-beacon" aria-hidden="true"></span><p>{{ captureMessage }}</p><progress :value="progress" max="100" aria-label="Capturevoortgang"></progress><strong class="capture-clock">{{ remaining > 0 ? `${remaining} seconden resterend` : 'Tijd voorbij · server bevestigt…' }}</strong><small>Je kunt dit venster sluiten. De controle blijft lopen zolang de app open is.</small></div>
       <p v-if="kind !== 'remove' && props.gameRunning === false" class="dialog-result" role="status">De spelronde is gepauzeerd of afgelopen. Je kunt nu geen volgers verdienen.</p>
-      <div class="dialog-actions"><button type="button" class="secondary-action" @click="close">{{ success ? 'Sluiten' : capturing ? 'Terug naar kaart' : 'Terug' }}</button><button v-if="!success && !capturing" type="submit" class="primary-action" :disabled="busy || loading || photoBusy || (kind !== 'remove' && props.gameRunning === false) || (kind === 'puzzle' && !question) || (kind === 'photo' && (!photoAllowed || !photo))">{{ busy ? 'Even wachten…' : kind === 'photo' ? 'Teamfoto insturen' : kind === 'puzzle' ? 'Antwoord versturen' : kind === 'capture' ? 'Start capture' : kind === 'remove' ? 'Verwijderen' : 'Code controleren' }}</button></div>
+      <div class="dialog-actions"><button type="button" class="secondary-action" @click="close">{{ success ? 'Sluiten' : capturing ? 'Terug naar kaart' : 'Terug' }}</button><button v-if="!success && !capturing && kind !== 'scan'" type="submit" class="primary-action" :disabled="busy || loading || photoBusy || (kind !== 'remove' && props.gameRunning === false) || (kind === 'puzzle' && !question) || (kind === 'photo' && (!photoAllowed || !photo))">{{ busy ? 'Even wachten…' : kind === 'photo' ? 'Teamfoto insturen' : kind === 'puzzle' ? 'Antwoord versturen' : kind === 'capture' ? 'Start capture' : kind === 'remove' ? 'Verwijderen' : 'Code controleren' }}</button></div>
     </form>
   </dialog>
 </template>
 
 <style>
+.scan-nfc{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:88px;margin-top:20px;font-size:22px;font-weight:800}.scan-nfc .material-symbols-outlined{font-size:36px}.duck-backup{margin-top:14px;font-size:13px;color:#b9cfdd}.duck-backup summary{cursor:pointer;padding:8px 0}.duck-backup .dialog-label{margin:12px 0}.duck-backup button{width:100%;min-height:44px}.nfc-status{font-size:14px;color:#b9cfdd}
+
 .capture-state progress{width:100%;height:14px;accent-color:#00dff2}.capture-clock{display:block;margin:10px 0 16px}.capture-state .capture-beacon{animation:capture-pulse 1s ease-in-out infinite}@keyframes capture-pulse{50%{box-shadow:0 0 0 12px #ffcf6a11;opacity:.6}}@media(prefers-reduced-motion:reduce){.capture-state .capture-beacon{animation:none}}
 
 .game-dialog { position: fixed; inset: 0; margin: auto; width: min(460px,calc(100% - 28px)); max-height: calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)); padding: 24px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #3a6e83; border-radius: 24px; background: #0c2335; color: #e2f4ff; box-shadow: 0 20px 80px #000b; }

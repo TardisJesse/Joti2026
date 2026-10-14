@@ -19,7 +19,9 @@ from .config import settings
 from .database import SessionLocal, db_session
 from .models import *
 from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInput,
-                      GameStatusInput, GameTimerInput, LocationInput, LoginInput, ScanInput, ImageInput)
+                      GameStatusInput, GameTimerInput, LocationInput, LoginInput, ScanInput, ImageInput,
+                      LoadLocationsInput, DuckLocationInput)
+from .duck_catalog import duck_catalog, standard_pack
 from .security import create_token, current_user, hash_password, require_admin, verify_password
 from .services import (begin_capture, broadcast, cancel_capture, complete_capture, get_location,
                        hash_token, require_nearby, set_location, subscribers)
@@ -308,9 +310,10 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
     bonus = bonus_state(game, sorted(x.id for x, point, owner in rows if point))
     ids = [x.id for x, point, owner in rows]
     rewards = {}
+    duck_numbers = {item.game_object_id:item.duck_number for item in db.query(Duck).filter(Duck.game_object_id.in_(ids))}
     for model in (Puzzle, PhotoPoint, Duck):
         rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "duck_number": duck_numbers.get(x.id), "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -320,12 +323,78 @@ def game_object(object_id: str, user: User = Depends(current_user), db: Session 
         puzzle = db.query(Puzzle).filter_by(game_object_id=obj.id).one(); result["question"] = puzzle.question
     return result
 
+def place_numbered_duck(db, game, number, latitude, longitude, radius, reward=50, replacing=None):
+    """Reuse physical identity, including earlier team claims, when a duck moves."""
+    catalog = duck_catalog()[number]
+    rows = db.query(Duck, GameObject).join(GameObject).filter(GameObject.game_id==game.id, Duck.duck_number==number).all()
+    if any(obj.active and obj.id != replacing for duck,obj in rows):
+        raise HTTPException(409, 'Dit eendje staat al in deze ronde. Kies een ander eendje of pas de bestaande locatie aan.')
+    if rows:
+        duck,obj = next(((d,o) for d,o in rows if o.id==replacing), rows[0])
+    else:
+        import secrets, uuid
+        obj = GameObject(id=str(uuid.uuid5(uuid.NAMESPACE_URL,f'{game.id}:duck:{number}')), game_id=game.id, type=ObjectType.PHYSICAL_DUCK,
+                         name=catalog['name'], latitude=latitude, longitude=longitude, activation_radius_meters=radius)
+        db.add(obj);db.flush()
+        duck = Duck(game_object_id=obj.id,scan_token_hash=hash_token(secrets.token_urlsafe(24)))
+        db.add(duck)
+    obj.name=catalog['name'];obj.description=catalog['description'];obj.active=True
+    obj.latitude=latitude;obj.longitude=longitude;obj.activation_radius_meters=radius
+    duck.duck_number=number;duck.nfc_serial_hash=catalog['nfc_serial_hash'];duck.search_radius_meters=radius;duck.reward_points=reward
+    return obj
+
+@app.get('/api/admin/ducks')
+def available_ducks(game_id: str, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game=selected_game(admin,db,game_id)
+    used={duck.duck_number:obj.id for duck,obj in db.query(Duck,GameObject).join(GameObject).filter(GameObject.game_id==game.id,GameObject.active.is_(True))}
+    return [{'number':number,'name':point['name'],'object_id':used.get(number)} for number,point in duck_catalog().items()]
+
+@app.put('/api/admin/game-objects/{object_id}/duck')
+async def move_duck(object_id: str, payload: DuckLocationInput, game_id: str, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game=selected_game(admin,db,game_id)
+    game=db.query(Game).filter_by(id=game.id).with_for_update().one()
+    old=db.get(GameObject,object_id)
+    if not old or not old.active or old.game_id!=game.id or old.type!=ObjectType.PHYSICAL_DUCK: raise HTTPException(404,'Eendlocatie niet gevonden.')
+    original=db.query(Duck).filter_by(game_object_id=old.id).one()
+    obj=place_numbered_duck(db,game,payload.duck_number,payload.latitude,payload.longitude,payload.activation_radius_meters,original.reward_points,replacing=old.id)
+    if obj.id!=old.id: old.active=False
+    db.commit()
+    await broadcast(f'game:{game.id}:events',{'type':'OBJECT_UPDATED','data':{'id':obj.id}})
+    return {'id':obj.id,'name':obj.name,'duck_number':payload.duck_number}
+
+@app.post('/api/admin/games/{game_id}/load-locations')
+async def load_locations(game_id: str, payload: LoadLocationsInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    import uuid
+    from .board_setup import install_boards
+    game=selected_game(admin,db,game_id)
+    game=db.query(Game).filter_by(id=game.id).with_for_update().one()
+    if game.status==GameStatus.RUNNING: raise HTTPException(409,'Pauzeer de ronde voordat je standaardlocaties laadt.')
+    pack=standard_pack()
+    board=next(board for board in pack['boards'] if board['key']==payload.layout)
+    board['name']=game.name;board['code']=game.game_code
+    for point in board['objects']:
+        if point['type']=='PHYSICAL_DUCK':
+            existing=db.query(Duck).join(GameObject).filter(GameObject.game_id==game.id,Duck.duck_number==point['duck_number']).first()
+            point['id']=existing.game_object_id if existing else str(uuid.uuid5(uuid.NAMESPACE_URL,f"{game.id}:duck:{point['duck_number']}"))
+        else: point['id']=str(uuid.uuid5(uuid.NAMESPACE_URL,f"{game.id}:standard:{point['id']}"))
+    pack['boards']=[board];pack['version']=str(uuid.uuid4())
+    result=install_boards(db,pack,target_game=game)[0];db.commit()
+    await broadcast(f'game:{game.id}:events',{'type':'GAME_UPDATED','data':game_dto(game)})
+    return {**result,'ducks':20,'walking':pack['walking']}
+
 @app.post("/api/admin/game-objects")
 async def create_game_object(payload: GameObjectInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
     """Create an active game object and its authoritative activity configuration."""
     try: object_type = ObjectType(payload.type)
     except ValueError: raise HTTPException(422, "Unknown game object type")
     game = selected_game(admin, db, payload.game_id)
+    game = db.query(Game).filter_by(id=game.id).with_for_update().one()
+    if object_type == ObjectType.PHYSICAL_DUCK:
+        if payload.duck_number is None: raise HTTPException(422, "Kies een eendje van 1 t/m 20.")
+        obj = place_numbered_duck(db, game, payload.duck_number, payload.latitude, payload.longitude, payload.activation_radius_meters, payload.reward_points)
+        db.commit()
+        await broadcast(f"game:{game.id}:events", {"type":"OBJECT_UPDATED", "data":{"id":obj.id}})
+        return {"id":obj.id,"name":obj.name,"duck_number":payload.duck_number}
     if object_type == ObjectType.PUZZLE and (not payload.question or not payload.answer):
         raise HTTPException(422, "A puzzle needs both a question and answer")
     settle_capture_income(db, game.id)
@@ -340,10 +409,6 @@ async def create_game_object(payload: GameObjectInput, admin: User = Depends(req
         db.add(CapturePoint(game_object_id=obj.id, capture_seconds=payload.capture_seconds, cooldown_seconds=payload.cooldown_seconds, capture_reward=payload.reward_points, points_per_minute=payload.points_per_minute))
     elif object_type == ObjectType.PHOTO_POINT:
         db.add(PhotoPoint(game_object_id=obj.id, reward_points=payload.reward_points))
-    elif object_type == ObjectType.PHYSICAL_DUCK:
-        # A random token is returned once so the organiser can write it to an NFC tag.
-        import secrets
-        token = secrets.token_urlsafe(24); db.add(Duck(game_object_id=obj.id, scan_token_hash=hash_token(token), reward_points=payload.reward_points, search_radius_meters=payload.search_radius_meters)); response["scan_token"] = token
     db.commit()
     await broadcast(f"game:{game.id}:events", {"type": "OBJECT_UPDATED", "data": {"id": obj.id}})
     return response
@@ -449,18 +514,28 @@ async def submit_photo(object_id: str, payload: ImageInput, user: User = Depends
 
 @app.post("/api/ducks/scan")
 async def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
-    require_team(user); duck = db.query(Duck).filter_by(scan_token_hash=hash_token(payload.token)).first()
-    if not duck: raise HTTPException(404, "Unknown duck token")
-    obj = db.get(GameObject, duck.game_object_id)
+    require_team(user)
     game = team_game(user, db)
-    if not obj or obj.game_id != game.id: raise HTTPException(404, "Unknown duck token")
+    query = db.query(Duck).join(GameObject, Duck.game_object_id == GameObject.id).filter(
+        GameObject.game_id == game.id, GameObject.active.is_(True), GameObject.type == ObjectType.PHYSICAL_DUCK)
+    if payload.duck_number is not None:
+        query = query.filter(Duck.duck_number == payload.duck_number)
+    elif payload.serial_number is not None:
+        serial = payload.serial_number.replace(':', '').replace('-', '').lower()
+        query = query.filter(Duck.nfc_serial_hash == hash_token(serial))
+    else:
+        query = query.filter(Duck.scan_token_hash == hash_token(payload.token))
+    matches = query.all()
+    if len(matches) != 1: raise HTTPException(404, 'Eendje niet gevonden in deze spelronde. Controleer het nummer of probeer opnieuw te scannen.')
+    duck = matches[0]
+    obj = db.get(GameObject, duck.game_object_id)
     require_running(game)
     require_nearby(user.id, obj.latitude, obj.longitude, duck.search_radius_meters)
     require_running(game)
     try:
         db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=duck.reward_points, reference_id=duck.id)); db.commit()
     except IntegrityError:
-        db.rollback(); raise HTTPException(409, "Your team already scanned this duck")
+        db.rollback(); raise HTTPException(409, 'Je team heeft dit eendje al gevonden.')
     await broadcast(f"team:{user.team_id}", {"type": "SCORE_UPDATED", "data": {"team_id": user.team_id}})
     return {"found": True, "name": obj.name, "points": duck.reward_points}
 

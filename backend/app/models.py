@@ -131,6 +131,8 @@ class Duck(IdTimeMixin, Base):
     __tablename__ = "ducks"
     game_object_id: Mapped[str] = mapped_column(ForeignKey("game_objects.id", ondelete="CASCADE"), unique=True)
     scan_token_hash: Mapped[str] = mapped_column(String(512), unique=True)
+    duck_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    nfc_serial_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     reward_points: Mapped[int] = mapped_column(Integer, default=500)
     search_radius_meters: Mapped[int] = mapped_column(Integer, default=50)
 

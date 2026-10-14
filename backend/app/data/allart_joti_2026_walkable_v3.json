@@ -1,0 +1,1728 @@
+{
+  "hq": {
+    "name": "Scouting Allart van Heemstede",
+    "latitude": 51.94281191,
+    "longitude": 4.3553432,
+    "address": "Lemsterlandhoeve 70, Vlaardingen"
+  },
+  "sources": [
+    "https://www.scouting.nl/scoutinggroep/scouting-allart-van-heemstede",
+    "https://www.openstreetmap.org/copyright",
+    "https://jotajoti.info/",
+    "https://www.staatsbosbeheer.nl/uit-in-de-natuur/wandelroute-boerenpad-holierhoeksepolder",
+    "https://stadsboerderijholywood.nl/contact",
+    "https://maps.app.goo.gl/J95VguSvyYYKUtn4A",
+    "https://api.openstreetmap.org/api/0.6/map?bbox=4.345,51.935,4.361,51.947"
+  ],
+  "version": "allart-joti-2026-walkable-v3",
+  "map_timestamp": "2026-10-14",
+  "play_area": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          4.3462766,
+          51.9391519
+        ],
+        [
+          4.3475475,
+          51.9372169
+        ],
+        [
+          4.3494379,
+          51.9366825
+        ],
+        [
+          4.351354,
+          51.936268
+        ],
+        [
+          4.3528138,
+          51.936268
+        ],
+        [
+          4.359735,
+          51.9362846
+        ],
+        [
+          4.3599299,
+          51.9380874
+        ],
+        [
+          4.3599299,
+          51.9389868
+        ],
+        [
+          4.3599246,
+          51.9415375
+        ],
+        [
+          4.3571337,
+          51.9439265
+        ],
+        [
+          4.3536876,
+          51.9458382
+        ],
+        [
+          4.3503359,
+          51.9462329
+        ],
+        [
+          4.3488761,
+          51.9462329
+        ],
+        [
+          4.3462766,
+          51.9400513
+        ],
+        [
+          4.3462766,
+          51.9391519
+        ]
+      ]
+    ]
+  },
+  "boards": [
+    {
+      "key": "A",
+      "code": "RONDE-A",
+      "name": "Ronde A",
+      "theme": "Wereldvriendschap",
+      "recommended_minutes": 90,
+      "route": [],
+      "walking_loop_m": null,
+      "objects": [
+        {
+          "id": "54066bfe-d022-5d9c-be40-994dd373b7de",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9426168,
+          "longitude": 4.3557871,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12282108098,
+          "osm_way_ids": [
+            7534997,
+            1327935602
+          ],
+          "walk_from_hq_m": 208,
+          "name": "M1 Zendmast Vaartcontact",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "17e41047-565f-5d3c-8f9c-52af72788fd3",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9376666,
+          "longitude": 4.3482774,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12176925698,
+          "osm_way_ids": [
+            1043121078,
+            1315543363
+          ],
+          "walk_from_hq_m": 1151,
+          "name": "M2 Zendmast Vaartverbinding",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "40d2643e-d71e-52b6-8bff-94edf000ecc1",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9367343,
+          "longitude": 4.3590051,
+          "activation_radius_meters": 20,
+          "osm_node_id": 8137064103,
+          "osm_way_ids": [
+            7536090,
+            1330163701
+          ],
+          "walk_from_hq_m": 993,
+          "name": "M3 Zendmast Holy Live",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "1b46e301-cf0d-5e13-943f-37e60c2e24ed",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9457832,
+          "longitude": 4.349606,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1588888931,
+          "osm_way_ids": [
+            145476484,
+            146404602
+          ],
+          "walk_from_hq_m": 690,
+          "name": "M4 Zendmast Wereldsport",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "9aa72668-9a55-5bcc-981e-d0fb920f6943",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9417475,
+          "longitude": 4.3486517,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1895318456,
+          "osm_way_ids": [
+            179183814,
+            1332584309
+          ],
+          "walk_from_hq_m": 641,
+          "name": "M5 Zendmast Oostsignaal",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "cddd8c75-1b84-5e99-857f-6c0ce2b0ad43",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9387256,
+          "longitude": 4.3540365,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44495966,
+          "osm_way_ids": [
+            7536013,
+            7536049,
+            7536052,
+            1285669461
+          ],
+          "walk_from_hq_m": 834,
+          "name": "M6 Zendmast Polderlink",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "27f66319-2369-5d37-ba80-e6c5586d8608",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9401246,
+          "longitude": 4.3591946,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528864078,
+          "osm_way_ids": [
+            941622385
+          ],
+          "walk_from_hq_m": 573,
+          "name": "M7 Zendmast Parkhart noord",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "7c30f8ff-36f1-515a-87fc-039097dfd476",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.943658,
+          "longitude": 4.3520319,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1588888899,
+          "osm_way_ids": [
+            145476488
+          ],
+          "walk_from_hq_m": 395,
+          "name": "M8 Zendmast Parkhart zuid",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "56e4b3ad-2dbc-57fc-b175-0c13467cf82c",
+          "type": "PHOTO_POINT",
+          "latitude": 51.941026,
+          "longitude": 4.3525044,
+          "activation_radius_meters": 20,
+          "osm_node_id": 3363002511,
+          "osm_way_ids": [
+            329421320
+          ],
+          "walk_from_hq_m": 574,
+          "name": "F1 Foto Menselijke wifi",
+          "description": "Maak met het hele team een wifi-symbool: vorm drie oplopende signaalbogen met jullie armen. Iedereen staat herkenbaar op de foto. Laat zien dat jullie bereik werelds is. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "ab9cbdfd-fc81-5799-ad8c-f7129601064e",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9367177,
+          "longitude": 4.3520839,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528805772,
+          "osm_way_ids": [
+            156399985,
+            456623479,
+            1289429804
+          ],
+          "walk_from_hq_m": 1166,
+          "name": "F2 Foto Bevroren livestream",
+          "description": "Beeld met alle teamleden een totaal bevroren livestream uit. Hoe ongemakkelijker de gezichten, hoe beter. Iedereen blijft met de voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "73d78617-353c-51f8-9e4c-3c39252e59f5",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9397046,
+          "longitude": 4.3497414,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528837588,
+          "osm_way_ids": [
+            456626543
+          ],
+          "walk_from_hq_m": 966,
+          "name": "F3 Foto Offline kampvuur",
+          "description": "Maak een denkbeeldig kampvuur met alleen houdingen en gezichten: vuur, rook, kok en hongerige scouts. Gebruik geen echt vuur. Iedereen staat op de teamfoto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "ba8241a2-b7a9-570b-81e0-859e93402428",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9367691,
+          "longitude": 4.3556186,
+          "activation_radius_meters": 20,
+          "osm_node_id": 8197442577,
+          "osm_way_ids": [
+            456623475,
+            881420461
+          ],
+          "walk_from_hq_m": 1014,
+          "name": "F4 Foto Scouting-albumcover",
+          "description": "Maak een albumcover voor jullie internationale scoutband. Vorm samen een hart of een wereldcirkel en geef ieder teamlid een eigen overdreven rocksterpose. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "fef9abe3-07a8-5acd-8eef-0a6517a3ae30",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9384667,
+          "longitude": 4.3575067,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12315948356,
+          "osm_way_ids": [
+            1331107017
+          ],
+          "walk_from_hq_m": 859,
+          "name": "F5 Foto Sportcommentatoren",
+          "description": "Beeld een sportuitzending uit zonder echte wedstrijd: één commentator praat overdreven, één scout is de camera en de rest viert een denkbeeldig doelpunt. Iedereen staat herkenbaar op de teamfoto, met voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "0f18cb92-e63f-510a-a659-ee2b37071b55",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9401988,
+          "longitude": 4.3559487,
+          "activation_radius_meters": 20,
+          "osm_node_id": 11935848428,
+          "osm_way_ids": [
+            694517051
+          ],
+          "walk_from_hq_m": 590,
+          "name": "F6 Foto Robotupdate",
+          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "591c3007-f5e4-5d69-8b93-3933b2af904d",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9453885,
+          "longitude": 4.3529577,
+          "activation_radius_meters": 20,
+          "osm_node_id": 7146793886,
+          "osm_way_ids": [
+            145476483
+          ],
+          "walk_from_hq_m": 658,
+          "name": "F7 Foto Kapotte antenne",
+          "description": "Beeld met jullie hele team een zelfgebouwde zendmast uit. Eén persoon is de presentator, de anderen zijn de antenneonderdelen. Alle voeten blijven op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "6d9795bf-0a47-5d9f-b7f8-32dea477c5b7",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9396016,
+          "longitude": 4.3470065,
+          "activation_radius_meters": 20,
+          "osm_node_id": 11881274692,
+          "osm_way_ids": [
+            156264555,
+            1279905031
+          ],
+          "walk_from_hq_m": 959,
+          "name": "F8 Foto Wereldgroet",
+          "description": "Doe alsof jullie zojuist contact hebben met scouts aan de andere kant van de wereld. Maak een juichende teamselfie met een duidelijk scoutsgebaar. Iedereen doet mee. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "2dc72033-66e6-5ca6-8c26-ca66449029ee",
+          "type": "PUZZLE",
+          "latitude": 51.9384158,
+          "longitude": 4.3513215,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12176980093,
+          "osm_way_ids": [
+            1315546420
+          ],
+          "walk_from_hq_m": 973,
+          "name": "P1 Puzzel Scoutcode",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Lees het NAVO-spelalfabet: Sierra â€“ Charlie â€“ Oscar â€“ Uniform â€“ Tango. Welke vijf letters vormen samen het woord? Antwoord met alleen dat woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$tNBLQftoEAN6ltpbWQXrRA$PzuUArf0WgvY+vXEGWNpK8tbiFI6OIyHYQWU2uPAQOU",
+          "max_attempts": 4
+        },
+        {
+          "id": "d8d529ee-15b6-5c3a-ac80-d4a611152b4b",
+          "type": "PUZZLE",
+          "latitude": 51.941478,
+          "longitude": 4.3578571,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44509573,
+          "osm_way_ids": [
+            456629399,
+            874020765
+          ],
+          "walk_from_hq_m": 383,
+          "name": "P2 Puzzel Morsecontact",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Ontcijfer de morsecode: .--- / --- / - / .. . Iedere schuine streep scheidt een letter. Welk scouting-evenement lees je? Antwoord met de vier letters.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$RoILWkJlipBEu/kxudHFjw$UDYTjBFRV+AZdQDRT43rKW+2z8eXnahRHpfJcU59+wM",
+          "max_attempts": 4
+        },
+        {
+          "id": "e77abe0d-add1-5c0c-9c37-6f4800b7fae0",
+          "type": "PUZZLE",
+          "latitude": 51.9422747,
+          "longitude": 4.3510317,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12334996389,
+          "osm_way_ids": [
+            1333251254
+          ],
+          "walk_from_hq_m": 453,
+          "name": "P3 Puzzel Vriend op afstand",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Gebruik A=1, B=2, ... Z=26. Decodeer 22-18-9-5-14-4. Antwoord met alleen het Nederlandse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$9Do9jq4Br++64i5+D/vmbQ$SEGj4FD5Z6jQrWoC9mGzuKmmGYR2hOnc3pSDBKw7Doc",
+          "max_attempts": 4
+        },
+        {
+          "id": "c6d742c2-d4e2-5a73-bf5c-ff37e2b1ded7",
+          "type": "PUZZLE",
+          "latitude": 51.9422143,
+          "longitude": 4.3536561,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12339737489,
+          "osm_way_ids": [
+            7534649,
+            1333769056
+          ],
+          "walk_from_hq_m": 424,
+          "name": "P4 Puzzel Een bericht in bits",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 80,
+          "question": "Deze vier ASCII-bytes vormen een woord: 01010111 01001001 01000110 01001001. Een ASCII-letter A is 01000001. Welk woord lees je? Antwoord met vier letters.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$KJIIEfNcpR/pGiH64CkTww$vp4p0wS2nlaQSH1Kn0YUPvWViI1MUrt13kZa1IdCMXY",
+          "max_attempts": 4
+        },
+        {
+          "id": "2be0e52c-49a3-5a3c-b442-253ca0b4358a",
+          "type": "PUZZLE",
+          "latitude": 51.9438488,
+          "longitude": 4.3549254,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44521450,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 527,
+          "name": "P5 Puzzel Iedereen verbonden",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60,
+          "question": "Vijf scoutteams maken ieder Ã©Ã©n verbinding met elk ander team. Een verbinding A-B telt hetzelfde als B-A. Hoeveel verschillende verbindingen zijn er? Antwoord met alleen het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s+Wa1/yZREYHOB4kWF8vfw$S9942u+FQMzgAOd7OiT4FtBsOprQxpkcUtYqTwd2m9Q",
+          "max_attempts": 4
+        },
+        {
+          "id": "fdf323b8-1164-53b2-b7b6-5a973787c5bd",
+          "type": "PUZZLE",
+          "latitude": 51.9395967,
+          "longitude": 4.3523888,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12327044601,
+          "osm_way_ids": [
+            1332437090
+          ],
+          "walk_from_hq_m": 776,
+          "name": "P6 Puzzel Tijdzone-reporter",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Bij het wereldcontact is het 12:00 UTC. De andere groep gebruikt UTC+3. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt, bijvoorbeeld 0900.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$byU4hVdqyHcvTv1BvN8htg$ZCG8bASA3JnOij5lA4hxT+3X7cP39OrpHC52wr/X4FE",
+          "max_attempts": 4
+        },
+        {
+          "id": "245b6c3a-678c-5a39-aaf0-c53452d4092e",
+          "type": "PUZZLE",
+          "latitude": 51.9374739,
+          "longitude": 4.353705,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12326779357,
+          "osm_way_ids": [
+            1332407536
+          ],
+          "walk_from_hq_m": 1012,
+          "name": "P7 Puzzel Reken het bereik uit",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Een zendmast geeft 5 volgers per minuut. Jullie bezitten hem precies 7 minuten; de laatste 2 minuten tellen dubbel door een bonus. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$p6C1IG4Vkn0YlRa46fToww$YjD+ZviEwQMPGv7vcmnmy5jx5Rpo2Rvp0/u9cNHbUTo",
+          "max_attempts": 4
+        },
+        {
+          "id": "a3fe6aea-72b9-5eec-ab9a-b9e3cdeedd6c",
+          "type": "PUZZLE",
+          "latitude": 51.9371322,
+          "longitude": 4.3501678,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528805776,
+          "osm_way_ids": [
+            456623479
+          ],
+          "walk_from_hq_m": 1192,
+          "name": "P8 Puzzel Veilig wereldcontact",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Welke reactie past bij veilig JOTI-contact? A: je huisadres delen. B: je groep en land noemen zonder privÃ©gegevens. C: je wachtwoord delen. Antwoord met alleen A, B of C.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$2PiGkUV0qdw2Zwd3eGkxXw$Sr1NEbv0uHtXlrSZAyrhDjYtqpeBe8QbgtLgq+3Jk9g",
+          "max_attempts": 4
+        },
+        {
+          "id": "ad651b28-ec35-5fb4-9f90-33c87aa96ebf",
+          "type": "SCANNER_POINT",
+          "latitude": 51.9413196,
+          "longitude": 4.3550674,
+          "activation_radius_meters": 20,
+          "osm_node_id": 6521432460,
+          "osm_way_ids": [
+            7535987
+          ],
+          "walk_from_hq_m": 417,
+          "name": "S1 Scanner Parkradar",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 0
+        },
+        {
+          "id": "725028bd-3492-5a1c-ba16-b82f36ff8915",
+          "type": "SCANNER_POINT",
+          "latitude": 51.9408551,
+          "longitude": 4.3502602,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12328374463,
+          "osm_way_ids": [
+            694517069,
+            1332581281
+          ],
+          "walk_from_hq_m": 655,
+          "name": "S2 Scanner Allart-radar",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 0
+        },
+        {
+          "id": "51cd42c9-781b-5104-a515-c4fdb01caab8",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 1 · De Verkenner",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9402498,
+          "longitude": 4.3539986,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 1,
+          "nfc_serial_hash": "ba5ecfe7317ce780a1b80793f8b8a96a1ae1fa78b0997aeec74c77f0f96bf8bc",
+          "osm_node_id": 8137135879,
+          "osm_way_ids": [
+            874020768
+          ],
+          "walk_from_hq_m": 617
+        },
+        {
+          "id": "954ceec7-6f9d-5d8a-8655-34f48111c62e",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 2 · De Wandelaar",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9379404,
+          "longitude": 4.355782,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 2,
+          "nfc_serial_hash": "0681515dd10387ca587e5c0d670c04337ddbf568118fd9c1be4c4c8f61ce921c",
+          "osm_node_id": 12320929252,
+          "osm_way_ids": [
+            1331658526
+          ],
+          "walk_from_hq_m": 873
+        },
+        {
+          "id": "caa1e460-b051-59b7-80df-3a33db69e82d",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 3 · De Kok",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9386951,
+          "longitude": 4.3489501,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 3,
+          "nfc_serial_hash": "cb86a040b58462c3d54169f8b5a9edf629ad604787aa9579bb87fa191300f2d4",
+          "osm_node_id": 8308340888,
+          "osm_way_ids": [
+            1043121078,
+            1315545522
+          ],
+          "walk_from_hq_m": 1000
+        },
+        {
+          "id": "577fa4a8-f9f4-55c9-90bd-d7e78c355bdf",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 4 · De Kampvuurmeester",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9406651,
+          "longitude": 4.34746,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 4,
+          "nfc_serial_hash": "4bd14fb916e1e4ce3822b10bad38fe84973853dc8700f8e51fdeae1089fe3185",
+          "osm_node_id": 12150025288,
+          "osm_way_ids": [
+            1312635615
+          ],
+          "walk_from_hq_m": 906
+        },
+        {
+          "id": "0e9c2a2f-4abb-5d92-8989-8a6815519ee8",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 5 · De Slaapkop",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9373779,
+          "longitude": 4.3576131,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 5,
+          "nfc_serial_hash": "3df2ce85be76f6d74a3ebdb1adaecc4d6060b9265d6658244ad2c62266579c20",
+          "osm_node_id": 8137081045,
+          "osm_way_ids": [
+            1284526120
+          ],
+          "walk_from_hq_m": 952
+        },
+        {
+          "id": "dcc8d0a0-00b6-5165-817d-567aa3678c32",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 6 · De Kanovaarder",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9385371,
+          "longitude": 4.3592,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 6,
+          "nfc_serial_hash": "656dc873af8d14d7eca703a69f898d426558428eb8ae1584dc0515225e378bdf",
+          "osm_node_id": 44495001,
+          "osm_way_ids": [
+            7536022,
+            7536048,
+            7536059
+          ],
+          "walk_from_hq_m": 764
+        },
+        {
+          "id": "6233d5be-d577-57f5-a49d-837e0e5b9d9f",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 7 · De Zeeverkenner",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.939488,
+          "longitude": 4.357292,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 7,
+          "nfc_serial_hash": "e1d6ea8c8942223c22c6a881612aab10df30de90f3586d0f912b4b4be953bbdc",
+          "osm_node_id": 44499448,
+          "osm_way_ids": [
+            7535920,
+            694517048,
+            694517050
+          ],
+          "walk_from_hq_m": 668
+        },
+        {
+          "id": "246fccd8-cda9-52f9-90f7-b99f06dc7b4e",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 8 · De Ontdekkingsreiziger",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9389612,
+          "longitude": 4.3558353,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 8,
+          "nfc_serial_hash": "5a0ccc97070615c45c99f6fa16020d8fc70bb90caf692910e494c40cf4d592cf",
+          "osm_node_id": 11933006743,
+          "osm_way_ids": [
+            1286564828
+          ],
+          "walk_from_hq_m": 739
+        },
+        {
+          "id": "169004bc-5b5c-5a7f-be9b-7083a0ef9fa3",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 9 · De Piraat",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9449419,
+          "longitude": 4.3504717,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 9,
+          "nfc_serial_hash": "2f2a4660fc5f84e728765e50d544522b8ff2943dd402932d1ab13c77b963646f",
+          "osm_node_id": 1588888920,
+          "osm_way_ids": [
+            456628542
+          ],
+          "walk_from_hq_m": 575
+        },
+        {
+          "id": "8224e3e5-cad3-5e0f-891f-bf7f1d253ffa",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 10 · De Speurneus",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9427959,
+          "longitude": 4.3496933,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 10,
+          "nfc_serial_hash": "95337a91f6bcabc74ad6ad2193d289aeab1228c1b6b545f43b4767a285c355a2",
+          "osm_node_id": 44516314,
+          "osm_way_ids": [
+            7534648
+          ],
+          "walk_from_hq_m": 521
+        },
+        {
+          "id": "a4c63581-b15d-5323-99dd-056a8cf4f8b9",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 11 · De Tovenaar",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9434768,
+          "longitude": 4.3564038,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 11,
+          "nfc_serial_hash": "b000ea39b4eec6c10e02f01221ac1761fabcc3ec8398e4e03d4790ac1b269050",
+          "osm_node_id": 44519411,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 496
+        },
+        {
+          "id": "9232d0d9-f141-581b-8b57-b3f6d354397c",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 12 · De Waterrat",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9406132,
+          "longitude": 4.357269,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 12,
+          "nfc_serial_hash": "84b0084d230cf68b394f878805b0c04d7784f96c43e0bd633c976536249d0535",
+          "osm_node_id": 3363002518,
+          "osm_way_ids": [
+            329421306,
+            694517047
+          ],
+          "walk_from_hq_m": 521
+        },
+        {
+          "id": "d556e1ae-8f6b-58b5-9647-b6b00b6f3db8",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 13 · De Kampvuurzanger",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9410878,
+          "longitude": 4.3591947,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 13,
+          "nfc_serial_hash": "48099d706ef154fabe6618446ca8d75fca798c3b50f5f229f494e607dca0013a",
+          "osm_node_id": 5573806001,
+          "osm_way_ids": [
+            491279169,
+            582937425,
+            582937426
+          ],
+          "walk_from_hq_m": 922
+        },
+        {
+          "id": "9477d7c8-c1c9-5e93-a455-36d775ff94e9",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 14 · De Pionier",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.938024,
+          "longitude": 4.3499754,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 14,
+          "nfc_serial_hash": "cd011fb0520f6bbcd826980190c5fbb19a72df68741b8219c372431ef69e78a4",
+          "osm_node_id": 2331073839,
+          "osm_way_ids": [
+            224289315,
+            456623758,
+            456623759
+          ],
+          "walk_from_hq_m": 1068
+        },
+        {
+          "id": "75d1681d-a332-53fd-a842-c61982d6d676",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 15 · De Nachthiker",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9427795,
+          "longitude": 4.3523388,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 15,
+          "nfc_serial_hash": "b754c84955d731a327e5b6cbf04482d6be13bc0a98022275473d740b5e09511c",
+          "osm_node_id": 11933073387,
+          "osm_way_ids": [
+            7534649,
+            1286574944
+          ],
+          "walk_from_hq_m": 333
+        },
+        {
+          "id": "2b7c2d74-4408-5f09-af5b-eea85e0352f9",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 16 · De Wintereend",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9430086,
+          "longitude": 4.3543057,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 16,
+          "nfc_serial_hash": "17520cd2e02a9f53c8d326f0dc7e6fadbf4aa781ae44b6c7385b3ef53a2cdaad",
+          "osm_node_id": 12286023857,
+          "osm_way_ids": [
+            7534997,
+            1327935605
+          ],
+          "walk_from_hq_m": 212
+        },
+        {
+          "id": "6fa15f8a-5ead-5017-8465-2ff62acb23ff",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 17 · De Bosloper",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9399845,
+          "longitude": 4.348445,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 17,
+          "nfc_serial_hash": "f021a1e90a944e1be5b85dc5b68901b06cbfa28a123ed5b8a9b98c99f95c2a8f",
+          "osm_node_id": 4528838292,
+          "osm_way_ids": [
+            456626530
+          ],
+          "walk_from_hq_m": 853
+        },
+        {
+          "id": "3d660f3a-d3a0-5bd0-a01d-fd89cae76c3c",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 18 · De Spelleider",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9399024,
+          "longitude": 4.3510728,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 18,
+          "nfc_serial_hash": "a62a16d2876e156b96957c55e49a757ce0cda76d8556a02ffdd375212181f965",
+          "osm_node_id": 12328347595,
+          "osm_way_ids": [
+            1332579540
+          ],
+          "walk_from_hq_m": 834
+        },
+        {
+          "id": "bdf366bd-98fd-505e-a440-321cdc85117f",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 19 · De Vaandeldrager",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9375508,
+          "longitude": 4.3518908,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 19,
+          "nfc_serial_hash": "bb5a02e8c200bd454f43c600e4ccc0a2c0951ee99211d9fb48be405acbab9d98",
+          "osm_node_id": 12176980099,
+          "osm_way_ids": [
+            1315546420
+          ],
+          "walk_from_hq_m": 1077
+        },
+        {
+          "id": "a55036f0-eeca-5a73-8ca1-cc3320eee97a",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 20 · De Feesteend",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9422335,
+          "longitude": 4.3572869,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 20,
+          "nfc_serial_hash": "8f55f51bc3ebfe66fa0d35742507518d7b868349ab4b7917a59eec848c10b346",
+          "osm_node_id": 44513606,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 345
+        }
+      ]
+    },
+    {
+      "key": "B",
+      "code": "RONDE-B",
+      "name": "Ronde B",
+      "theme": "Herstel het wereldnetwerk",
+      "recommended_minutes": 90,
+      "route": [],
+      "walking_loop_m": null,
+      "objects": [
+        {
+          "id": "efd8b1c4-a1c8-5f45-b544-2beed900029a",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9426168,
+          "longitude": 4.3557871,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12282108098,
+          "osm_way_ids": [
+            7534997,
+            1327935602
+          ],
+          "walk_from_hq_m": 208,
+          "name": "M1 Zendmast Vaartcontact",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "82ddba22-41c5-53cc-af99-4e1745178d9c",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9376666,
+          "longitude": 4.3482774,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12176925698,
+          "osm_way_ids": [
+            1043121078,
+            1315543363
+          ],
+          "walk_from_hq_m": 1151,
+          "name": "M2 Zendmast Vaartverbinding",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "1fc65d04-6e4f-523a-9b70-cb30b5b77a9f",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9367343,
+          "longitude": 4.3590051,
+          "activation_radius_meters": 20,
+          "osm_node_id": 8137064103,
+          "osm_way_ids": [
+            7536090,
+            1330163701
+          ],
+          "walk_from_hq_m": 993,
+          "name": "M3 Zendmast Holy Live",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "20b5e2e7-1c48-529d-8af2-774f4978a1b5",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9457832,
+          "longitude": 4.349606,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1588888931,
+          "osm_way_ids": [
+            145476484,
+            146404602
+          ],
+          "walk_from_hq_m": 690,
+          "name": "M4 Zendmast Wereldsport",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "63404edc-10c5-5231-886c-450ad93fdc96",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9417475,
+          "longitude": 4.3486517,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1895318456,
+          "osm_way_ids": [
+            179183814,
+            1332584309
+          ],
+          "walk_from_hq_m": 641,
+          "name": "M5 Zendmast Oostsignaal",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "764441d0-162b-5c16-b9a7-cbf006e6f470",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9387256,
+          "longitude": 4.3540365,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44495966,
+          "osm_way_ids": [
+            7536013,
+            7536049,
+            7536052,
+            1285669461
+          ],
+          "walk_from_hq_m": 834,
+          "name": "M6 Zendmast Polderlink",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "2b44d1da-7c63-50b6-9ea3-01a46496f834",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.9401246,
+          "longitude": 4.3591946,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528864078,
+          "osm_way_ids": [
+            941622385
+          ],
+          "walk_from_hq_m": 573,
+          "name": "M7 Zendmast Parkhart noord",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "0565c8e1-4f9f-582a-947a-f8097eb2a355",
+          "type": "CAPTURE_POINT",
+          "latitude": 51.943658,
+          "longitude": 4.3520319,
+          "activation_radius_meters": 20,
+          "osm_node_id": 1588888899,
+          "osm_way_ids": [
+            145476488
+          ],
+          "walk_from_hq_m": 395,
+          "name": "M8 Zendmast Parkhart zuid",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 30,
+          "capture_seconds": 45,
+          "cooldown_seconds": 300,
+          "points_per_minute": 5
+        },
+        {
+          "id": "d142c591-661c-58d6-93b0-fe76c75728a3",
+          "type": "PHOTO_POINT",
+          "latitude": 51.941026,
+          "longitude": 4.3525044,
+          "activation_radius_meters": 20,
+          "osm_node_id": 3363002511,
+          "osm_way_ids": [
+            329421320
+          ],
+          "walk_from_hq_m": 574,
+          "name": "F1 Foto Het pakketje is verdwaald",
+          "description": "Beeld een dataverbinding uit met jullie hele team. Geef een onzichtbaar pakketje door, maar één router begrijpt er zichtbaar niets van. Alle teamleden staan op de foto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "ae210aa8-8e7d-5eed-992c-87a16fd793b3",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9367177,
+          "longitude": 4.3520839,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528805772,
+          "osm_way_ids": [
+            156399985,
+            456623479,
+            1289429804
+          ],
+          "walk_from_hq_m": 1166,
+          "name": "F2 Foto De robotupdate",
+          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "9f1637db-9681-5ca7-b4a3-d905db5cb4bf",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9397046,
+          "longitude": 4.3497414,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528837588,
+          "osm_way_ids": [
+            456626543
+          ],
+          "walk_from_hq_m": 966,
+          "name": "F3 Foto Error 404: captain kwijt",
+          "description": "Maak een teamfoto waarop de captain zichtbaar is, maar iedereen overdreven de verkeerde kant op zoekt. De captain kijkt recht naar de camera. Iedereen is herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "36c91462-fa88-5dc4-8919-072630b4ad3d",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9367691,
+          "longitude": 4.3556186,
+          "activation_radius_meters": 20,
+          "osm_node_id": 8197442577,
+          "osm_way_ids": [
+            456623475,
+            881420461
+          ],
+          "walk_from_hq_m": 1014,
+          "name": "F4 Foto Ctrl Alt Del",
+          "description": "Maak drie verschillende herstartposes: Ctrl, Alt en Del. Verdeel de poses over alle teamleden en doe alsof de hele scoutcomputer opnieuw opstart. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "5ca67c70-d2ca-5534-902b-e285626f67db",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9384667,
+          "longitude": 4.3575067,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12315948356,
+          "osm_way_ids": [
+            1331107017
+          ],
+          "walk_from_hq_m": 859,
+          "name": "F5 Foto De eend heeft bereik",
+          "description": "Beeld met het hele team onze tech-eend uit: snavel met handen, antennearmen, overdreven duckfaces. Maak jullie beste scouting-eenden-albumcover. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "aa256633-496a-55c3-b530-63885d1ec315",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9401988,
+          "longitude": 4.3559487,
+          "activation_radius_meters": 20,
+          "osm_node_id": 11935848428,
+          "osm_way_ids": [
+            694517051
+          ],
+          "walk_from_hq_m": 590,
+          "name": "F6 Foto Hallo wereld",
+          "description": "Maak een teamfoto met vijf verschillende manieren van begroeten. Gebruik alleen jullie eigen team, houd het vriendelijk en zorg dat iedereen op de foto staat. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "9eb5747f-2543-54d0-939e-44fd32b2b21c",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9453885,
+          "longitude": 4.3529577,
+          "activation_radius_meters": 20,
+          "osm_node_id": 7146793886,
+          "osm_way_ids": [
+            145476483
+          ],
+          "walk_from_hq_m": 658,
+          "name": "F7 Foto Menselijk laadscherm",
+          "description": "Vorm samen een laadscherm: ieder teamlid laat met een pose een andere laadfase zien, van moe naar volledig opgeladen. Iedereen staat herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "c5bd6c2e-a40b-5e9c-9241-91f2316cb2f4",
+          "type": "PHOTO_POINT",
+          "latitude": 51.9396016,
+          "longitude": 4.3470065,
+          "activation_radius_meters": 20,
+          "osm_node_id": 11881274692,
+          "osm_way_ids": [
+            156264555,
+            1279905031
+          ],
+          "walk_from_hq_m": 959,
+          "name": "F8 Foto Scouts op mute",
+          "description": "Maak een denkbeeldige videogesprekfoto. Iedereen probeert met overdreven gebaren iets uit te leggen, maar jullie microfoon staat uit. Iedereen staat herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60
+        },
+        {
+          "id": "f5160e28-07b6-5fd1-bb31-c3e5f030ccfb",
+          "type": "PUZZLE",
+          "latitude": 51.9384158,
+          "longitude": 4.3513215,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12176980093,
+          "osm_way_ids": [
+            1315546420
+          ],
+          "walk_from_hq_m": 973,
+          "name": "P1 Puzzel De hotspotcode",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Lees het NAVO-spelalfabet: Hotel â€“ Oscar â€“ Tango â€“ Sierra â€“ Papa â€“ Oscar â€“ Tango. Welk woord vormen de beginletters? Antwoord met alleen dat woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$i2eotL+DdIW8A9CDiG5daA$KcA9M6zK4nlqIOvCIo1JAxSnuji/JC8dfpthU2Hy47A",
+          "max_attempts": 4
+        },
+        {
+          "id": "99919106-5fb5-5fea-961d-b1b5884b75cb",
+          "type": "PUZZLE",
+          "latitude": 51.941478,
+          "longitude": 4.3578571,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44509573,
+          "osm_way_ids": [
+            456629399,
+            874020765
+          ],
+          "walk_from_hq_m": 383,
+          "name": "P2 Puzzel Een vriendelijke groet",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Ontcijfer --. / .-. / --- / . / - . Een schuine streep scheidt letters. Welk Nederlands woord ontstaat? Antwoord met het woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$0umQZ909i7k5gx5dmCkDkA$UNasdGFhJ4reagZSGu8g/jpxAlvIQMlq3pwx+kYeLgs",
+          "max_attempts": 4
+        },
+        {
+          "id": "292dde8c-444f-56fe-8708-4d2d9805110a",
+          "type": "PUZZLE",
+          "latitude": 51.9422747,
+          "longitude": 4.3510317,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12334996389,
+          "osm_way_ids": [
+            1333251254
+          ],
+          "walk_from_hq_m": 453,
+          "name": "P3 Puzzel Samen wereldwijd",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Gebruik A=1 tot Z=26. Decodeer 19-1-13-5-14. Antwoord met alleen het Nederlandse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$PgKQjdGOCZdojbvYlmTdfQ$LxC8F16hyrAsljm9Oe2KXolV5EFpT1DowFFhbkHUKHM",
+          "max_attempts": 4
+        },
+        {
+          "id": "0bc62e35-45e1-5b54-a4ce-f78b844d95f0",
+          "type": "PUZZLE",
+          "latitude": 51.9422143,
+          "longitude": 4.3536561,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12339737489,
+          "osm_way_ids": [
+            7534649,
+            1333769056
+          ],
+          "walk_from_hq_m": 424,
+          "name": "P4 Puzzel Hello in bits",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 80,
+          "question": "Deze ASCII-bytes vormen een Engelse begroeting: 01001000 01000101 01001100 01001100 01001111. Een ASCII-letter A is 01000001. Antwoord met het Engelse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$WaPldqcsBdEXhIDM7l082Q$C1HTV8M6NVY1XlIpiD/Di0q1h6n/NqGQvkMZ0i0s0oM",
+          "max_attempts": 4
+        },
+        {
+          "id": "8ed1000b-54fc-5689-9e22-c292053477b6",
+          "type": "PUZZLE",
+          "latitude": 51.9438488,
+          "longitude": 4.3549254,
+          "activation_radius_meters": 20,
+          "osm_node_id": 44521450,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 527,
+          "name": "P5 Puzzel Zes kanalen tegelijk",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 60,
+          "question": "Zes scoutteams maken ieder Ã©Ã©n verbinding met elk ander team. A-B en B-A zijn dezelfde verbinding. Hoeveel verschillende verbindingen zijn er? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$f3Mqalqwo7cwXG1yXNDc3g$oe99JDM0UWYfm0LVXX6qYC8ldCZP2BFB//87SYDDbjU",
+          "max_attempts": 4
+        },
+        {
+          "id": "b84c7151-00fc-5ff8-9a57-311cbcb8ce84",
+          "type": "PUZZLE",
+          "latitude": 51.9395967,
+          "longitude": 4.3523888,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12327044601,
+          "osm_way_ids": [
+            1332437090
+          ],
+          "walk_from_hq_m": 776,
+          "name": "P6 Puzzel De wereldklok",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Het is 15:30 UTC. Een andere scoutgroep gebruikt UTC-4. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$Xexr//Zl6j/yILBffql1KQ$8YaDfc17g16jUz5eAOAANyTdufDTAhS3oRzrdr6jaoI",
+          "max_attempts": 4
+        },
+        {
+          "id": "f7577de6-6994-5971-9de2-4d5eb6812cac",
+          "type": "PUZZLE",
+          "latitude": 51.9374739,
+          "longitude": 4.353705,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12326779357,
+          "osm_way_ids": [
+            1332407536
+          ],
+          "walk_from_hq_m": 1012,
+          "name": "P7 Puzzel De bonusberekening",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 50,
+          "question": "Een mast geeft 5 volgers per minuut. Jullie bezitten hem precies 8 minuten, waarvan de laatste 3 minuten dubbel tellen. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s0GNghGTWwS2VKkea58ZvQ$3jbWKpfE7bqpQxbt7aGrIvQR17wnvwn/r7hTYIQypbM",
+          "max_attempts": 4
+        },
+        {
+          "id": "b93fe8c8-7f76-54e3-a3ca-aedf9e43b6aa",
+          "type": "PUZZLE",
+          "latitude": 51.9371322,
+          "longitude": 4.3501678,
+          "activation_radius_meters": 20,
+          "osm_node_id": 4528805776,
+          "osm_way_ids": [
+            456623479
+          ],
+          "walk_from_hq_m": 1192,
+          "name": "P8 Puzzel Iedereen welkom",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 40,
+          "question": "Iemand in de internationale chat begrijpt jullie taal niet. Wat doe je? A: uitlachen. B: negeren. C: rustig uitleggen met eenvoudige woorden of vertaling. Antwoord met alleen A, B of C.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$nUhDgg9z0foD2UzketrhIg$Rj6z8Y88xn4h2VmA0tos1PBUNJxpUtZBGggwaY0UtTs",
+          "max_attempts": 4
+        },
+        {
+          "id": "36df03ef-45a3-50f8-bb23-4ec645a5c6c0",
+          "type": "SCANNER_POINT",
+          "latitude": 51.9413196,
+          "longitude": 4.3550674,
+          "activation_radius_meters": 20,
+          "osm_node_id": 6521432460,
+          "osm_way_ids": [
+            7535987
+          ],
+          "walk_from_hq_m": 417,
+          "name": "S1 Scanner Parkradar",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 0
+        },
+        {
+          "id": "bd3176ac-d9c5-533f-9cbb-a92d6447045c",
+          "type": "SCANNER_POINT",
+          "latitude": 51.9408551,
+          "longitude": 4.3502602,
+          "activation_radius_meters": 20,
+          "osm_node_id": 12328374463,
+          "osm_way_ids": [
+            694517069,
+            1332581281
+          ],
+          "walk_from_hq_m": 655,
+          "name": "S2 Scanner Allart-radar",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "reward_points": 0
+        },
+        {
+          "id": "b7b6cdee-91ab-5d93-adf6-b61c8000dec5",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 1 · De Verkenner",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9402498,
+          "longitude": 4.3539986,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 1,
+          "nfc_serial_hash": "ba5ecfe7317ce780a1b80793f8b8a96a1ae1fa78b0997aeec74c77f0f96bf8bc",
+          "osm_node_id": 8137135879,
+          "osm_way_ids": [
+            874020768
+          ],
+          "walk_from_hq_m": 617
+        },
+        {
+          "id": "74e498a3-9240-5c16-83ad-20717d87929f",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 2 · De Wandelaar",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9379404,
+          "longitude": 4.355782,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 2,
+          "nfc_serial_hash": "0681515dd10387ca587e5c0d670c04337ddbf568118fd9c1be4c4c8f61ce921c",
+          "osm_node_id": 12320929252,
+          "osm_way_ids": [
+            1331658526
+          ],
+          "walk_from_hq_m": 873
+        },
+        {
+          "id": "c7207541-ad5d-5491-9191-0a36db331c5f",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 3 · De Kok",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9386951,
+          "longitude": 4.3489501,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 3,
+          "nfc_serial_hash": "cb86a040b58462c3d54169f8b5a9edf629ad604787aa9579bb87fa191300f2d4",
+          "osm_node_id": 8308340888,
+          "osm_way_ids": [
+            1043121078,
+            1315545522
+          ],
+          "walk_from_hq_m": 1000
+        },
+        {
+          "id": "6c29db81-c070-530b-9b1f-7e20dd872e77",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 4 · De Kampvuurmeester",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9406651,
+          "longitude": 4.34746,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 4,
+          "nfc_serial_hash": "4bd14fb916e1e4ce3822b10bad38fe84973853dc8700f8e51fdeae1089fe3185",
+          "osm_node_id": 12150025288,
+          "osm_way_ids": [
+            1312635615
+          ],
+          "walk_from_hq_m": 906
+        },
+        {
+          "id": "fb87f068-1dcc-5dfe-9d8a-d40a0a837949",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 5 · De Slaapkop",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9373779,
+          "longitude": 4.3576131,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 5,
+          "nfc_serial_hash": "3df2ce85be76f6d74a3ebdb1adaecc4d6060b9265d6658244ad2c62266579c20",
+          "osm_node_id": 8137081045,
+          "osm_way_ids": [
+            1284526120
+          ],
+          "walk_from_hq_m": 952
+        },
+        {
+          "id": "18df5b82-614a-56a1-a449-a500585cac32",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 6 · De Kanovaarder",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9385371,
+          "longitude": 4.3592,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 6,
+          "nfc_serial_hash": "656dc873af8d14d7eca703a69f898d426558428eb8ae1584dc0515225e378bdf",
+          "osm_node_id": 44495001,
+          "osm_way_ids": [
+            7536022,
+            7536048,
+            7536059
+          ],
+          "walk_from_hq_m": 764
+        },
+        {
+          "id": "b6c83634-5798-52ef-8abb-29660dcb6e84",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 7 · De Zeeverkenner",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.939488,
+          "longitude": 4.357292,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 7,
+          "nfc_serial_hash": "e1d6ea8c8942223c22c6a881612aab10df30de90f3586d0f912b4b4be953bbdc",
+          "osm_node_id": 44499448,
+          "osm_way_ids": [
+            7535920,
+            694517048,
+            694517050
+          ],
+          "walk_from_hq_m": 668
+        },
+        {
+          "id": "374933e2-2c41-5e34-abe3-e3fec7a6ba65",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 8 · De Ontdekkingsreiziger",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9389612,
+          "longitude": 4.3558353,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 8,
+          "nfc_serial_hash": "5a0ccc97070615c45c99f6fa16020d8fc70bb90caf692910e494c40cf4d592cf",
+          "osm_node_id": 11933006743,
+          "osm_way_ids": [
+            1286564828
+          ],
+          "walk_from_hq_m": 739
+        },
+        {
+          "id": "609c1ea1-7a63-5993-9fe7-fb0bdec9ea14",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 9 · De Piraat",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9449419,
+          "longitude": 4.3504717,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 9,
+          "nfc_serial_hash": "2f2a4660fc5f84e728765e50d544522b8ff2943dd402932d1ab13c77b963646f",
+          "osm_node_id": 1588888920,
+          "osm_way_ids": [
+            456628542
+          ],
+          "walk_from_hq_m": 575
+        },
+        {
+          "id": "ada18b96-118b-5f6c-825a-2ce73f6a8efe",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 10 · De Speurneus",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9427959,
+          "longitude": 4.3496933,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 10,
+          "nfc_serial_hash": "95337a91f6bcabc74ad6ad2193d289aeab1228c1b6b545f43b4767a285c355a2",
+          "osm_node_id": 44516314,
+          "osm_way_ids": [
+            7534648
+          ],
+          "walk_from_hq_m": 521
+        },
+        {
+          "id": "b72ce345-9528-5699-9c67-92dc8cf04665",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 11 · De Tovenaar",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9434768,
+          "longitude": 4.3564038,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 11,
+          "nfc_serial_hash": "b000ea39b4eec6c10e02f01221ac1761fabcc3ec8398e4e03d4790ac1b269050",
+          "osm_node_id": 44519411,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 496
+        },
+        {
+          "id": "7225ff4f-a575-59ea-91fe-6ce1c6ba4d6c",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 12 · De Waterrat",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9406132,
+          "longitude": 4.357269,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 12,
+          "nfc_serial_hash": "84b0084d230cf68b394f878805b0c04d7784f96c43e0bd633c976536249d0535",
+          "osm_node_id": 3363002518,
+          "osm_way_ids": [
+            329421306,
+            694517047
+          ],
+          "walk_from_hq_m": 521
+        },
+        {
+          "id": "8abf8d79-3288-56ca-92b8-22089f42adec",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 13 · De Kampvuurzanger",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9410878,
+          "longitude": 4.3591947,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 13,
+          "nfc_serial_hash": "48099d706ef154fabe6618446ca8d75fca798c3b50f5f229f494e607dca0013a",
+          "osm_node_id": 5573806001,
+          "osm_way_ids": [
+            491279169,
+            582937425,
+            582937426
+          ],
+          "walk_from_hq_m": 922
+        },
+        {
+          "id": "eccb1a66-142c-5db3-ba38-3c5f4701ef47",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 14 · De Pionier",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.938024,
+          "longitude": 4.3499754,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 14,
+          "nfc_serial_hash": "cd011fb0520f6bbcd826980190c5fbb19a72df68741b8219c372431ef69e78a4",
+          "osm_node_id": 2331073839,
+          "osm_way_ids": [
+            224289315,
+            456623758,
+            456623759
+          ],
+          "walk_from_hq_m": 1068
+        },
+        {
+          "id": "29af98e3-eec9-5c63-9e0f-97d7fea65772",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 15 · De Nachthiker",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9427795,
+          "longitude": 4.3523388,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 15,
+          "nfc_serial_hash": "b754c84955d731a327e5b6cbf04482d6be13bc0a98022275473d740b5e09511c",
+          "osm_node_id": 11933073387,
+          "osm_way_ids": [
+            7534649,
+            1286574944
+          ],
+          "walk_from_hq_m": 333
+        },
+        {
+          "id": "68cbe99e-6bf2-5bff-ae10-45ad772e3dba",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 16 · De Wintereend",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9430086,
+          "longitude": 4.3543057,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 16,
+          "nfc_serial_hash": "17520cd2e02a9f53c8d326f0dc7e6fadbf4aa781ae44b6c7385b3ef53a2cdaad",
+          "osm_node_id": 12286023857,
+          "osm_way_ids": [
+            7534997,
+            1327935605
+          ],
+          "walk_from_hq_m": 212
+        },
+        {
+          "id": "da035117-317b-536e-b5cd-0028bebbba6f",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 17 · De Bosloper",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9399845,
+          "longitude": 4.348445,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 17,
+          "nfc_serial_hash": "f021a1e90a944e1be5b85dc5b68901b06cbfa28a123ed5b8a9b98c99f95c2a8f",
+          "osm_node_id": 4528838292,
+          "osm_way_ids": [
+            456626530
+          ],
+          "walk_from_hq_m": 853
+        },
+        {
+          "id": "fe83e14c-2af8-50f5-87d8-647da13c93aa",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 18 · De Spelleider",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9399024,
+          "longitude": 4.3510728,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 18,
+          "nfc_serial_hash": "a62a16d2876e156b96957c55e49a757ce0cda76d8556a02ffdd375212181f965",
+          "osm_node_id": 12328347595,
+          "osm_way_ids": [
+            1332579540
+          ],
+          "walk_from_hq_m": 834
+        },
+        {
+          "id": "9e80f0a7-f75d-5387-aece-9496894650da",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 19 · De Vaandeldrager",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9375508,
+          "longitude": 4.3518908,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 19,
+          "nfc_serial_hash": "bb5a02e8c200bd454f43c600e4ccc0a2c0951ee99211d9fb48be405acbab9d98",
+          "osm_node_id": 12176980099,
+          "osm_way_ids": [
+            1315546420
+          ],
+          "walk_from_hq_m": 1077
+        },
+        {
+          "id": "6b5d6898-dcab-5bb0-9e4f-fc85a5e10425",
+          "type": "PHYSICAL_DUCK",
+          "name": "Eend 20 · De Feesteend",
+          "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
+          "latitude": 51.9422335,
+          "longitude": 4.3572869,
+          "activation_radius_meters": 20,
+          "reward_points": 50,
+          "duck_number": 20,
+          "nfc_serial_hash": "8f55f51bc3ebfe66fa0d35742507518d7b868349ab4b7917a59eec848c10b346",
+          "osm_node_id": 44513606,
+          "osm_way_ids": [
+            7534652
+          ],
+          "walk_from_hq_m": 345
+        }
+      ]
+    }
+  ],
+  "walking": {
+    "speed_kmh": 4,
+    "route_allowance_m": 100,
+    "max_from_hq_m": 1192,
+    "max_between_points_m": 1672,
+    "minimum_point_spacing_m": 92.7,
+    "meaning": "Walking time excludes searching, solving activities and visiting every point. Routes follow the downloaded public OSM walking network."
+  }
+}

@@ -2,7 +2,8 @@
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from .models import BoardInstallation, CapturePoint, Game, GameObject, GameStatus, ObjectType, PhotoPoint, Puzzle
+from .models import BoardInstallation, CapturePoint, Duck, Game, GameObject, GameStatus, ObjectType, PhotoPoint, Puzzle
+from .services import hash_token
 from .capture_income import settle_capture_income, utc
 from .news import add_news
 
@@ -14,18 +15,20 @@ def normalized(value):
     return value.removeprefix('spelronde')
 
 
-def install_boards(db, pack=None):
+def install_boards(db, pack=None, target_game=None):
     pack = pack or json.loads(PACK_FILE.read_text(encoding='utf-8'))
     results = []
     for board in pack['boards']:
         key = normalized(board['code'])
         games = db.query(Game).all()
-        matching = [game for game in games if normalized(game.game_code) == key]
+        matching = [target_game] if target_game else [game for game in games if normalized(game.game_code) == key]
         if not matching:
             matching = [game for game in games if normalized(game.name) == key]
         if len(matching) > 1:
             raise ValueError(f"Ambiguous game round: {board['name']}")
-        if matching:
+        if target_game:
+            game = target_game
+        elif matching:
             game = db.query(Game).filter_by(id=matching[0].id).with_for_update().one()
         else:
             game = Game(game_code=board['code'], name=board['name'], status=GameStatus.READY)
@@ -67,6 +70,16 @@ def install_boards(db, pack=None):
                 if not puzzle: puzzle = Puzzle(game_object_id=obj.id); db.add(puzzle)
                 puzzle.question = point['question']; puzzle.answer_hash = point['answer_hash']
                 puzzle.reward_points = point['reward_points']; puzzle.max_attempts = point['max_attempts']
+            elif obj.type == ObjectType.PHYSICAL_DUCK:
+                duck = db.query(Duck).filter_by(game_object_id=obj.id).first()
+                if not duck:
+                    import secrets
+                    duck = Duck(game_object_id=obj.id, scan_token_hash=hash_token(secrets.token_urlsafe(24)))
+                    db.add(duck)
+                duck.duck_number = point['duck_number']
+                duck.nfc_serial_hash = point['nfc_serial_hash']
+                duck.reward_points = point['reward_points']
+                duck.search_radius_meters = point['activation_radius_meters']
             elif obj.type != ObjectType.SCANNER_POINT:
                 raise ValueError('This board contains an unsupported activity')
         game.name = board['name']; game.status = GameStatus.READY

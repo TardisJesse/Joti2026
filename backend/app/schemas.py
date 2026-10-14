@@ -1,5 +1,6 @@
 from datetime import datetime
-from pydantic import BaseModel, Field
+from typing import Literal
+from pydantic import BaseModel, Field, model_validator
 
 class LoginInput(BaseModel):
     name: str = Field(min_length=2, max_length=100)
@@ -20,8 +21,23 @@ class LocationInput(BaseModel):
     accuracy: float = Field(ge=0, le=500)
     timestamp: datetime | None = None
 class AnswerInput(BaseModel): answer: str = Field(min_length=1, max_length=500)
-class ScanInput(BaseModel): token: str = Field(min_length=16, max_length=256)
+class ScanInput(BaseModel):
+    token: str | None = Field(default=None, min_length=16, max_length=256)
+    serial_number: str | None = Field(default=None, pattern=r'^(?:[0-9a-fA-F]{14}|(?:[0-9a-fA-F]{2}[:-]){6}[0-9a-fA-F]{2})$')
+    duck_number: int | None = Field(default=None, ge=1, le=20, strict=True)
+
+    @model_validator(mode='after')
+    def one_identifier(self):
+        if sum(value is not None for value in (self.token, self.serial_number, self.duck_number)) != 1:
+            raise ValueError('Supply exactly one duck identifier')
+        return self
 class ImageInput(BaseModel): image: str = Field(min_length=1, max_length=2800000)
+class LoadLocationsInput(BaseModel): layout: Literal['A', 'B']
+class DuckLocationInput(BaseModel):
+    duck_number: int = Field(ge=1, le=20, strict=True)
+    latitude: float = Field(ge=-90, le=90)
+    longitude: float = Field(ge=-180, le=180)
+    activation_radius_meters: int = Field(default=20, ge=5, le=1000)
 
 class GameObjectInput(BaseModel):
     game_id: str = Field(min_length=36, max_length=36)
@@ -41,3 +57,4 @@ class GameObjectInput(BaseModel):
     points_per_minute: int = Field(default=1, ge=1, le=100000)
     cooldown_seconds: int = Field(default=300, ge=0, le=86400)
     search_radius_meters: int = Field(default=50, ge=5, le=1000)
+    duck_number: int | None = Field(default=None, ge=1, le=20, strict=True)
