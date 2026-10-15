@@ -15,17 +15,27 @@ const allartHq = [4.3553432, 51.94281191] as [number, number]
 // Map credits: OpenFreeMap https://openfreemap.org/ · © OpenMapTiles https://openmaptiles.org/
 // Data: © OpenStreetMap contributors https://www.openstreetmap.org/copyright
 const style = 'https://tiles.openfreemap.org/styles/dark'
+// The play area is a geographic circle; its outside is softly blurred rather than outlined.
+const fogStyle = ref<Record<string, string> | null>(null)
 function drawPlayArea() {
   if (!mapReady || !map) return
-  const data = { type: 'FeatureCollection' as const, features: props.playArea ? [{ type: 'Feature' as const, properties: {}, geometry: props.playArea }] : [] }
-  const source = map.getSource('play-area') as GeoJSONSource | undefined
-  if (source) source.setData(data)
-  else {
-    map.addSource('play-area', { type: 'geojson', data })
-    map.addLayer({ id: 'play-area-fill', type: 'fill', source: 'play-area', paint: { 'fill-color': '#ff8b50', 'fill-opacity': 0.025 } })
-    map.addLayer({ id: 'play-area-border', type: 'line', source: 'play-area', paint: { 'line-color': '#ff8b50', 'line-width': 3, 'line-dasharray': [3, 2] } })
-  }
+  const area = props.playArea
+  const coordinates: number[][] = area?.type === 'Polygon' ? area.coordinates.flat() : area?.type === 'MultiPolygon' ? area.coordinates.flat(2) : []
+  const points = coordinates.filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]))
+  if (!points.length) { fogStyle.value = null; return }
+  const lng = (Math.min(...points.map(p => p[0])) + Math.max(...points.map(p => p[0]))) / 2
+  const lat = (Math.min(...points.map(p => p[1])) + Math.max(...points.map(p => p[1]))) / 2
+  const longitudeScale = Math.cos(lat * Math.PI / 180)
+  // Enclose every existing boundary vertex so all current game locations stay clear.
+  const radius = Math.max(...points.map(p => Math.hypot((p[0] - lng) * longitudeScale, p[1] - lat)))
+  const center = map.project([lng, lat])
+  const edge = map.project([lng + radius / longitudeScale, lat])
+  const pixels = Math.hypot(edge.x - center.x, edge.y - center.y)
+  const feather = Math.max(24, pixels * 0.18)
+  const mask = `radial-gradient(circle at ${center.x}px ${center.y}px, transparent ${pixels}px, #000 ${pixels + feather}px)`
+  fogStyle.value = { maskImage: mask, WebkitMaskImage: mask }
 }
+
 function drawCaptureArea() {
   if (!mapReady || !map) return
   const points = props.objects.filter(point => point.type === 'CAPTURE_POINT')
@@ -130,11 +140,12 @@ onMounted(() => {
     if (player) showRadar(); else centerOnFirstGps()
   })
   map.on('click', event => { if (props.editable) emit('place', { latitude: event.lngLat.lat, longitude: event.lngLat.lng }) })
+  map.on('move', drawPlayArea)
   map.on('dragstart', releaseRadar)
   map.on('zoomstart', releaseRadar)
   map.on('rotatestart', releaseRadar)
   map.on('pitchstart', releaseRadar)
-  observer = new ResizeObserver(() => map?.resize())
+  observer = new ResizeObserver(() => { map?.resize(); drawPlayArea() })
   observer.observe(element.value!)
 })
 watch(() => [props.objects, props.locations, props.selectedObject, props.playArea], () => {
@@ -150,4 +161,4 @@ watch(() => [props.objects, props.locations, props.selectedObject, props.playAre
 }, { deep: true })
 onBeforeUnmount(() => { observer?.disconnect(); emit('radarMode', false); map?.remove() })
 </script>
-<template><div ref="element" class="live-map" :class="{ editable }"></div></template>
+<template><div class="live-map" :class="{ editable }"><div ref="element" class="map-surface"></div><div v-if="fogStyle" class="map-area-fog" :style="fogStyle" aria-hidden="true"></div></div></template>

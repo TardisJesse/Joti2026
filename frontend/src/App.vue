@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { api, wsUrl } from './api'
 import GameMap from './components/GameMap.vue'
 import RadarView from './components/RadarView.vue'
@@ -33,7 +33,10 @@ const roundFinished = computed(() => round.value?.status === 'FINISHED' || (roun
 const roundRunning = computed(() => round.value?.status === 'RUNNING' && !roundFinished.value)
 function syncRound(game: Game) { round.value = game; if (game.server_now) clockOffset.value = Date.parse(game.server_now) - Date.now(); now.value = Date.now() }
 const games = ref<Game[]>([]), selectedGameId = ref(''), newGameCode = ref(''), adminSubTab = ref<'rounds'|'objects'>('rounds')
-const form = ref({ type: 'PUZZLE', name: '', description: '', latitude: 0, longitude: 0, activation_radius_meters: 40, reward_points: 500, question: '', answer: '', points_per_minute: 1, capture_seconds: 10, cooldown_seconds: 300, search_radius_meters: 50, duck_number: null as number | null })
+const form = ref({ type: 'PUZZLE', name: '', description: '', latitude: 0, longitude: 0, activation_radius_meters: 40, reward_points: 20, question: '', answer: '', points_per_minute: 5, capture_seconds: 10, cooldown_seconds: 300, search_radius_meters: 50, duck_number: null as number | null })
+const defaultReward = (type: string) => type === 'PHYSICAL_DUCK' ? 50 : type === 'CAPTURE_POINT' ? 5 : type === 'SCANNER_POINT' ? 0 : 20
+const defaultRewardType = computed(() => form.value.type)
+watch(defaultRewardType, type => { if (!editingDuckId.value) form.value.reward_points = defaultReward(type) })
 const duckOptions = ref<{ number: number; name: string; object_id: string | null }[]>([])
 const editingDuckId = ref(''), adminBusy = ref(false)
 const duckChoices = computed(() => duckOptions.value.filter(duck => !duck.object_id || duck.object_id === editingDuckId.value))

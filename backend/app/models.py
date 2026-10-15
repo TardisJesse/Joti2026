@@ -105,9 +105,9 @@ class CapturePoint(IdTimeMixin, Base):
     game_object_id: Mapped[str] = mapped_column(ForeignKey("game_objects.id", ondelete="CASCADE"), unique=True)
     capture_seconds: Mapped[int] = mapped_column(Integer, default=10)
     cooldown_seconds: Mapped[int] = mapped_column(Integer, default=300)
-    capture_reward: Mapped[int] = mapped_column(Integer, default=250)
+    capture_reward: Mapped[int] = mapped_column(Integer, default=5)
     owner_team_id: Mapped[str | None] = mapped_column(ForeignKey("teams.id"), nullable=True)
-    points_per_minute: Mapped[int] = mapped_column(Integer, default=1)
+    points_per_minute: Mapped[int] = mapped_column(Integer, default=5)
     income_updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     income_remainder_seconds: Mapped[float] = mapped_column(Float, default=0)
 
@@ -115,7 +115,7 @@ class CapturePoint(IdTimeMixin, Base):
 class PhotoPoint(IdTimeMixin, Base):
     __tablename__ = "photo_points"
     game_object_id: Mapped[str] = mapped_column(ForeignKey("game_objects.id", ondelete="CASCADE"), unique=True)
-    reward_points: Mapped[int] = mapped_column(Integer, default=500)
+    reward_points: Mapped[int] = mapped_column(Integer, default=20)
 
 
 class PhotoSubmission(IdTimeMixin, Base):
@@ -133,7 +133,7 @@ class Duck(IdTimeMixin, Base):
     scan_token_hash: Mapped[str] = mapped_column(String(512), unique=True)
     duck_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
     nfc_serial_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
-    reward_points: Mapped[int] = mapped_column(Integer, default=500)
+    reward_points: Mapped[int] = mapped_column(Integer, default=50)
     search_radius_meters: Mapped[int] = mapped_column(Integer, default=50)
 
 

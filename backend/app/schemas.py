@@ -40,6 +40,13 @@ class DuckLocationInput(BaseModel):
     activation_radius_meters: int = Field(default=20, ge=5, le=1000)
 
 class GameObjectInput(BaseModel):
+    @model_validator(mode='before')
+    @classmethod
+    def reward_default_for_type(cls, value):
+        if isinstance(value, dict) and 'reward_points' not in value:
+            value = {**value, 'reward_points': {'PHYSICAL_DUCK': 50, 'CAPTURE_POINT': 5, 'SCANNER_POINT': 0}.get(value.get('type'), 20)}
+        return value
+
     game_id: str = Field(min_length=36, max_length=36)
     type: str
     name: str = Field(min_length=2, max_length=160)
@@ -47,14 +54,14 @@ class GameObjectInput(BaseModel):
     latitude: float = Field(ge=-90, le=90)
     longitude: float = Field(ge=-180, le=180)
     activation_radius_meters: int = Field(default=40, ge=5, le=1000)
-    reward_points: int = Field(default=500, ge=0, le=100000)
+    reward_points: int = Field(default=20, ge=0, le=100000)
     question: str | None = Field(default=None, max_length=2000)
     # Capture Points and NFC ducks submit the same form but do not have an answer.
     # Puzzle-specific validation is enforced in the endpoint.
     answer: str | None = Field(default=None, max_length=500)
     max_attempts: int | None = Field(default=None, ge=1, le=100)
     capture_seconds: int = Field(default=10, ge=5, le=3600)
-    points_per_minute: int = Field(default=1, ge=1, le=100000)
+    points_per_minute: int = Field(default=5, ge=1, le=100000)
     cooldown_seconds: int = Field(default=300, ge=0, le=86400)
     search_radius_meters: int = Field(default=50, ge=5, le=1000)
     duck_number: int | None = Field(default=None, ge=1, le=20, strict=True)

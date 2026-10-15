@@ -17,6 +17,7 @@ function mount(locations = []) {
     addLayer(layer) { this.layers.push(layer) }
     on(name, fn) { (this.handlers[name] ||= []).push(fn) }
     fire(name, data = {}) { (this.handlers[name] || []).forEach(fn => fn(data)) }
+    project([lng, lat]) { return { x: 200 + (lng - 4.35) * 10000, y: 200 - (lat - 51.94) * 10000 } }
     addControl() {}
     jumpTo(options) { this.moves.push(options); this.fire('zoomstart'); this.fire('moveend') }
     resize() {}
@@ -35,9 +36,9 @@ function mount(locations = []) {
     ResizeObserver: class { observe() {} disconnect() {} },
   })
   const props = { locations, ownTeamId: 'own', objects: [{ id: 'puzzle', name: 'Testpuzzel', type: 'PUZZLE', longitude: 4.3, latitude: 51.9 }] }
-  module.exports.default.setup(props, { expose: value => exposed = value, emit: (...args) => events.push(args) })
+  const state = module.exports.default.setup(props, { expose: value => exposed = value, emit: (...args) => events.push(args) })
   mounted()
-  return { props, events, pins, map, update: () => update(), load: () => map.fire('load'), dispose: () => dispose(), get actions() { return exposed } }
+  return { state, props, events, pins, map, update: () => update(), load: () => map.fire('load'), dispose: () => dispose(), get actions() { return exposed } }
 }
 const fix = { team_id: 'own', name: 'team-internal-id', team_name: 'Testteam', profile_image: 'data:image/jpeg;base64,test', location: { lat: 51.94, lng: 4.35 } }
 const other = { team_id: 'other', location: { lat: 52, lng: 5 } }
@@ -96,7 +97,12 @@ console.log('Map behavior passed: own GPS, late GPS, manual exploration, recente
 const boundary = { type: 'Polygon', coordinates: [[[4.34,51.93],[4.36,51.93],[4.36,51.95],[4.34,51.93]]] }
 app.props.playArea = boundary
 app.update()
-assert.equal(app.map.sources['play-area'].data.features[0].geometry, boundary, 'Round boundary appears on the map')
+assert.match(app.state.fogStyle.value.maskImage, /radial-gradient\(circle at/, 'The play area uses a circular feathered mask')
+assert.ok(!app.map.layers.some(layer => layer.id === 'play-area-border'), 'No hard play-area border is drawn')
+const maskBeforeMove = app.state.fogStyle.value.maskImage
+app.map.project = ([lng, lat]) => ({ x: 300 + (lng - 4.35) * 20000, y: 300 - (lat - 51.94) * 20000 })
+app.map.fire('move')
+assert.notEqual(app.state.fogStyle.value.maskImage, maskBeforeMove, 'Fog follows map panning and zoom')
 app.props.playArea = undefined
 app.update()
-assert.equal(app.map.sources['play-area'].data.features.length, 0, 'Changing to a round without a boundary clears the old boundary')
+assert.equal(app.state.fogStyle.value, null, 'Changing to a round without a boundary clears the fog')

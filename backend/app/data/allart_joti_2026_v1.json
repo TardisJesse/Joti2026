@@ -172,7 +172,7 @@
           "latitude": 51.9428382,
           "longitude": 4.3550052,
           "activation_radius_meters": 20,
-          "reward_points": 10,
+          "reward_points": 20,
           "osm_node_id": 12286009467,
           "osm_way_ids": [
             7534993
@@ -187,7 +187,7 @@
           "latitude": 51.9428915,
           "longitude": 4.3541338,
           "activation_radius_meters": 20,
-          "reward_points": 10,
+          "reward_points": 20,
           "osm_node_id": 44516848,
           "osm_way_ids": [
             179183814,
@@ -206,7 +206,7 @@
           "latitude": 51.9429455,
           "longitude": 4.3534479,
           "activation_radius_meters": 20,
-          "reward_points": 10,
+          "reward_points": 5,
           "osm_node_id": 12286066486,
           "osm_way_ids": [
             179183814
@@ -214,7 +214,7 @@
           "walk_from_hq_m": 118,
           "capture_seconds": 15,
           "cooldown_seconds": 30,
-          "points_per_minute": 1
+          "points_per_minute": 5
         },
         {
           "id": "b852de29-bb2c-5dcd-8aa9-f7d1519fc8a1",
@@ -239,7 +239,7 @@
           "latitude": 51.9433805,
           "longitude": 4.3523011,
           "activation_radius_meters": 20,
-          "reward_points": 10,
+          "reward_points": 20,
           "osm_node_id": 5825734263,
           "osm_way_ids": [
             768813622,
@@ -255,7 +255,7 @@
           "latitude": 51.9437733,
           "longitude": 4.3538325,
           "activation_radius_meters": 20,
-          "reward_points": 10,
+          "reward_points": 20,
           "osm_node_id": 5825734266,
           "osm_way_ids": [
             768813622
@@ -1137,11 +1137,11 @@
           "id": "97d2c5ba-2ccf-5143-b1c7-10957bdfdf41",
           "type": "CAPTURE_POINT",
           "name": "Mast Wereldvriendschap",
-          "description": "Veenpad oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Veenpad oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9452269,
           "longitude": 4.3527766,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 7146782183,
           "osm_way_ids": [
             145476483
@@ -1155,11 +1155,11 @@
           "id": "22cda073-1dd7-582d-b2dc-7cbacb6223f2",
           "type": "CAPTURE_POINT",
           "name": "Mast ScoutLink",
-          "description": "Veenpad noord. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Veenpad noord. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9480177,
           "longitude": 4.3501913,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1588889023,
           "osm_way_ids": [
             145476485
@@ -1173,11 +1173,11 @@
           "id": "6a88fd87-02a7-52f3-921c-41bac9259938",
           "type": "CAPTURE_POINT",
           "name": "Mast Oceanië",
-          "description": "Vroonweerseweg west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Vroonweerseweg west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9464564,
           "longitude": 4.3427205,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 275364621,
           "osm_way_ids": [
             146404599
@@ -1191,11 +1191,11 @@
           "id": "6b1f1065-c4ce-58f8-a940-ba598b73e5cb",
           "type": "CAPTURE_POINT",
           "name": "Mast Europa",
-          "description": "Veenpad westelijke lus. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Veenpad westelijke lus. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.943678,
           "longitude": 4.3436953,
           "activation_radius_meters": 30,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1596759180,
           "osm_way_ids": [
             146404629
@@ -1209,11 +1209,11 @@
           "id": "d88400ea-b51d-55a7-887e-a308947874f0",
           "type": "CAPTURE_POINT",
           "name": "Mast Allart retour",
-          "description": "Hoevenronde west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Hoevenronde west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.942768,
           "longitude": 4.3500879,
           "activation_radius_meters": 30,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 12286087189,
           "osm_way_ids": [
             7534648
@@ -1231,7 +1231,7 @@
           "latitude": 51.9435829,
           "longitude": 4.3521756,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 7177475110,
           "osm_way_ids": [
             456628539
@@ -1246,7 +1246,7 @@
           "latitude": 51.9475853,
           "longitude": 4.3512769,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 1588888992,
           "osm_way_ids": [
             145476485
@@ -1261,7 +1261,7 @@
           "latitude": 51.9472483,
           "longitude": 4.3428977,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 1596760071,
           "osm_way_ids": [
             146404631
@@ -1276,7 +1276,7 @@
           "latitude": 51.9478114,
           "longitude": 4.3439402,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 275372865,
           "osm_way_ids": [
             437508656
@@ -1291,7 +1291,7 @@
           "latitude": 51.9417421,
           "longitude": 4.3477469,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 1596758550,
           "osm_way_ids": [
             146404609
@@ -1306,7 +1306,7 @@
           "latitude": 51.9426976,
           "longitude": 4.3513688,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 12286066462,
           "osm_way_ids": [
             179183814
@@ -1321,7 +1321,7 @@
           "latitude": 51.9429647,
           "longitude": 4.3529339,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 12286066485,
           "osm_way_ids": [
             179183814
@@ -1339,7 +1339,7 @@
           "latitude": 51.9461468,
           "longitude": 4.3523133,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 12291810442,
           "osm_way_ids": [
             145476483
@@ -1357,7 +1357,7 @@
           "latitude": 51.9488109,
           "longitude": 4.3494269,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 1588889061,
           "osm_way_ids": [
             145476485
@@ -1375,7 +1375,7 @@
           "latitude": 51.9446581,
           "longitude": 4.3423473,
           "activation_radius_meters": 30,
-          "reward_points": 80,
+          "reward_points": 20,
           "osm_node_id": 1596759593,
           "osm_way_ids": [
             146404629
@@ -1393,7 +1393,7 @@
           "latitude": 51.9426092,
           "longitude": 4.3487184,
           "activation_radius_meters": 30,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 12286109062,
           "osm_way_ids": [
             7534648
@@ -1411,7 +1411,7 @@
           "latitude": 51.9424387,
           "longitude": 4.3469531,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 44514152,
           "osm_way_ids": [
             146404609,
@@ -1431,7 +1431,7 @@
           "latitude": 51.9428596,
           "longitude": 4.354412,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 1895318497,
           "osm_way_ids": [
             179183814
@@ -1449,7 +1449,7 @@
           "latitude": 51.9485291,
           "longitude": 4.345049,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 275372868,
           "osm_way_ids": [
             437508656
@@ -2352,11 +2352,11 @@
           "id": "51c95640-6dc4-5b5c-b2fa-9fc1ce1ba9f5",
           "type": "CAPTURE_POINT",
           "name": "Mast Herstart",
-          "description": "Woudhoek zuidwest. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Woudhoek zuidwest. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9456452,
           "longitude": 4.3606657,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 44531392,
           "osm_way_ids": [
             7534752,
@@ -2372,11 +2372,11 @@
           "id": "2e6ef4ae-52e4-52b1-b745-6c697ff347bd",
           "type": "CAPTURE_POINT",
           "name": "Mast Wereldrouter",
-          "description": "Woudhoekpad west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Woudhoekpad west. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.947858,
           "longitude": 4.3594096,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1596760250,
           "osm_way_ids": [
             146404605,
@@ -2391,11 +2391,11 @@
           "id": "46960eba-30cd-5382-87ee-7e72862b9a7e",
           "type": "CAPTURE_POINT",
           "name": "Mast Azië",
-          "description": "Woudhoek noordoost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Woudhoek noordoost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9495478,
           "longitude": 4.3671893,
           "activation_radius_meters": 40,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1588827351,
           "osm_way_ids": [
             145472954,
@@ -2410,11 +2410,11 @@
           "id": "2269e73a-75c4-596f-ae01-e5e0b8dd1eea",
           "type": "CAPTURE_POINT",
           "name": "Mast Afrika",
-          "description": "Woudhoek oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Woudhoek oost. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9475932,
           "longitude": 4.3653532,
           "activation_radius_meters": 30,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1588827181,
           "osm_way_ids": [
             145472976
@@ -2428,11 +2428,11 @@
           "id": "d6223e6a-3cc2-5ccd-85c4-de751b497da6",
           "type": "CAPTURE_POINT",
           "name": "Mast Hallo wereld",
-          "description": "Woudhoekpad zuid. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
+          "description": "Woudhoekpad zuid. Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 5 volgers bij verovering en 5 per minuut zolang je team eigenaar is. De regenboogbonus verdubbelt alleen de minuutinkomsten.",
           "latitude": 51.9459659,
           "longitude": 4.3647912,
           "activation_radius_meters": 30,
-          "reward_points": 30,
+          "reward_points": 5,
           "osm_node_id": 1596759811,
           "osm_way_ids": [
             146404606,
@@ -2451,7 +2451,7 @@
           "latitude": 51.9435387,
           "longitude": 4.3563343,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 6632732343,
           "osm_way_ids": [
             7534652
@@ -2466,7 +2466,7 @@
           "latitude": 51.9486378,
           "longitude": 4.3602136,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 6624901346,
           "osm_way_ids": [
             1015351732
@@ -2481,7 +2481,7 @@
           "latitude": 51.9491909,
           "longitude": 4.3652814,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 12090594111,
           "osm_way_ids": [
             145472969
@@ -2496,7 +2496,7 @@
           "latitude": 51.9483951,
           "longitude": 4.3658327,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 1588827242,
           "osm_way_ids": [
             145472976
@@ -2511,7 +2511,7 @@
           "latitude": 51.9453127,
           "longitude": 4.3637957,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 44529936,
           "osm_way_ids": [
             7534819,
@@ -2527,7 +2527,7 @@
           "latitude": 51.943,
           "longitude": 4.3551,
           "activation_radius_meters": 35,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 44517381,
           "osm_way_ids": [
             7534993
@@ -2542,7 +2542,7 @@
           "latitude": 51.9419254,
           "longitude": 4.3569227,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 44511983,
           "osm_way_ids": [
             179183814,
@@ -2562,7 +2562,7 @@
           "latitude": 51.9471294,
           "longitude": 4.3606706,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 6624901313,
           "osm_way_ids": [
             146404635,
@@ -2581,7 +2581,7 @@
           "latitude": 51.9493214,
           "longitude": 4.3627285,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 1588827334,
           "osm_way_ids": [
             7535004,
@@ -2601,7 +2601,7 @@
           "latitude": 51.9485542,
           "longitude": 4.3643266,
           "activation_radius_meters": 30,
-          "reward_points": 80,
+          "reward_points": 20,
           "osm_node_id": 1588827246,
           "osm_way_ids": [
             145473883
@@ -2619,7 +2619,7 @@
           "latitude": 51.9477346,
           "longitude": 4.3669644,
           "activation_radius_meters": 30,
-          "reward_points": 60,
+          "reward_points": 20,
           "osm_node_id": 1588827183,
           "osm_way_ids": [
             145472989
@@ -2637,7 +2637,7 @@
           "latitude": 51.9447881,
           "longitude": 4.3612089,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 5484099756,
           "osm_way_ids": [
             491213171
@@ -2655,7 +2655,7 @@
           "latitude": 51.9424046,
           "longitude": 4.3559185,
           "activation_radius_meters": 30,
-          "reward_points": 50,
+          "reward_points": 20,
           "osm_node_id": 12282108100,
           "osm_way_ids": [
             179183814
@@ -2673,7 +2673,7 @@
           "latitude": 51.946727,
           "longitude": 4.366894,
           "activation_radius_meters": 30,
-          "reward_points": 40,
+          "reward_points": 20,
           "osm_node_id": 1588827141,
           "osm_way_ids": [
             145472974
