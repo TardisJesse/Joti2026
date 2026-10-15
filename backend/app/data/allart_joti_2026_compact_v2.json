@@ -439,11 +439,11 @@
             39165521
           ],
           "walk_from_hq_m": 558,
-          "name": "P8 Puzzel Veilig wereldcontact",
+          "name": "P8 Puzzel De Caesarcode",
           "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
-          "question": "Welke reactie past bij veilig JOTI-contact? A: je huisadres delen. B: je groep en land noemen zonder privÃ©gegevens. C: je wachtwoord delen. Antwoord met alleen A, B of C.",
-          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$2PiGkUV0qdw2Zwd3eGkxXw$Sr1NEbv0uHtXlrSZAyrhDjYtqpeBe8QbgtLgq+3Jk9g",
+          "question": "Een Caesarcode schuift iedere letter 3 plaatsen vooruit: A wordt D, B wordt E en Z wordt C. Ontcijfer VFRXWLQJ door iedere letter 3 plaatsen terug te schuiven. Antwoord met alleen het woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$A4rUm25C8Fe+Gpkgr8ai8Q$RCw25RCtr6LJyuWxX2nVRd5SQX+UmZWAr+DYZlQqezs",
           "max_attempts": 4
         },
         {
@@ -903,11 +903,11 @@
             39165521
           ],
           "walk_from_hq_m": 558,
-          "name": "P8 Puzzel Iedereen welkom",
+          "name": "P8 Puzzel Het spiegelbericht",
           "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
-          "question": "Iemand in de internationale chat begrijpt jullie taal niet. Wat doe je? A: uitlachen. B: negeren. C: rustig uitleggen met eenvoudige woorden of vertaling. Antwoord met alleen A, B of C.",
-          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$nUhDgg9z0foD2UzketrhIg$Rj6z8Y88xn4h2VmA0tos1PBUNJxpUtZBGggwaY0UtTs",
+          "question": "Een geheime code schrijft woorden van achter naar voren. Voorbeeld: MAET wordt TEAM. Ontcijfer KREWTEN. Antwoord met alleen het Nederlandse woord.",
+          "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$kK7k5gY6gqCD3/0ItTGV3A$JfP0bkPdnMCy0ynWfY6cFIooXQ8ABCuGXNEDYkZps1I",
           "max_attempts": 4
         },
         {
