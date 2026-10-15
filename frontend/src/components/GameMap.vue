@@ -85,13 +85,14 @@ function draw() {
   if (!map) return
   markers.forEach(marker => marker.remove()); markers = []
   for (const item of props.objects) {
-    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.innerHTML = objectIcon(item.type); pin.title = item.name
+    const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'map-pin ' + item.type.toLowerCase(); pin.innerHTML = objectIcon(item.type); pin.title = item.name + (item.completed ? ' · Voltooid door jouw team' : '')
+    if (item.completed) { pin.className += ' is-completed'; const check = document.createElement('span'); check.className = 'completion-check'; check.textContent = '✓'; check.setAttribute('aria-hidden', 'true'); pin.appendChild(check) }
     if (item.bonus_active) { pin.className += ' bonus-location'; pin.title += ' · BONUS: dubbele volgers'; const ring = document.createElement('span'); ring.className = 'bonus-ring'; ring.setAttribute('aria-hidden', 'true'); pin.appendChild(ring) }
-    pin.setAttribute('aria-label', item.name)
+    pin.setAttribute('aria-label', item.name + (item.completed ? ' · Voltooid door jouw team' : ''))
     if (item.type === 'CAPTURE_POINT') { pin.style.background = item.owner_team_color || '#ffcf6a'; pin.style.color = '#031426'; pin.title = item.name + ' · ' + (item.owner_team_name || 'Onbezet') }
     pin.addEventListener('click', event => { event.stopPropagation(); emit('select', item) })
     markers.push(new maplibregl.Marker({ element: pin, anchor: item.type === 'CAPTURE_POINT' ? 'center' : 'bottom' }).setLngLat([item.longitude, item.latitude]).setPopup(new maplibregl.Popup({ offset: 25 }).setText(item.name + ' · ' + item.activation_radius_meters + 'm')).addTo(map))
-    pin.setAttribute('aria-label', item.name)
+    pin.setAttribute('aria-label', item.name + (item.completed ? ' · Voltooid door jouw team' : ''))
   }
   for (const player of props.locations) {
     if (!player.location) continue

@@ -53,7 +53,7 @@ class GameObjectInput(BaseModel):
     # Puzzle-specific validation is enforced in the endpoint.
     answer: str | None = Field(default=None, max_length=500)
     max_attempts: int | None = Field(default=None, ge=1, le=100)
-    capture_seconds: int = Field(default=60, ge=5, le=3600)
+    capture_seconds: int = Field(default=10, ge=5, le=3600)
     points_per_minute: int = Field(default=1, ge=1, le=100000)
     cooldown_seconds: int = Field(default=300, ge=0, le=86400)
     search_radius_meters: int = Field(default=50, ge=5, le=1000)

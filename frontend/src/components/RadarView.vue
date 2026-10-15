@@ -76,6 +76,7 @@ watch(filter, () => { selectedId.value = null })
       <button class="sheet-toggle" :aria-expanded="expanded" aria-controls="point-details" @click="expanded = !expanded"><span><strong>{{ selected ? selected.name : `${visible.length} spelpunten` }}</strong><small>{{ selected ? typeLabel(selected) : own ? 'Dichtstbijzijnde eerst' : 'Ontdek punten op de kaart' }}</small></span><span aria-hidden="true">{{ expanded ? '⌄' : '⌃' }}</span></button>
       <div v-if="expanded" id="point-details" class="sheet-content">
         <template v-if="selected">
+          <p v-if="selected.completed" class="completed-label" role="status">✓ Voltooid door jouw team</p>
           <p class="point-meta">{{ distanceLabel(selected) }} · Actieradius {{ selected.activation_radius_meters }} m</p>
           <p v-if="selected.type === 'CAPTURE_POINT'" class="point-owner"><span :style="{ background: selected.owner_team_color || '#ffcf6a' }"></span>{{ selected.owner_team_name ? 'In bezit van ' + selected.owner_team_name : 'Onbezet' }}</p>
           <button v-if="admin" class="secondary-action" @click="emit('remove', selected)">Punt verwijderen</button>
@@ -87,7 +88,7 @@ watch(filter, () => { selectedId.value = null })
         </template>
         <template v-else>
           <p v-if="!visible.length" class="empty-points">Geen punten in deze categorie. Kies een ander filter of wacht tot de beheerder punten plaatst.</p>
-          <button v-for="object in nearby" :key="object.id" class="point-row" @click="choose(object, true)"><span class="point-symbol" aria-hidden="true" v-html="objectIcon(object.type)"></span><span><strong>{{ object.name }}</strong><small>{{ typeLabel(object) }} · {{ distanceLabel(object) }}</small></span><span aria-hidden="true">›</span></button>
+          <button v-for="object in nearby" :key="object.id" class="point-row" @click="choose(object, true)"><span class="point-symbol" aria-hidden="true" v-html="objectIcon(object.type)"></span><span><strong>{{ object.name }}<span v-if="object.completed" class="completed-label"> · ✓ Voltooid</span></strong><small>{{ typeLabel(object) }} · {{ distanceLabel(object) }}</small></span><span aria-hidden="true">›</span></button>
         </template>
       </div>
     </aside>

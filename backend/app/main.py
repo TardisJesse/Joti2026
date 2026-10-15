@@ -310,10 +310,14 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
     bonus = bonus_state(game, sorted(x.id for x, point, owner in rows if point))
     ids = [x.id for x, point, owner in rows]
     rewards = {}
+    completed = set()
+    if user.team_id and user.role != UserRole.ADMIN:
+        for model, score_type in ((Puzzle, ScoreType.PUZZLE_SOLVED), (PhotoPoint, ScoreType.PHOTO_SUBMITTED), (Duck, ScoreType.DUCK_FOUND)):
+            completed.update(row[0] for row in db.query(model.game_object_id).join(ScoreEvent, ScoreEvent.reference_id == model.id).filter(model.game_object_id.in_(ids), ScoreEvent.team_id == user.team_id, ScoreEvent.type == score_type))
     duck_numbers = {item.game_object_id:item.duck_number for item in db.query(Duck).filter(Duck.game_object_id.in_(ids))}
     for model in (Puzzle, PhotoPoint, Duck):
         rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "duck_number": duck_numbers.get(x.id), "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)

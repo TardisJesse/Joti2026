@@ -106,9 +106,9 @@
           ],
           "walk_from_hq_m": 208,
           "name": "M1 Zendmast Vaartcontact",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -125,9 +125,9 @@
           ],
           "walk_from_hq_m": 1151,
           "name": "M2 Zendmast Vaartverbinding",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -144,9 +144,9 @@
           ],
           "walk_from_hq_m": 993,
           "name": "M3 Zendmast Holy Live",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -163,9 +163,9 @@
           ],
           "walk_from_hq_m": 690,
           "name": "M4 Zendmast Wereldsport",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -182,9 +182,9 @@
           ],
           "walk_from_hq_m": 641,
           "name": "M5 Zendmast Oostsignaal",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -203,9 +203,9 @@
           ],
           "walk_from_hq_m": 834,
           "name": "M6 Zendmast Polderlink",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -221,9 +221,9 @@
           ],
           "walk_from_hq_m": 573,
           "name": "M7 Zendmast Parkhart noord",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -239,9 +239,9 @@
           ],
           "walk_from_hq_m": 395,
           "name": "M8 Zendmast Parkhart zuid",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -257,7 +257,7 @@
           ],
           "walk_from_hq_m": 574,
           "name": "F1 Foto Menselijke wifi",
-          "description": "Maak met het hele team een wifi-symbool: vorm drie oplopende signaalbogen met jullie armen. Iedereen staat herkenbaar op de foto. Laat zien dat jullie bereik werelds is. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak met het hele team een wifi-symbool: vorm drie oplopende signaalbogen met jullie armen. Iedereen staat herkenbaar op de foto. Laat zien dat jullie bereik werelds is.",
           "reward_points": 60
         },
         {
@@ -274,7 +274,7 @@
           ],
           "walk_from_hq_m": 1166,
           "name": "F2 Foto Bevroren livestream",
-          "description": "Beeld met alle teamleden een totaal bevroren livestream uit. Hoe ongemakkelijker de gezichten, hoe beter. Iedereen blijft met de voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld met alle teamleden een totaal bevroren livestream uit. Hoe ongemakkelijker de gezichten, hoe beter. Iedereen blijft met de voeten op de grond.",
           "reward_points": 60
         },
         {
@@ -289,7 +289,7 @@
           ],
           "walk_from_hq_m": 966,
           "name": "F3 Foto Offline kampvuur",
-          "description": "Maak een denkbeeldig kampvuur met alleen houdingen en gezichten: vuur, rook, kok en hongerige scouts. Gebruik geen echt vuur. Iedereen staat op de teamfoto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak een denkbeeldig kampvuur met alleen houdingen en gezichten: vuur, rook, kok en hongerige scouts. Gebruik geen echt vuur. Iedereen staat op de teamfoto.",
           "reward_points": 60
         },
         {
@@ -305,7 +305,7 @@
           ],
           "walk_from_hq_m": 1014,
           "name": "F4 Foto Scouting-albumcover",
-          "description": "Maak een albumcover voor jullie internationale scoutband. Vorm samen een hart of een wereldcirkel en geef ieder teamlid een eigen overdreven rocksterpose. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak een albumcover voor jullie internationale scoutband. Vorm samen een hart of een wereldcirkel en geef ieder teamlid een eigen overdreven rocksterpose.",
           "reward_points": 60
         },
         {
@@ -320,7 +320,7 @@
           ],
           "walk_from_hq_m": 859,
           "name": "F5 Foto Sportcommentatoren",
-          "description": "Beeld een sportuitzending uit zonder echte wedstrijd: één commentator praat overdreven, één scout is de camera en de rest viert een denkbeeldig doelpunt. Iedereen staat herkenbaar op de teamfoto, met voeten op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld een sportuitzending uit zonder echte wedstrijd: één commentator praat overdreven, één scout is de camera en de rest viert een denkbeeldig doelpunt. Iedereen staat herkenbaar op de teamfoto, met voeten op de grond.",
           "reward_points": 60
         },
         {
@@ -335,7 +335,7 @@
           ],
           "walk_from_hq_m": 590,
           "name": "F6 Foto Robotupdate",
-          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden.",
           "reward_points": 60
         },
         {
@@ -350,7 +350,7 @@
           ],
           "walk_from_hq_m": 658,
           "name": "F7 Foto Kapotte antenne",
-          "description": "Beeld met jullie hele team een zelfgebouwde zendmast uit. Eén persoon is de presentator, de anderen zijn de antenneonderdelen. Alle voeten blijven op de grond. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld met jullie hele team een zelfgebouwde zendmast uit. Eén persoon is de presentator, de anderen zijn de antenneonderdelen. Alle voeten blijven op de grond.",
           "reward_points": 60
         },
         {
@@ -366,7 +366,7 @@
           ],
           "walk_from_hq_m": 959,
           "name": "F8 Foto Wereldgroet",
-          "description": "Doe alsof jullie zojuist contact hebben met scouts aan de andere kant van de wereld. Maak een juichende teamselfie met een duidelijk scoutsgebaar. Iedereen doet mee. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Doe alsof jullie zojuist contact hebben met scouts aan de andere kant van de wereld. Maak een juichende teamselfie met een duidelijk scoutsgebaar. Iedereen doet mee.",
           "reward_points": 60
         },
         {
@@ -381,7 +381,7 @@
           ],
           "walk_from_hq_m": 973,
           "name": "P1 Puzzel Scoutcode",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Lees het NAVO-spelalfabet: Sierra â€“ Charlie â€“ Oscar â€“ Uniform â€“ Tango. Welke vijf letters vormen samen het woord? Antwoord met alleen dat woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$tNBLQftoEAN6ltpbWQXrRA$PzuUArf0WgvY+vXEGWNpK8tbiFI6OIyHYQWU2uPAQOU",
@@ -400,7 +400,7 @@
           ],
           "walk_from_hq_m": 383,
           "name": "P2 Puzzel Morsecontact",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Ontcijfer de morsecode: .--- / --- / - / .. . Iedere schuine streep scheidt een letter. Welk scouting-evenement lees je? Antwoord met de vier letters.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$RoILWkJlipBEu/kxudHFjw$UDYTjBFRV+AZdQDRT43rKW+2z8eXnahRHpfJcU59+wM",
@@ -418,7 +418,7 @@
           ],
           "walk_from_hq_m": 453,
           "name": "P3 Puzzel Vriend op afstand",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Gebruik A=1, B=2, ... Z=26. Decodeer 22-18-9-5-14-4. Antwoord met alleen het Nederlandse woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$9Do9jq4Br++64i5+D/vmbQ$SEGj4FD5Z6jQrWoC9mGzuKmmGYR2hOnc3pSDBKw7Doc",
@@ -437,7 +437,7 @@
           ],
           "walk_from_hq_m": 424,
           "name": "P4 Puzzel Een bericht in bits",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 80,
           "question": "Deze vier ASCII-bytes vormen een woord: 01010111 01001001 01000110 01001001. Een ASCII-letter A is 01000001. Welk woord lees je? Antwoord met vier letters.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$KJIIEfNcpR/pGiH64CkTww$vp4p0wS2nlaQSH1Kn0YUPvWViI1MUrt13kZa1IdCMXY",
@@ -455,7 +455,7 @@
           ],
           "walk_from_hq_m": 527,
           "name": "P5 Puzzel Iedereen verbonden",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 60,
           "question": "Vijf scoutteams maken ieder Ã©Ã©n verbinding met elk ander team. Een verbinding A-B telt hetzelfde als B-A. Hoeveel verschillende verbindingen zijn er? Antwoord met alleen het getal.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s+Wa1/yZREYHOB4kWF8vfw$S9942u+FQMzgAOd7OiT4FtBsOprQxpkcUtYqTwd2m9Q",
@@ -473,7 +473,7 @@
           ],
           "walk_from_hq_m": 776,
           "name": "P6 Puzzel Tijdzone-reporter",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Bij het wereldcontact is het 12:00 UTC. De andere groep gebruikt UTC+3. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt, bijvoorbeeld 0900.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$byU4hVdqyHcvTv1BvN8htg$ZCG8bASA3JnOij5lA4hxT+3X7cP39OrpHC52wr/X4FE",
@@ -491,7 +491,7 @@
           ],
           "walk_from_hq_m": 1012,
           "name": "P7 Puzzel Reken het bereik uit",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Een zendmast geeft 5 volgers per minuut. Jullie bezitten hem precies 7 minuten; de laatste 2 minuten tellen dubbel door een bonus. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$p6C1IG4Vkn0YlRa46fToww$YjD+ZviEwQMPGv7vcmnmy5jx5Rpo2Rvp0/u9cNHbUTo",
@@ -509,7 +509,7 @@
           ],
           "walk_from_hq_m": 1192,
           "name": "P8 Puzzel Veilig wereldcontact",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Welke reactie past bij veilig JOTI-contact? A: je huisadres delen. B: je groep en land noemen zonder privÃ©gegevens. C: je wachtwoord delen. Antwoord met alleen A, B of C.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$2PiGkUV0qdw2Zwd3eGkxXw$Sr1NEbv0uHtXlrSZAyrhDjYtqpeBe8QbgtLgq+3Jk9g",
@@ -527,7 +527,7 @@
           ],
           "walk_from_hq_m": 417,
           "name": "S1 Scanner Parkradar",
-          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
           "reward_points": 0
         },
         {
@@ -543,7 +543,7 @@
           ],
           "walk_from_hq_m": 655,
           "name": "S2 Scanner Allart-radar",
-          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
           "reward_points": 0
         },
         {
@@ -922,9 +922,9 @@
           ],
           "walk_from_hq_m": 208,
           "name": "M1 Zendmast Vaartcontact",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -941,9 +941,9 @@
           ],
           "walk_from_hq_m": 1151,
           "name": "M2 Zendmast Vaartverbinding",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -960,9 +960,9 @@
           ],
           "walk_from_hq_m": 993,
           "name": "M3 Zendmast Holy Live",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -979,9 +979,9 @@
           ],
           "walk_from_hq_m": 690,
           "name": "M4 Zendmast Wereldsport",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -998,9 +998,9 @@
           ],
           "walk_from_hq_m": 641,
           "name": "M5 Zendmast Oostsignaal",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -1019,9 +1019,9 @@
           ],
           "walk_from_hq_m": 834,
           "name": "M6 Zendmast Polderlink",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -1037,9 +1037,9 @@
           ],
           "walk_from_hq_m": 573,
           "name": "M7 Zendmast Parkhart noord",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -1055,9 +1055,9 @@
           ],
           "walk_from_hq_m": 395,
           "name": "M8 Zendmast Parkhart zuid",
-          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 45 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Verbind scouts wereldwijd door deze zendmast te veroveren. Houd 10 seconden de zone vast; je ontvangt 30 volgers bij verovering en 5 per minuut tijdens bezit. De regenboogbonus verdubbelt de minuutinkomsten.",
           "reward_points": 30,
-          "capture_seconds": 45,
+          "capture_seconds": 10,
           "cooldown_seconds": 300,
           "points_per_minute": 5
         },
@@ -1073,7 +1073,7 @@
           ],
           "walk_from_hq_m": 574,
           "name": "F1 Foto Het pakketje is verdwaald",
-          "description": "Beeld een dataverbinding uit met jullie hele team. Geef een onzichtbaar pakketje door, maar één router begrijpt er zichtbaar niets van. Alle teamleden staan op de foto. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld een dataverbinding uit met jullie hele team. Geef een onzichtbaar pakketje door, maar één router begrijpt er zichtbaar niets van. Alle teamleden staan op de foto.",
           "reward_points": 60
         },
         {
@@ -1090,7 +1090,7 @@
           ],
           "walk_from_hq_m": 1166,
           "name": "F2 Foto De robotupdate",
-          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld met het hele team robots uit die net een update hebben gehad. Iedere robot heeft een andere gekke houding. Niemand hoeft te klimmen of gedragen te worden.",
           "reward_points": 60
         },
         {
@@ -1105,7 +1105,7 @@
           ],
           "walk_from_hq_m": 966,
           "name": "F3 Foto Error 404: captain kwijt",
-          "description": "Maak een teamfoto waarop de captain zichtbaar is, maar iedereen overdreven de verkeerde kant op zoekt. De captain kijkt recht naar de camera. Iedereen is herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak een teamfoto waarop de captain zichtbaar is, maar iedereen overdreven de verkeerde kant op zoekt. De captain kijkt recht naar de camera. Iedereen is herkenbaar in beeld.",
           "reward_points": 60
         },
         {
@@ -1121,7 +1121,7 @@
           ],
           "walk_from_hq_m": 1014,
           "name": "F4 Foto Ctrl Alt Del",
-          "description": "Maak drie verschillende herstartposes: Ctrl, Alt en Del. Verdeel de poses over alle teamleden en doe alsof de hele scoutcomputer opnieuw opstart. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak drie verschillende herstartposes: Ctrl, Alt en Del. Verdeel de poses over alle teamleden en doe alsof de hele scoutcomputer opnieuw opstart.",
           "reward_points": 60
         },
         {
@@ -1136,7 +1136,7 @@
           ],
           "walk_from_hq_m": 859,
           "name": "F5 Foto De eend heeft bereik",
-          "description": "Beeld met het hele team onze tech-eend uit: snavel met handen, antennearmen, overdreven duckfaces. Maak jullie beste scouting-eenden-albumcover. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Beeld met het hele team onze tech-eend uit: snavel met handen, antennearmen, overdreven duckfaces. Maak jullie beste scouting-eenden-albumcover.",
           "reward_points": 60
         },
         {
@@ -1151,7 +1151,7 @@
           ],
           "walk_from_hq_m": 590,
           "name": "F6 Foto Hallo wereld",
-          "description": "Maak een teamfoto met vijf verschillende manieren van begroeten. Gebruik alleen jullie eigen team, houd het vriendelijk en zorg dat iedereen op de foto staat. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak een teamfoto met vijf verschillende manieren van begroeten. Gebruik alleen jullie eigen team, houd het vriendelijk en zorg dat iedereen op de foto staat.",
           "reward_points": 60
         },
         {
@@ -1166,7 +1166,7 @@
           ],
           "walk_from_hq_m": 658,
           "name": "F7 Foto Menselijk laadscherm",
-          "description": "Vorm samen een laadscherm: ieder teamlid laat met een pose een andere laadfase zien, van moe naar volledig opgeladen. Iedereen staat herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Vorm samen een laadscherm: ieder teamlid laat met een pose een andere laadfase zien, van moe naar volledig opgeladen. Iedereen staat herkenbaar in beeld.",
           "reward_points": 60
         },
         {
@@ -1182,7 +1182,7 @@
           ],
           "walk_from_hq_m": 959,
           "name": "F8 Foto Scouts op mute",
-          "description": "Maak een denkbeeldige videogesprekfoto. Iedereen probeert met overdreven gebaren iets uit te leggen, maar jullie microfoon staat uit. Iedereen staat herkenbaar in beeld. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak een denkbeeldige videogesprekfoto. Iedereen probeert met overdreven gebaren iets uit te leggen, maar jullie microfoon staat uit. Iedereen staat herkenbaar in beeld.",
           "reward_points": 60
         },
         {
@@ -1197,7 +1197,7 @@
           ],
           "walk_from_hq_m": 973,
           "name": "P1 Puzzel De hotspotcode",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Lees het NAVO-spelalfabet: Hotel â€“ Oscar â€“ Tango â€“ Sierra â€“ Papa â€“ Oscar â€“ Tango. Welk woord vormen de beginletters? Antwoord met alleen dat woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$i2eotL+DdIW8A9CDiG5daA$KcA9M6zK4nlqIOvCIo1JAxSnuji/JC8dfpthU2Hy47A",
@@ -1216,7 +1216,7 @@
           ],
           "walk_from_hq_m": 383,
           "name": "P2 Puzzel Een vriendelijke groet",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Ontcijfer --. / .-. / --- / . / - . Een schuine streep scheidt letters. Welk Nederlands woord ontstaat? Antwoord met het woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$0umQZ909i7k5gx5dmCkDkA$UNasdGFhJ4reagZSGu8g/jpxAlvIQMlq3pwx+kYeLgs",
@@ -1234,7 +1234,7 @@
           ],
           "walk_from_hq_m": 453,
           "name": "P3 Puzzel Samen wereldwijd",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Gebruik A=1 tot Z=26. Decodeer 19-1-13-5-14. Antwoord met alleen het Nederlandse woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$PgKQjdGOCZdojbvYlmTdfQ$LxC8F16hyrAsljm9Oe2KXolV5EFpT1DowFFhbkHUKHM",
@@ -1253,7 +1253,7 @@
           ],
           "walk_from_hq_m": 424,
           "name": "P4 Puzzel Hello in bits",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 80,
           "question": "Deze ASCII-bytes vormen een Engelse begroeting: 01001000 01000101 01001100 01001100 01001111. Een ASCII-letter A is 01000001. Antwoord met het Engelse woord.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$WaPldqcsBdEXhIDM7l082Q$C1HTV8M6NVY1XlIpiD/Di0q1h6n/NqGQvkMZ0i0s0oM",
@@ -1271,7 +1271,7 @@
           ],
           "walk_from_hq_m": 527,
           "name": "P5 Puzzel Zes kanalen tegelijk",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 60,
           "question": "Zes scoutteams maken ieder Ã©Ã©n verbinding met elk ander team. A-B en B-A zijn dezelfde verbinding. Hoeveel verschillende verbindingen zijn er? Antwoord met het getal.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$f3Mqalqwo7cwXG1yXNDc3g$oe99JDM0UWYfm0LVXX6qYC8ldCZP2BFB//87SYDDbjU",
@@ -1289,7 +1289,7 @@
           ],
           "walk_from_hq_m": 776,
           "name": "P6 Puzzel De wereldklok",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Het is 15:30 UTC. Een andere scoutgroep gebruikt UTC-4. Hoe laat is het daar? Antwoord met vier cijfers zonder dubbele punt.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$Xexr//Zl6j/yILBffql1KQ$8YaDfc17g16jUz5eAOAANyTdufDTAhS3oRzrdr6jaoI",
@@ -1307,7 +1307,7 @@
           ],
           "walk_from_hq_m": 1012,
           "name": "P7 Puzzel De bonusberekening",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 50,
           "question": "Een mast geeft 5 volgers per minuut. Jullie bezitten hem precies 8 minuten, waarvan de laatste 3 minuten dubbel tellen. Hoeveel volgers levert alleen het bezit op? Antwoord met het getal.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$s0GNghGTWwS2VKkea58ZvQ$3jbWKpfE7bqpQxbt7aGrIvQR17wnvwn/r7hTYIQypbM",
@@ -1325,7 +1325,7 @@
           ],
           "walk_from_hq_m": 1192,
           "name": "P8 Puzzel Iedereen welkom",
-          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Maak wereldcontact door samen deze code of vraag op te lossen. Lees de antwoordvorm zorgvuldig.",
           "reward_points": 40,
           "question": "Iemand in de internationale chat begrijpt jullie taal niet. Wat doe je? A: uitlachen. B: negeren. C: rustig uitleggen met eenvoudige woorden of vertaling. Antwoord met alleen A, B of C.",
           "answer_hash": "$argon2id$v=19$m=65536,t=3,p=4$nUhDgg9z0foD2UzketrhIg$Rj6z8Y88xn4h2VmA0tos1PBUNJxpUtZBGggwaY0UtTs",
@@ -1343,7 +1343,7 @@
           ],
           "walk_from_hq_m": 417,
           "name": "S1 Scanner Parkradar",
-          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
           "reward_points": 0
         },
         {
@@ -1359,7 +1359,7 @@
           ],
           "walk_from_hq_m": 655,
           "name": "S2 Scanner Allart-radar",
-          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op. Blijf op de toegankelijke wandelpaden en laat ruimte voor andere wandelaars en fietsers.",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
           "reward_points": 0
         },
         {

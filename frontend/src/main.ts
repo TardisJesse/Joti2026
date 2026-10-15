@@ -16,3 +16,6 @@ import './bonus.css'
 import './motion.css'
 import './field-features.css'
 createApp(App).use(createPinia()).mount('#app')
+
+// Use the same worker as push settings so app installation and notifications share one scope.
+if ('serviceWorker' in navigator) window.addEventListener('load', () => { navigator.serviceWorker.register('/push-sw.js').catch(() => {}) })

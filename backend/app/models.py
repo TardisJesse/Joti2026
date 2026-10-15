@@ -103,7 +103,7 @@ class Puzzle(IdTimeMixin, Base):
 class CapturePoint(IdTimeMixin, Base):
     __tablename__ = "capture_points"
     game_object_id: Mapped[str] = mapped_column(ForeignKey("game_objects.id", ondelete="CASCADE"), unique=True)
-    capture_seconds: Mapped[int] = mapped_column(Integer, default=60)
+    capture_seconds: Mapped[int] = mapped_column(Integer, default=10)
     cooldown_seconds: Mapped[int] = mapped_column(Integer, default=300)
     capture_reward: Mapped[int] = mapped_column(Integer, default=250)
     owner_team_id: Mapped[str | None] = mapped_column(ForeignKey("teams.id"), nullable=True)
