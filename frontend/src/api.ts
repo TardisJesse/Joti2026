@@ -4,8 +4,12 @@
 const base = import.meta.env.VITE_API_URL || ''
 export const token = () => localStorage.getItem('cyberjoti-token')
 export async function api(path: string, options: RequestInit = {}) {
-  const response = await fetch(`${base}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(token() ? { Authorization: `Bearer ${token()}` } : {}), ...options.headers } })
+  const requestToken = token()
+  const response = await fetch(`${base}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(requestToken ? { Authorization: `Bearer ${requestToken}` } : {}), ...options.headers } })
   if (!response.ok) {
+    if (response.status === 401 && requestToken && requestToken === token() && path !== '/api/auth/login') {
+      window.dispatchEvent(new Event('cyberjoti-session-expired'))
+    }
     const body = await response.json().catch(() => ({}))
     const detail = body.detail
     const message = Array.isArray(detail)

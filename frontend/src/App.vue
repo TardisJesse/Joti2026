@@ -192,6 +192,12 @@ function removeObject(obj: any) { actionDialog.value?.open('remove', { ...obj, g
 async function createGame() { try { const game=await api('/api/admin/games',{method:'POST',body:JSON.stringify({game_code:newGameCode.value})}); await loadGames(); selectedGameId.value=game.id; newGameCode.value=''; await load(); connect() } catch(e:any){error.value=e.message} }
 async function switchGame() { cancelDuckEdit(); news.value=[]; seenCaptures.clear(); requestedObject.value=null; await load(); connect() }
 async function setRoundStatus(game: Game, status: string) { try { await api('/api/admin/games/'+game.id+'/status',{method:'PUT',body:JSON.stringify({status})}); await loadGames(); await load() } catch(e:any){error.value=e.message} }
+function sessionExpired() {
+  logout()
+  error.value = 'Je sessie is verlopen. Log opnieuw in of hervat je team.'
+}
+onMounted(() => window.addEventListener('cyberjoti-session-expired', sessionExpired))
+onBeforeUnmount(() => window.removeEventListener('cyberjoti-session-expired', sessionExpired))
 onMounted(async()=>{if(!localStorage.getItem('cyberjoti-token'))return; try{user.value=await api('/api/auth/me');await load();if(!isAdmin.value) { beginGps(); tab.value='map' };beginRefresh();connect()}catch{logout()}})
 onBeforeUnmount(logout)
 </script>
