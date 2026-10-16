@@ -272,8 +272,9 @@ def location(payload: LocationInput, user: User = Depends(current_user), db: Ses
     server_time = datetime.now(timezone.utc).isoformat()
     value = {"lat": payload.latitude, "lng": payload.longitude, "accuracy": payload.accuracy, "updated_at": server_time}
     set_location(user.id, value)
-    broadcast_from_worker(f"team:{user.team_id}", {"type": "PLAYER_LOCATION", "data": {"player_id": user.id, **value}})
-    broadcast_from_worker(f"game:{game.id}:admin", {"type": "PLAYER_LOCATION", "data": {"player_id": user.id, "team_id": user.team_id, **value}})
+    # The phone already renders its own GPS. Only clients that handle marker
+    # updates directly subscribe here; legacy clients recover via periodic reads.
+    broadcast_from_worker(f"game:{game.id}:admin:locations", {"type": "PLAYER_LOCATION", "data": {"player_id": user.id, "team_id": user.team_id, **value}})
     return {"ok": True, "updated_at": server_time}
 
 @app.get("/api/locations")
@@ -599,8 +600,11 @@ async def websocket(websocket: WebSocket):
         await websocket.close(code=4401 if exc.status_code == 401 else 4403)
         return
     queue: asyncio.Queue = asyncio.Queue()
-    subscribers[channel].add(queue)
-    subscribers[events_channel].add(queue)
+    channels = [channel, events_channel]
+    if websocket.query_params.get('v') == '2' and channel.endswith(':admin'):
+        channels.append(f'{channel}:locations')
+    for subscribed_channel in channels:
+        subscribers[subscribed_channel].add(queue)
     try:
         await websocket.accept()
         while True:
@@ -608,5 +612,5 @@ async def websocket(websocket: WebSocket):
             except asyncio.TimeoutError: await websocket.send_json({"type": "HEARTBEAT"})
     except WebSocketDisconnect: pass
     finally:
-        subscribers[channel].discard(queue)
-        subscribers[events_channel].discard(queue)
+        for subscribed_channel in channels:
+            subscribers[subscribed_channel].discard(queue)

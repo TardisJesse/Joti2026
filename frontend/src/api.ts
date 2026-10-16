@@ -16,7 +16,7 @@ export async function api(path: string, options: RequestInit = {}) {
   return response.json()
 }
 export const wsUrl = (gameId?: string) => {
-  const query = '?token=' + encodeURIComponent(token() || '') + (gameId ? '&game_id=' + encodeURIComponent(gameId) : '')
+  const query = '?v=2&token=' + encodeURIComponent(token() || '') + (gameId ? '&game_id=' + encodeURIComponent(gameId) : '')
   if (base) return base.replace(/^http/, 'ws') + '/ws/game' + query
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   return protocol + '//' + window.location.host + '/ws/game' + query
