@@ -27,7 +27,7 @@ from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInp
                       GameStatusInput, GameTimerInput, LocationInput, LoginInput, ScanInput, ImageInput,
                       LoadLocationsInput, DuckLocationInput)
 from .duck_catalog import duck_catalog, standard_pack
-from .security import create_token, current_user, hash_password, require_admin, verify_password
+from .security import create_token, current_user, hash_password, load_user_for_token, require_admin, verify_password
 from .services import (begin_capture, broadcast, cancel_capture, complete_capture, get_location,
                        hash_token, require_nearby, set_location, subscribers)
 
@@ -89,7 +89,9 @@ def bootstrap_admin_from_environment() -> None:
         db.close()
 
 def dto_user(user: User, db: Session | None = None):
-    result = {"id": user.id, "name": user.name, "role": user.role, "team_id": user.team_id, "profile_image": user.profile_image}
+    result = {"id": user.id, "name": user.name, "role": user.role, "team_id": user.team_id, "profile_image": user.profile_image, "view_only": getattr(user, "view_only", False)}
+    if result['view_only']:
+        result['role'] = 'VIEWER'
     if db and user.team_id:
         team = db.get(Team, user.team_id)
         if team: result.update({"team_name": team.name, "game_id": team.game_id})
@@ -187,6 +189,18 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     return {"access_token": create_token(player), "token_type": "bearer", "user": dto_user(player, db), "game": game_dto(game)}
 
 
+@app.post('/api/team/view-link')
+def team_view_link(user: User = Depends(current_user), db: Session = Depends(db_session)):
+    import jwt
+    if user.role != UserRole.TEAM_LEADER or not user.team_id:
+        raise HTTPException(403, 'Alleen de teamleider kan een teamlink maken')
+    game = team_game(user, db)
+    expires = datetime.now(timezone.utc) + timedelta(days=7)
+    invitation = jwt.encode({'sub': user.id, 'scope': 'team:view', 'team_id': user.team_id,
+                             'game_id': game.id, 'exp': expires}, settings().secret_key, algorithm='HS256')
+    return {'token': invitation, 'expires_at': expires.isoformat()}
+
+
 @app.get('/api/game')
 def current_game(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     return game_dto(selected_game(user, db, game_id))
@@ -277,6 +291,7 @@ def location(payload: LocationInput, user: User = Depends(current_user), db: Ses
     set_location(user.id, value)
     # The phone already renders its own GPS. Only clients that handle marker
     # updates directly subscribe here; legacy clients recover via periodic reads.
+    broadcast_from_worker(f"team:{user.team_id}:locations", {"type": "PLAYER_LOCATION", "data": {"player_id": user.id, "team_id": user.team_id, **value}})
     broadcast_from_worker(f"game:{game.id}:admin:locations", {"type": "PLAYER_LOCATION", "data": {"player_id": user.id, "team_id": user.team_id, **value}})
     return {"ok": True, "updated_at": server_time}
 
@@ -303,6 +318,14 @@ def scanner_locations(object_id: str, user: User = Depends(current_user), db: Se
     if response is not None: response.headers['Cache-Control'] = 'no-store'
     obj = object_for(object_id, ObjectType.SCANNER_POINT, user, db)
     require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
+    awarded = 0
+    if not db.query(ScoreEvent.id).filter_by(team_id=user.team_id, type=ScoreType.SCANNER_USED, reference_id=obj.id).first():
+        require_running(db.get(Game, obj.game_id))
+        db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.SCANNER_USED, reference_id=obj.id,
+                          points=20, note='Eerste gebruik van deze locatiescanner'))
+        db.commit()
+        awarded = 20
+        broadcast_from_worker(f'game:{obj.game_id}:events', {'type': 'SCORE_UPDATED', 'data': {'team_id': user.team_id}})
     at = datetime.now(timezone.utc)
     result = {}
     players = db.query(User, Team).join(Team, User.team_id == Team.id).filter(Team.game_id == obj.game_id, Team.id != user.team_id, User.active.is_(True), User.role != UserRole.ADMIN).all()
@@ -316,7 +339,7 @@ def scanner_locations(object_id: str, user: User = Depends(current_user), db: Se
             if team.id in result and result[team.id]['location']['updated_at'] >= updated.isoformat(): continue
             result[team.id] = {'player_id': player.id, 'team_id': team.id, 'team_name': team.name, 'name': team.name, 'profile_image': player.profile_image, 'location': {**location, 'updated_at': updated.isoformat()}}
         except (KeyError, ValueError, TypeError): continue
-    return {'scanner_id': obj.id, 'locations': list(result.values()), 'server_now': at.isoformat()}
+    return {'scanner_id': obj.id, 'locations': list(result.values()), 'server_now': at.isoformat(), 'points_awarded': awarded, 'reward_points': 20}
 
 
 @app.get("/api/game-objects")
@@ -330,6 +353,8 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
     if user.team_id and user.role != UserRole.ADMIN:
         for model, score_type in ((Puzzle, ScoreType.PUZZLE_SOLVED), (PhotoPoint, ScoreType.PHOTO_SUBMITTED), (Duck, ScoreType.DUCK_FOUND)):
             completed.update(row[0] for row in db.query(model.game_object_id).join(ScoreEvent, ScoreEvent.reference_id == model.id).filter(model.game_object_id.in_(ids), ScoreEvent.team_id == user.team_id, ScoreEvent.type == score_type))
+        completed.update(object_id for (object_id,) in db.query(ScoreEvent.reference_id).filter(
+            ScoreEvent.reference_id.in_(ids), ScoreEvent.team_id == user.team_id, ScoreEvent.type == ScoreType.SCANNER_USED))
     duck_numbers = {item.game_object_id:item.duck_number for item in db.query(Duck).filter(Duck.game_object_id.in_(ids))}
     found_ducks = {object_id for (object_id,) in db.query(Duck.game_object_id).join(DuckScan, DuckScan.duck_id == Duck.id).filter(Duck.game_object_id.in_(ids)).distinct()}
     photographed_points = {object_id for (object_id,) in db.query(PhotoPoint.game_object_id).join(PhotoSubmission, PhotoSubmission.photo_point_id == PhotoPoint.id).filter(PhotoPoint.game_object_id.in_(ids)).distinct()}
@@ -337,6 +362,7 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
     golden_ids = ((set(duck_numbers) - found_ducks) | (photo_ids - photographed_points)) if golden_reward_window(game) else set()
     for model in (Puzzle, PhotoPoint, Duck):
         rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
+    rewards.update({x.id: 20 for x, _, _ in rows if x.type == ObjectType.SCANNER_POINT})
     return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "found_by_anyone": x.id in found_ducks, "photographed_by_anyone": x.id in photographed_points, "golden": x.id in golden_ids, "base_reward_points": point.capture_reward if point else rewards.get(x.id), "reward_points": (rewards.get(x.id, 0) * 2) if x.id in golden_ids else point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
@@ -597,32 +623,26 @@ def scores(game_id: str | None = None, user: User = Depends(current_user), db: S
         portraits.setdefault(player.team_id, player.profile_image)
     return [{"team_id": r.id, "name": r.name, "color": r.color, "score": r.score, "profile_image": portraits.get(r.id)} for r in rows]
 
-def websocket_channels(user_id: str, game_id: str | None) -> tuple[str, str]:
-    # Return plain channel names so no ORM access or connection outlives auth.
+def websocket_channels(token: str, game_id: str | None) -> tuple[str, str, bool]:
+    # Validate viewer scope here too; sockets must not bypass team-link binding.
     with SessionLocal() as db:
-        user = db.get(User, user_id)
-        if not user or not user.active:
-            raise HTTPException(401, "Inactive account")
+        user = load_user_for_token(token, db)
         game = selected_game(user, db, game_id)
         channel = f"game:{game.id}:admin" if user.role == UserRole.ADMIN else f"team:{user.team_id}"
-        return channel, f"game:{game.id}:events"
+        return channel, f"game:{game.id}:events", user.view_only
 
 
 @app.websocket("/ws/game")
 async def websocket(websocket: WebSocket):
-    # Browser clients pass their bearer token as ?token=; invalid tokens never join a channel.
-    from jwt import decode, PyJWTError
     token = websocket.query_params.get("token")
-    try: user_id = decode(token, settings().secret_key, algorithms=["HS256"])["sub"]
-    except (PyJWTError, KeyError): await websocket.close(code=4401); return
     try:
-        channel, events_channel = await run_in_threadpool(websocket_channels, user_id, websocket.query_params.get("game_id"))
+        channel, events_channel, view_only = await run_in_threadpool(websocket_channels, token, websocket.query_params.get("game_id"))
     except HTTPException as exc:
         await websocket.close(code=4401 if exc.status_code == 401 else 4403)
         return
     queue: asyncio.Queue = asyncio.Queue()
     channels = [channel, events_channel]
-    if websocket.query_params.get('v') == '2' and channel.endswith(':admin'):
+    if view_only or (websocket.query_params.get('v') == '2' and channel.endswith(':admin')):
         channels.append(f'{channel}:locations')
     for subscribed_channel in channels:
         subscribers[subscribed_channel].add(queue)

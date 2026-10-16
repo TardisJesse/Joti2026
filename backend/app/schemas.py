@@ -54,7 +54,7 @@ class GameObjectInput(BaseModel):
     @classmethod
     def reward_default_for_type(cls, value):
         if isinstance(value, dict) and 'reward_points' not in value:
-            value = {**value, 'reward_points': {'PHYSICAL_DUCK': 50, 'CAPTURE_POINT': 5, 'SCANNER_POINT': 0}.get(value.get('type'), 20)}
+            value = {**value, 'reward_points': {'PHYSICAL_DUCK': 50, 'CAPTURE_POINT': 5, 'SCANNER_POINT': 20}.get(value.get('type'), 20)}
         return value
 
     game_id: str = Field(min_length=36, max_length=36)

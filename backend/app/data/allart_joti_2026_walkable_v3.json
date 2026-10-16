@@ -527,7 +527,7 @@
           ],
           "walk_from_hq_m": 417,
           "name": "S1 Scanner Parkradar",
-          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert eenmalig 20 volgers per team op.",
           "reward_points": 0
         },
         {
@@ -543,7 +543,7 @@
           ],
           "walk_from_hq_m": 655,
           "name": "S2 Scanner Allart-radar",
-          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert eenmalig 20 volgers per team op.",
           "reward_points": 0
         },
         {
@@ -1343,7 +1343,7 @@
           ],
           "walk_from_hq_m": 417,
           "name": "S1 Scanner Parkradar",
-          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
+          "description": "Scanner op het openbare parkpad bij Holywood; blijf buiten het erf. Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert eenmalig 20 volgers per team op.",
           "reward_points": 0
         },
         {
@@ -1359,7 +1359,7 @@
           ],
           "walk_from_hq_m": 655,
           "name": "S2 Scanner Allart-radar",
-          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert geen volgers op.",
+          "description": "Open binnen de cirkel de scanner voor recente locaties van andere teams. Zodra je de cirkel verlaat verdwijnen de locaties. Het gebruik blijft geheim en levert eenmalig 20 volgers per team op.",
           "reward_points": 0
         },
         {
