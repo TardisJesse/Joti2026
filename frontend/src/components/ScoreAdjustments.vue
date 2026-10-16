@@ -80,7 +80,7 @@ const timestamp = (value: string) => new Date(value).toLocaleString('nl-NL', { d
     <p v-if="loading" role="status">Rectificaties laden…</p>
     <p v-if="historyError" class="dialog-error" role="alert">{{ historyError }} <button type="button" class="secondary-action" @click="loadHistory">Opnieuw laden</button></p>
     <p v-else-if="!loading && !history.length">Nog geen rectificaties in deze spelronde.</p>
-    <ol v-if="history.length" class="adjustment-history"><li v-for="item in history" :key="item.id"><strong>{{ item.team_name }} · +{{ item.points }} punten</strong><p>{{ item.reason }}</p><small>{{ item.admin_name }} · {{ timestamp(item.created_at) }}</small></li></ol>
+    <ol v-if="history.length" class="adjustment-history"><li v-for="item in history" :key="item.id"><strong>{{ item.team_name }} · {{ item.points > 0 ? '+' : '' }}{{ item.points }} punten</strong><p>{{ item.reason }}</p><small>{{ item.admin_name }} · {{ timestamp(item.created_at) }}</small></li></ol>
     <small v-if="history.length === 200">De laatste 200 rectificaties worden getoond.</small>
   </section>
 </template>

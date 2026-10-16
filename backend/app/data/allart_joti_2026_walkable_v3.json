@@ -549,7 +549,7 @@
         {
           "id": "51cd42c9-781b-5104-a515-c4fdb01caab8",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 1 · De Verkenner",
+          "name": "De Verkenner",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9402498,
           "longitude": 4.3539986,
@@ -566,7 +566,7 @@
         {
           "id": "954ceec7-6f9d-5d8a-8655-34f48111c62e",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 2 · De Wandelaar",
+          "name": "De Wandelaar",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9379404,
           "longitude": 4.355782,
@@ -583,7 +583,7 @@
         {
           "id": "caa1e460-b051-59b7-80df-3a33db69e82d",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 3 · De Kok",
+          "name": "De Kok",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9386951,
           "longitude": 4.3489501,
@@ -601,7 +601,7 @@
         {
           "id": "577fa4a8-f9f4-55c9-90bd-d7e78c355bdf",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 4 · De Kampvuurmeester",
+          "name": "De Kampvuurmeester",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9406651,
           "longitude": 4.34746,
@@ -618,7 +618,7 @@
         {
           "id": "0e9c2a2f-4abb-5d92-8989-8a6815519ee8",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 5 · De Slaapkop",
+          "name": "De Slaapkop",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9373779,
           "longitude": 4.3576131,
@@ -635,7 +635,7 @@
         {
           "id": "dcc8d0a0-00b6-5165-817d-567aa3678c32",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 6 · De Kanovaarder",
+          "name": "De Kanovaarder",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9385371,
           "longitude": 4.3592,
@@ -654,7 +654,7 @@
         {
           "id": "6233d5be-d577-57f5-a49d-837e0e5b9d9f",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 7 · De Zeeverkenner",
+          "name": "De Zeeverkenner",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.939488,
           "longitude": 4.357292,
@@ -673,7 +673,7 @@
         {
           "id": "246fccd8-cda9-52f9-90f7-b99f06dc7b4e",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 8 · De Ontdekkingsreiziger",
+          "name": "De Ontdekkingsreiziger",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9389612,
           "longitude": 4.3558353,
@@ -690,7 +690,7 @@
         {
           "id": "169004bc-5b5c-5a7f-be9b-7083a0ef9fa3",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 9 · De Piraat",
+          "name": "De Piraat",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9449419,
           "longitude": 4.3504717,
@@ -707,7 +707,7 @@
         {
           "id": "8224e3e5-cad3-5e0f-891f-bf7f1d253ffa",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 10 · De Speurneus",
+          "name": "De Speurneus",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9427959,
           "longitude": 4.3496933,
@@ -724,7 +724,7 @@
         {
           "id": "a4c63581-b15d-5323-99dd-056a8cf4f8b9",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 11 · De Tovenaar",
+          "name": "De Tovenaar",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9434768,
           "longitude": 4.3564038,
@@ -741,7 +741,7 @@
         {
           "id": "9232d0d9-f141-581b-8b57-b3f6d354397c",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 12 · De Waterrat",
+          "name": "De Waterrat",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9406132,
           "longitude": 4.357269,
@@ -759,7 +759,7 @@
         {
           "id": "d556e1ae-8f6b-58b5-9647-b6b00b6f3db8",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 13 · De Kampvuurzanger",
+          "name": "De Kampvuurzanger",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9410878,
           "longitude": 4.3591947,
@@ -778,7 +778,7 @@
         {
           "id": "9477d7c8-c1c9-5e93-a455-36d775ff94e9",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 14 · De Pionier",
+          "name": "De Pionier",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.938024,
           "longitude": 4.3499754,
@@ -797,7 +797,7 @@
         {
           "id": "75d1681d-a332-53fd-a842-c61982d6d676",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 15 · De Nachthiker",
+          "name": "De Nachthiker",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9427795,
           "longitude": 4.3523388,
@@ -815,7 +815,7 @@
         {
           "id": "2b7c2d74-4408-5f09-af5b-eea85e0352f9",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 16 · De Wintereend",
+          "name": "De Wintereend",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9430086,
           "longitude": 4.3543057,
@@ -833,7 +833,7 @@
         {
           "id": "6fa15f8a-5ead-5017-8465-2ff62acb23ff",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 17 · De Bosloper",
+          "name": "De Bosloper",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9399845,
           "longitude": 4.348445,
@@ -850,7 +850,7 @@
         {
           "id": "3d660f3a-d3a0-5bd0-a01d-fd89cae76c3c",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 18 · De Spelleider",
+          "name": "De Spelleider",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9399024,
           "longitude": 4.3510728,
@@ -867,7 +867,7 @@
         {
           "id": "bdf366bd-98fd-505e-a440-321cdc85117f",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 19 · De Vaandeldrager",
+          "name": "De Vaandeldrager",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9375508,
           "longitude": 4.3518908,
@@ -884,7 +884,7 @@
         {
           "id": "a55036f0-eeca-5a73-8ca1-cc3320eee97a",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 20 · De Feesteend",
+          "name": "De Feesteend",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9422335,
           "longitude": 4.3572869,
@@ -1365,7 +1365,7 @@
         {
           "id": "b7b6cdee-91ab-5d93-adf6-b61c8000dec5",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 1 · De Verkenner",
+          "name": "De Verkenner",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9402498,
           "longitude": 4.3539986,
@@ -1382,7 +1382,7 @@
         {
           "id": "74e498a3-9240-5c16-83ad-20717d87929f",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 2 · De Wandelaar",
+          "name": "De Wandelaar",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9379404,
           "longitude": 4.355782,
@@ -1399,7 +1399,7 @@
         {
           "id": "c7207541-ad5d-5491-9191-0a36db331c5f",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 3 · De Kok",
+          "name": "De Kok",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9386951,
           "longitude": 4.3489501,
@@ -1417,7 +1417,7 @@
         {
           "id": "6c29db81-c070-530b-9b1f-7e20dd872e77",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 4 · De Kampvuurmeester",
+          "name": "De Kampvuurmeester",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9406651,
           "longitude": 4.34746,
@@ -1434,7 +1434,7 @@
         {
           "id": "fb87f068-1dcc-5dfe-9d8a-d40a0a837949",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 5 · De Slaapkop",
+          "name": "De Slaapkop",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9373779,
           "longitude": 4.3576131,
@@ -1451,7 +1451,7 @@
         {
           "id": "18df5b82-614a-56a1-a449-a500585cac32",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 6 · De Kanovaarder",
+          "name": "De Kanovaarder",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9385371,
           "longitude": 4.3592,
@@ -1470,7 +1470,7 @@
         {
           "id": "b6c83634-5798-52ef-8abb-29660dcb6e84",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 7 · De Zeeverkenner",
+          "name": "De Zeeverkenner",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.939488,
           "longitude": 4.357292,
@@ -1489,7 +1489,7 @@
         {
           "id": "374933e2-2c41-5e34-abe3-e3fec7a6ba65",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 8 · De Ontdekkingsreiziger",
+          "name": "De Ontdekkingsreiziger",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9389612,
           "longitude": 4.3558353,
@@ -1506,7 +1506,7 @@
         {
           "id": "609c1ea1-7a63-5993-9fe7-fb0bdec9ea14",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 9 · De Piraat",
+          "name": "De Piraat",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9449419,
           "longitude": 4.3504717,
@@ -1523,7 +1523,7 @@
         {
           "id": "ada18b96-118b-5f6c-825a-2ce73f6a8efe",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 10 · De Speurneus",
+          "name": "De Speurneus",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9427959,
           "longitude": 4.3496933,
@@ -1540,7 +1540,7 @@
         {
           "id": "b72ce345-9528-5699-9c67-92dc8cf04665",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 11 · De Tovenaar",
+          "name": "De Tovenaar",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9434768,
           "longitude": 4.3564038,
@@ -1557,7 +1557,7 @@
         {
           "id": "7225ff4f-a575-59ea-91fe-6ce1c6ba4d6c",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 12 · De Waterrat",
+          "name": "De Waterrat",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9406132,
           "longitude": 4.357269,
@@ -1575,7 +1575,7 @@
         {
           "id": "8abf8d79-3288-56ca-92b8-22089f42adec",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 13 · De Kampvuurzanger",
+          "name": "De Kampvuurzanger",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9410878,
           "longitude": 4.3591947,
@@ -1594,7 +1594,7 @@
         {
           "id": "eccb1a66-142c-5db3-ba38-3c5f4701ef47",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 14 · De Pionier",
+          "name": "De Pionier",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.938024,
           "longitude": 4.3499754,
@@ -1613,7 +1613,7 @@
         {
           "id": "29af98e3-eec9-5c63-9e0f-97d7fea65772",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 15 · De Nachthiker",
+          "name": "De Nachthiker",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9427795,
           "longitude": 4.3523388,
@@ -1631,7 +1631,7 @@
         {
           "id": "68cbe99e-6bf2-5bff-ae10-45ad772e3dba",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 16 · De Wintereend",
+          "name": "De Wintereend",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9430086,
           "longitude": 4.3543057,
@@ -1649,7 +1649,7 @@
         {
           "id": "da035117-317b-536e-b5cd-0028bebbba6f",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 17 · De Bosloper",
+          "name": "De Bosloper",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9399845,
           "longitude": 4.348445,
@@ -1666,7 +1666,7 @@
         {
           "id": "fe83e14c-2af8-50f5-87d8-647da13c93aa",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 18 · De Spelleider",
+          "name": "De Spelleider",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9399024,
           "longitude": 4.3510728,
@@ -1683,7 +1683,7 @@
         {
           "id": "9e80f0a7-f75d-5387-aece-9496894650da",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 19 · De Vaandeldrager",
+          "name": "De Vaandeldrager",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9375508,
           "longitude": 4.3518908,
@@ -1700,7 +1700,7 @@
         {
           "id": "6b5d6898-dcab-5bb0-9e4f-fc85a5e10425",
           "type": "PHYSICAL_DUCK",
-          "name": "Eend 20 · De Feesteend",
+          "name": "De Feesteend",
           "description": "Zoek het fysieke eendje. Druk op SCAN NFC en houd je telefoon tegen de tag. Werkt NFC niet? Vul het nummer op het eendje in (1 t/m 20). Je team krijgt de beloning eenmaal per eendje.",
           "latitude": 51.9422335,
           "longitude": 4.3572869,
