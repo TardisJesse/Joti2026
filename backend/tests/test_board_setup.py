@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import json
 from unittest import TestCase
 from sqlalchemy import create_engine
@@ -10,7 +11,7 @@ from app.services import distance_meters
 
 class BoardSetupTests(TestCase):
     def setUp(self):
-        self.engine=create_engine('sqlite://')
+        self.engine=create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(self.engine)
         self.db=Session(self.engine)
         self.pack=json.loads(PACK_FILE.read_text(encoding='utf-8'))

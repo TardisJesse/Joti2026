@@ -1,6 +1,7 @@
 import asyncio, hashlib, math, time
 from collections import defaultdict
 from typing import Any
+from anyio import from_thread
 from fastapi import HTTPException
 from redis import Redis
 from redis.exceptions import RedisError
@@ -58,3 +59,8 @@ def complete_capture(point_id: str, team_id: str, duration: int, cooldown_second
     return True
 async def broadcast(channel: str, event: dict):
     for queue in list(subscribers[channel]): await queue.put(event)
+
+
+def broadcast_from_worker(channel: str, event: dict):
+    # asyncio queues belong to the ASGI loop; wake subscribers on that loop.
+    from_thread.run(broadcast, channel, event)

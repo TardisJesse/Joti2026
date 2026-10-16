@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import importlib.util
 import json
 from pathlib import Path
@@ -30,7 +31,7 @@ class RewardBalanceTests(unittest.TestCase):
             self.assertEqual(GameObjectInput(**payload, reward_points=123).reward_points, 123)
 
     def test_existing_rewards_change_without_rewriting_earned_scores(self):
-        engine = create_engine('sqlite://')
+        engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(engine)
         with Session(engine) as db:
             game = Game(name='Ronde-A')

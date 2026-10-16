@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import importlib.util
 import json
 from pathlib import Path
@@ -28,7 +29,7 @@ class PuzzleEightTests(unittest.TestCase):
         self.assertEqual('KREWTEN'[::-1], 'NETWERK')
 
     def test_migration_replaces_only_p8_and_preserves_progress(self):
-        engine = create_engine('sqlite://')
+        engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(engine)
         with Session(engine) as db:
             game = Game(name='Ronde-A', game_code='RONDE-A')

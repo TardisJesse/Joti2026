@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 from datetime import datetime, timedelta, timezone
 from unittest import TestCase
 from unittest.mock import patch
@@ -14,7 +15,7 @@ from app.schemas import GameJoinInput
 
 class BonusAndRejoinTests(TestCase):
     def setUp(self):
-        self.engine = create_engine('sqlite://')
+        self.engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(self.engine)
         self.db = Session(self.engine)
         self.at = datetime(2026, 10, 7, 12, tzinfo=timezone.utc)

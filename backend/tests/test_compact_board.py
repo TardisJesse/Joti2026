@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import json
 from collections import Counter
 from pathlib import Path
@@ -41,7 +42,7 @@ class CompactBoardTests(TestCase):
             self.assertGreater(boundary_margin(obj['latitude'],obj['longitude']),obj['activation_radius_meters'])
 
     def test_replaces_only_main_boards_preserves_history_and_restores_old_board(self):
-        engine=create_engine('sqlite://');Base.metadata.create_all(engine)
+        engine=create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool);Base.metadata.create_all(engine)
         with Session(engine) as db:
             install_boards(db);db.commit()
             test=db.query(Game).filter_by(game_code='RONDE-TEST').one();test.status=GameStatus.PAUSED;test.timer_remaining_seconds=17

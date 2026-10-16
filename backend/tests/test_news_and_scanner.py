@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import asyncio
 from datetime import datetime, timedelta, timezone
 from unittest import TestCase
@@ -16,7 +17,7 @@ from app.game_clock import expire_due_games
 
 class NewsScannerTests(TestCase):
     def setUp(self):
-        self.engine = create_engine('sqlite://')
+        self.engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(self.engine)
         self.db = Session(self.engine)
         self.game = Game(name='A', status=GameStatus.RUNNING)

@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import importlib.util
 from pathlib import Path
 import unittest
@@ -14,7 +15,7 @@ spec.loader.exec_module(migration)
 
 class FieldUpdatesTests(unittest.TestCase):
     def setUp(self):
-        self.engine = create_engine('sqlite://')
+        self.engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         with self.engine.connect() as connection:
             connection.exec_driver_sql('PRAGMA foreign_keys=ON')
         Base.metadata.create_all(self.engine)

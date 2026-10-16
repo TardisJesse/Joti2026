@@ -1,3 +1,4 @@
+from sqlalchemy.pool import StaticPool
 import asyncio
 import base64
 from datetime import datetime, timedelta, timezone
@@ -24,7 +25,7 @@ def image_payload():
 
 class FeatureTests(TestCase):
     def setUp(self):
-        self.engine = create_engine('sqlite://')
+        self.engine = create_engine('sqlite://', connect_args={'check_same_thread': False}, poolclass=StaticPool)
         Base.metadata.create_all(self.engine)
         self.db = Session(self.engine)
         self.game = Game(name='Round', status=GameStatus.RUNNING)
