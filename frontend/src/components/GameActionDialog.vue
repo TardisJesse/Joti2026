@@ -155,7 +155,7 @@ async function submit(scanIdentifier?: DuckIdentifier) {
       })
       if (disposed || request !== version) return
       success.value = actionKind === 'scan' || response.correct
-      result.value = success.value ? (actionKind === 'scan' ? response.name + ' gevonden! +' : 'Goed antwoord! +') + response.points + ' volgers' : 'Dat antwoord klopt nog niet. Probeer het opnieuw.'
+      result.value = success.value ? (actionKind === 'scan' ? (response.golden ? 'Gouden ' : '') + response.name + ' gevonden! +' : 'Goed antwoord! +') + response.points + ' volgers' : 'Dat antwoord klopt nog niet. Probeer het opnieuw.'
       emit('updated')
     }
   } catch (e: any) { if (!disposed && request === version) error.value = e.message }
@@ -171,6 +171,7 @@ defineExpose({ open })
     <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'photo' ? 'FOTOPUNT' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
     <h2 id="game-dialog-title">{{ title }}</h2>
     <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien volgers voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Ga naar het eendje, druk op SCAN NFC en geef toestemming. Houd je telefoon tegen de tag. Beide manieren werken alleen als je met recente GPS in de buurt bent.' }}</p>
+    <p v-if="kind === 'scan' && object?.golden" class="golden-duck-label">✦ Gouden eend: dubbele punten voor de eerste vinder. De server bevestigt de beloning bij het scannen.</p>
     <form @submit.prevent="submit()">
       <p v-if="loading" role="status">Puzzel laden…</p>
       <p v-else-if="kind === 'puzzle' && question" class="puzzle-question">{{ question }}</p>

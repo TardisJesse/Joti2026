@@ -3,6 +3,8 @@ from contextlib import suppress
 from .game_clock import expire_due_games, expire_game, game_dto
 from .capture_income import settle_capture_income, settle_running_games
 from .bonus import bonus_state
+from .golden_ducks import golden_duck_window
+from .score_adjustments import router as score_adjustments_router
 from .news import add_news, news_dto, collect_news
 from .images import normalize_image
 from .team_colors import next_team_color
@@ -32,6 +34,7 @@ from .services import (begin_capture, broadcast, cancel_capture, complete_captur
 app = FastAPI(title="CyberJoti API", version="0.1.0")
 app.add_middleware(DatabaseConcurrencyMiddleware)
 app.include_router(push_router)
+app.include_router(score_adjustments_router)
 app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split(","), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
@@ -328,9 +331,11 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
         for model, score_type in ((Puzzle, ScoreType.PUZZLE_SOLVED), (PhotoPoint, ScoreType.PHOTO_SUBMITTED), (Duck, ScoreType.DUCK_FOUND)):
             completed.update(row[0] for row in db.query(model.game_object_id).join(ScoreEvent, ScoreEvent.reference_id == model.id).filter(model.game_object_id.in_(ids), ScoreEvent.team_id == user.team_id, ScoreEvent.type == score_type))
     duck_numbers = {item.game_object_id:item.duck_number for item in db.query(Duck).filter(Duck.game_object_id.in_(ids))}
+    found_ducks = {object_id for (object_id,) in db.query(Duck.game_object_id).join(DuckScan, DuckScan.duck_id == Duck.id).filter(Duck.game_object_id.in_(ids)).distinct()}
+    golden_ids = set(duck_numbers) - found_ducks if golden_duck_window(game) else set()
     for model in (Puzzle, PhotoPoint, Duck):
         rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "reward_points": point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "found_by_anyone": x.id in found_ducks, "golden": x.id in golden_ids, "base_reward_points": point.capture_reward if point else rewards.get(x.id), "reward_points": (rewards.get(x.id, 0) * 2) if x.id in golden_ids else point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -554,17 +559,25 @@ def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Sessio
         query = query.filter(Duck.scan_token_hash == hash_token(payload.token))
     matches = query.all()
     if len(matches) != 1: raise HTTPException(404, 'Eendje niet gevonden in deze spelronde. Controleer het nummer of probeer opnieuw te scannen.')
-    duck = matches[0]
+    # Serialize first discovery and round transitions so only one team receives
+    # the golden reward, even when two scans arrive together.
+    game = db.query(Game).filter_by(id=game.id).populate_existing().with_for_update().one()
+    duck = db.query(Duck).filter_by(id=matches[0].id).populate_existing().with_for_update().one()
     obj = db.get(GameObject, duck.game_object_id)
+    if not obj or not obj.active or obj.game_id != game.id:
+        raise HTTPException(404, 'Eendje niet gevonden in deze spelronde')
     require_running(game)
     require_nearby(user.id, obj.latitude, obj.longitude, duck.search_radius_meters)
     require_running(game)
+    golden = golden_duck_window(game) and db.query(DuckScan.id).filter_by(duck_id=duck.id).first() is None
+    points = duck.reward_points * (2 if golden else 1)
     try:
-        db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=duck.reward_points, reference_id=duck.id)); db.commit()
+        db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=points, reference_id=duck.id, note='Gouden eend: eerste vondst in de laatste 15 minuten' if golden else None)); db.commit()
     except IntegrityError:
         db.rollback(); raise HTTPException(409, 'Je team heeft dit eendje al gevonden.')
     broadcast_from_worker(f"team:{user.team_id}", {"type": "SCORE_UPDATED", "data": {"team_id": user.team_id}})
-    return {"found": True, "name": obj.name, "points": duck.reward_points}
+    broadcast_from_worker(f"game:{game.id}:events", {"type": "OBJECT_UPDATED", "data": {"id": obj.id}})
+    return {"found": True, "name": obj.name, "points": points, "golden": golden}
 
 @app.get("/api/scores")
 def scores(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
