@@ -9,6 +9,19 @@ def utc(value: datetime) -> datetime:
     return value.replace(tzinfo=timezone.utc) if value.tzinfo is None else value
 
 
+def settle_running_games(session_factory) -> None:
+    """Settle income once per clock tick, independent of browser polling volume."""
+    with session_factory() as db:
+        game_ids = [game_id for (game_id,) in db.query(Game.id).filter_by(status=GameStatus.RUNNING)]
+    for game_id in game_ids:
+        with session_factory() as db:
+            # Gameplay transitions take priority; retry busy rounds next tick.
+            game = db.query(Game).filter_by(id=game_id, status=GameStatus.RUNNING).with_for_update(skip_locked=True).first()
+            if game:
+                settle_capture_income(db, game_id)
+                db.commit()
+
+
 def settle_capture_income(db: Session, game_id: str, at: datetime | None = None) -> datetime:
     """Serialize ownership/round transitions and reads on the game row.
 

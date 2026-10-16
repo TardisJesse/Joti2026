@@ -50,6 +50,9 @@ async function loadDefaultLocations(layout: 'A' | 'B') {
   catch(e:any) { flash(e.message) } finally {adminBusy.value=false}
 }
 let watcher = 0, timer = 0, refreshTimer = 0, socket: WebSocket | undefined
+let activeLoad: Promise<void> | null = null, loadScope = '', refreshQueued = false
+let eventRefreshTimer = 0, gpsUploadTimer = 0, reconnectTimer = 0, reconnectAttempt = 0
+let pendingPosition: GeolocationPosition | null = null, gpsUploading = false, lastGpsUpload = 0
 const isAdmin = computed(() => user.value?.role === 'ADMIN')
 const phoneLocation = ref<any>(null), gpsState = ref('waiting'), gpsError = ref(''), now = ref(Date.now())
 const gpsStale = computed(() => Boolean(phoneLocation.value && now.value - phoneLocation.value.updatedAt > 60000))
@@ -60,19 +63,71 @@ function mapAction(object: any) { if (object.type === 'PUZZLE') solve(object); e
 const mascotLogo = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCI316EyPZYN-dEftmLoX_hN9zPIdqM9dqO6-U6-WWOQgjTut0YjabkA1dT_FwdumJG_oEYNpOejgOhkgxRcbvle-A2tlid4vhrRH9FAdE_pCXpn5DRTJRa7bd54zqkxR84nK7F8ST6ll2Ma6SxYXdjAt5AazGe4ubrWSWe3hf0SP0_aoHGefH5-8aOxhKaIXopF4pNJ8EodUvoulgMhsP3DAoTwWAOUcYoquV039ZwmZh0BhXfazGA'
 const gameQuery = () => isAdmin.value && selectedGameId.value ? `?game_id=${encodeURIComponent(selectedGameId.value)}` : ''
 async function loadGames() { if (!isAdmin.value) return; games.value = await api('/api/admin/games'); if (!selectedGameId.value && games.value[0]) selectedGameId.value = games.value[0].id }
-async function load() { const request=++loadVersion; await loadGames(); const scope=gameQuery(); if (isAdmin.value && !selectedGameId.value) { objects.value=[];scores.value=[];locations.value=[];news.value=[];round.value=null;return }; const [nextObjects, nextScores, nextLocations, game, nextNews, nextDucks] = await Promise.all([api('/api/game-objects'+gameQuery()), api('/api/scores'+gameQuery()), api('/api/locations'+gameQuery()), api('/api/game'+gameQuery()), api('/api/news'+gameQuery()).then(value=>{ newsFailed.value=false; return value }).catch(()=>{newsFailed.value=true; return news.value}), isAdmin.value ? api('/api/admin/ducks'+gameQuery()) : Promise.resolve([])]); if(!user.value || request!==loadVersion || scope!==gameQuery()) return; duckOptions.value=Array.isArray(nextDucks)?nextDucks:[]; news.value=Array.isArray(nextNews)?nextNews:[]; objects.value=nextObjects; const bonus=nextObjects.find((object:any)=>object.bonus_active); const bonusKey=bonus ? `${bonus.id}:${bonus.bonus_cycle}` : ''; if(bonusKey && bonusKey!==lastBonus) showCaptureNotice(`🌈 ${bonus.name} is vijf minuten lang de bonuslocatie: dubbele volgers per minuut!`); lastBonus=bonusKey; scores.value=nextScores; locations.value=nextLocations; syncRound(game) }
-function beginRefresh() { clearInterval(refreshTimer); clearInterval(clockTicker); refreshTimer = window.setInterval(() => load().catch(() => {}), 15000); clockTicker = window.setInterval(() => { now.value=Date.now(); const deadline=round.value?.ends_at; if (deadline && remainingSeconds.value===0 && refreshedDeadline!==deadline) { refreshedDeadline=deadline; load().catch(() => {}) } }, 1000) }
+async function loadState() { const request=++loadVersion; await loadGames(); const scope=gameQuery(); if (isAdmin.value && !selectedGameId.value) { objects.value=[];scores.value=[];locations.value=[];news.value=[];round.value=null;return }; const [nextObjects, nextScores, nextLocations, game, nextNews, nextDucks] = await Promise.all([api('/api/game-objects'+gameQuery()), api('/api/scores'+gameQuery()), api('/api/locations'+gameQuery()), api('/api/game'+gameQuery()), api('/api/news'+gameQuery()).then(value=>{ newsFailed.value=false; return value }).catch(()=>{newsFailed.value=true; return news.value}), isAdmin.value ? api('/api/admin/ducks'+gameQuery()) : Promise.resolve([])]); if(!user.value || request!==loadVersion || scope!==gameQuery()) return; duckOptions.value=Array.isArray(nextDucks)?nextDucks:[]; news.value=Array.isArray(nextNews)?nextNews:[]; objects.value=nextObjects; const bonus=nextObjects.find((object:any)=>object.bonus_active); const bonusKey=bonus ? `${bonus.id}:${bonus.bonus_cycle}` : ''; if(bonusKey && bonusKey!==lastBonus) showCaptureNotice(`🌈 ${bonus.name} is vijf minuten lang de bonuslocatie: dubbele volgers per minuut!`); lastBonus=bonusKey; scores.value=nextScores; locations.value=nextLocations; syncRound(game) }
+// Collapse bursts of game events into one refresh, and never overlap snapshots.
+function scheduleRefresh() {
+  if (!user.value || eventRefreshTimer) return
+  eventRefreshTimer = window.setTimeout(() => {
+    eventRefreshTimer = 0
+    load().catch(() => {})
+  }, 300)
+}
+function load(): Promise<void> {
+  const scope = (user.value?.id || '') + gameQuery()
+  if (activeLoad) {
+    if (scope !== loadScope) return activeLoad.catch(() => {}).then(() => load())
+    refreshQueued = true
+    return activeLoad
+  }
+  loadScope = scope
+  activeLoad = loadState().finally(() => {
+    activeLoad = null
+    if (refreshQueued) { refreshQueued = false; scheduleRefresh() }
+  })
+  return activeLoad
+}
+function beginRefresh() {
+  clearTimeout(refreshTimer); clearInterval(clockTicker)
+  const poll = async () => {
+    if (!user.value) return
+    if (!document.hidden) await load().catch(() => {})
+    if (user.value) refreshTimer = window.setTimeout(poll, 15000 + Math.random() * 5000)
+  }
+  refreshTimer = window.setTimeout(poll, 15000 + Math.random() * 5000)
+  clockTicker = window.setInterval(() => {
+    now.value = Date.now()
+    const deadline = round.value?.ends_at
+    if (deadline && remainingSeconds.value === 0 && refreshedDeadline !== deadline) {
+      refreshedDeadline = deadline; scheduleRefresh()
+    }
+  }, 1000)
+}
 function profileSaved(updated: User) { user.value = updated; refreshAfterAction() }
 async function completeSession(x:any) { localStorage.setItem('cyberjoti-token',x.access_token); user.value=x.user; if(isAdmin.value) await loadGames(); await load(); if(!isAdmin.value) { beginGps(); tab.value='map' }; beginRefresh(); connect() }
 async function joinGame() { try { error.value=''; const x = await api('/api/games/join', {method:'POST', body:JSON.stringify({game_code:gameCode.value,team_name:teamName.value})}); await completeSession(x) } catch(e:any) { error.value=e.message } }
 async function loginAdmin() { try { error.value=''; const x = await api('/api/auth/login', {method:'POST', body:JSON.stringify({name:adminName.value,password:adminPassword.value})}); await completeSession(x) } catch(e:any) { error.value=e.message } }
-function logout() { loadVersion++; api('/api/push/subscriptions', { method: 'DELETE' }).catch(() => {}); clearTimeout(noticeTimer); captureNotice.value=''; localStorage.removeItem('cyberjoti-token'); user.value=null; phoneLocation.value=null; gpsState.value='waiting'; tab.value='dashboard'; navigator.geolocation?.clearWatch(watcher); clearInterval(timer); clearInterval(refreshTimer); clearInterval(clockTicker); round.value=null; refreshedDeadline=''; lastBonus=''; news.value=[]; requestedObject.value=null; seenCaptures.clear(); socket?.close() }
-async function sendLocation(p: GeolocationPosition) {
+function logout() { loadVersion++; clearTimeout(eventRefreshTimer); clearTimeout(gpsUploadTimer); clearTimeout(reconnectTimer); eventRefreshTimer=0; gpsUploadTimer=0; reconnectTimer=0; reconnectAttempt=0; pendingPosition=null; lastGpsUpload=0; refreshQueued=false; api('/api/push/subscriptions', { method: 'DELETE' }).catch(() => {}); clearTimeout(noticeTimer); captureNotice.value=''; localStorage.removeItem('cyberjoti-token'); user.value=null; phoneLocation.value=null; gpsState.value='waiting'; tab.value='dashboard'; navigator.geolocation?.clearWatch(watcher); clearInterval(timer); clearInterval(refreshTimer); clearInterval(clockTicker); round.value=null; refreshedDeadline=''; lastBonus=''; news.value=[]; requestedObject.value=null; seenCaptures.clear(); socket?.close() }
+function scheduleGpsUpload() {
+  if (!pendingPosition || gpsUploading || gpsUploadTimer || !user.value || isAdmin.value) return
+  gpsUploadTimer = window.setTimeout(uploadLocation, Math.max(0, 5000 - (Date.now() - lastGpsUpload)))
+}
+async function uploadLocation() {
+  gpsUploadTimer = 0
+  if (!pendingPosition || gpsUploading || !user.value || isAdmin.value) return
+  const p = pendingPosition
+  pendingPosition = null; gpsUploading = true; lastGpsUpload = Date.now()
+  try {
+    await api('/api/location', { method: 'POST', body: JSON.stringify({ latitude: p.coords.latitude, longitude: p.coords.longitude, accuracy: p.coords.accuracy, timestamp: new Date(p.timestamp).toISOString() }) })
+  } catch { if (user.value) status.value = 'Locatie delen mislukt. Controleer je verbinding.' }
+  finally { gpsUploading = false; scheduleGpsUpload() }
+}
+function sendLocation(p: GeolocationPosition) {
   if (!user.value || isAdmin.value) return
+  // The phone marker stays immediate; only network uploads are throttled.
   phoneLocation.value = { lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy, updatedAt: p.timestamp }
   now.value = Date.now(); gpsState.value = 'ready'; gpsError.value = ''
-  try { await api('/api/location', { method: 'POST', body: JSON.stringify({ latitude: p.coords.latitude, longitude: p.coords.longitude, accuracy: p.coords.accuracy, timestamp: new Date(p.timestamp).toISOString() }) }); await load() }
-  catch { status.value = 'Locatie delen mislukt. Controleer je verbinding.' }
+  pendingPosition = p
+  scheduleGpsUpload()
 }
 function beginGps() {
   navigator.geolocation?.clearWatch(watcher); clearInterval(timer)
@@ -85,20 +140,35 @@ function beginGps() {
   }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 })
 }
 function connect() {
+  clearTimeout(reconnectTimer)
+  if (!user.value) return
   if(socket) { socket.onclose = null; socket.close() }
   socket = new WebSocket(wsUrl(isAdmin.value ? selectedGameId.value : user.value?.game_id))
-  socket.onopen = () => load().catch(()=>{})
+  socket.onopen = () => { if (reconnectAttempt) scheduleRefresh(); reconnectAttempt = 0 }
   socket.onmessage = event => {
     try {
       const message = JSON.parse(event.data)
-      if(message.type === 'HEARTBEAT') return
+      if(message.type === 'HEARTBEAT' || message.type === 'CAPTURE_STARTED') return
+      if(message.type === 'PLAYER_LOCATION') {
+        const data = message.data
+        const previous = locations.value.find(row => row.player_id === data.player_id)
+        const teamId = data.team_id || previous?.team_id || user.value?.team_id
+        const team = scores.value.find(row => row.team_id === teamId)
+        const updated = { ...previous, player_id: data.player_id, team_id: teamId, name: previous?.name || team?.name || user.value?.name, team_name: previous?.team_name || team?.name, profile_image: previous?.profile_image || team?.profile_image, location: { lat: data.lat, lng: data.lng, accuracy: data.accuracy, updated_at: data.updated_at } }
+        locations.value = [...locations.value.filter(row => row.player_id !== data.player_id), updated]
+        return
+      }
       if(message.type === 'GAME_UPDATED' && message.data.id === round.value?.id) syncRound(message.data)
       if(message.type === 'CAPTURE_COMPLETED') { const key=message.data.event_id; if(!key || !seenCaptures.has(key)) { if(key) seenCaptures.add(key); showCaptureNotice(message.data.owner_team_name + ' heeft ' + message.data.object_name + ' veroverd!') } }
-      if(message.type === 'NEWS_EVENT') news.value=[message.data,...news.value.filter(row=>row.id!==message.data.id)].sort((a,b)=>b.created_at.localeCompare(a.created_at)||b.id.localeCompare(a.id)).slice(0,50)
-      load().catch(() => {})
+      if(message.type === 'NEWS_EVENT') { news.value=[message.data,...news.value.filter(row=>row.id!==message.data.id)].sort((a,b)=>b.created_at.localeCompare(a.created_at)||b.id.localeCompare(a.id)).slice(0,50); if(message.data.kind === 'BONUS_STARTED') scheduleRefresh(); return }
+      scheduleRefresh()
     } catch {}
   }
-  socket.onclose = () => setTimeout(() => user.value && connect(), 3000)
+  socket.onclose = () => {
+    if (!user.value) return
+    const delay = Math.min(30000, 1000 * 2 ** Math.min(reconnectAttempt++, 5)) + Math.random() * 1000
+    reconnectTimer = window.setTimeout(connect, delay)
+  }
 }
 function canPlay() { if (roundRunning.value) return true; flash(roundFinished.value ? 'Het spel is afgelopen.' : 'De spelronde is nog niet gestart of is gepauzeerd.'); return false }
 function solve(obj: any) { if (canPlay()) actionDialog.value?.open('puzzle', obj) }

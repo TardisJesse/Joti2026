@@ -1,7 +1,7 @@
 import asyncio, logging, math, os, time
 from contextlib import suppress
 from .game_clock import expire_due_games, expire_game, game_dto
-from .capture_income import settle_capture_income
+from .capture_income import settle_capture_income, settle_running_games
 from .bonus import bonus_state
 from .news import add_news, news_dto, collect_news
 from .images import normalize_image
@@ -41,6 +41,7 @@ async def round_clock_loop():
             finished = await asyncio.to_thread(expire_due_games, SessionLocal)
             for game in finished:
                 await broadcast(f"game:{game['id']}:events", {'type': 'GAME_UPDATED', 'data': game})
+            await asyncio.to_thread(settle_running_games, SessionLocal)
             for event in await asyncio.to_thread(collect_news, SessionLocal):
                 await broadcast(f"game:{event['game_id']}:events", {'type': 'NEWS_EVENT', 'data': event})
         except Exception:
@@ -278,9 +279,14 @@ def location(payload: LocationInput, user: User = Depends(current_user), db: Ses
 @app.get("/api/locations")
 def locations(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
-    query = db.query(User).join(Team, User.team_id == Team.id).filter(Team.game_id == game.id, User.active.is_(True))
+    query = db.query(User, Team).join(Team, User.team_id == Team.id).filter(Team.game_id == game.id, User.active.is_(True))
     if user.role != UserRole.ADMIN: query = query.filter(User.id == user.id)
-    return [{"player_id": player.id, "name": player.name, "team_name": db.get(Team, player.team_id).name, "profile_image": player.profile_image, "team_id": player.team_id, "location": get_location(player.id)} for player in query.all() if get_location(player.id)]
+    result = []
+    for player, team in query.all():
+        location = get_location(player.id)
+        if location:
+            result.append({"player_id": player.id, "name": player.name, "team_name": team.name, "profile_image": player.profile_image, "team_id": player.team_id, "location": location})
+    return result
 
 @app.get("/api/news")
 def round_news(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
@@ -312,8 +318,6 @@ def scanner_locations(object_id: str, user: User = Depends(current_user), db: Se
 @app.get("/api/game-objects")
 def game_objects(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
-    settle_capture_income(db, game.id)
-    db.commit()
     rows = db.query(GameObject, CapturePoint, Team).outerjoin(CapturePoint, CapturePoint.game_object_id == GameObject.id).outerjoin(Team, Team.id == CapturePoint.owner_team_id).filter(GameObject.game_id == game.id, GameObject.active.is_(True)).all()
     bonus = bonus_state(game, sorted(x.id for x, point, owner in rows if point))
     ids = [x.id for x, point, owner in rows]
@@ -564,7 +568,6 @@ def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Sessio
 @app.get("/api/scores")
 def scores(game_id: str | None = None, user: User = Depends(current_user), db: Session = Depends(db_session)):
     game = selected_game(user, db, game_id)
-    settle_capture_income(db, game.id); db.commit()
     total = func.coalesce(func.sum(ScoreEvent.points), 0)
     rows = db.query(Team.id, Team.name, Team.color, total.label("score")).outerjoin(ScoreEvent, ScoreEvent.team_id == Team.id).filter(Team.game_id == game.id).group_by(Team.id, Team.name, Team.color).order_by(total.desc(), func.lower(Team.name), Team.id).all()
     portraits = {}
