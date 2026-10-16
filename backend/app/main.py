@@ -3,7 +3,7 @@ from contextlib import suppress
 from .game_clock import expire_due_games, expire_game, game_dto
 from .capture_income import settle_capture_income, settle_running_games
 from .bonus import bonus_state
-from .golden_ducks import golden_duck_window
+from .golden_rewards import golden_reward_window
 from .score_adjustments import router as score_adjustments_router
 from .news import add_news, news_dto, collect_news
 from .images import normalize_image
@@ -332,10 +332,12 @@ def game_objects(game_id: str | None = None, user: User = Depends(current_user),
             completed.update(row[0] for row in db.query(model.game_object_id).join(ScoreEvent, ScoreEvent.reference_id == model.id).filter(model.game_object_id.in_(ids), ScoreEvent.team_id == user.team_id, ScoreEvent.type == score_type))
     duck_numbers = {item.game_object_id:item.duck_number for item in db.query(Duck).filter(Duck.game_object_id.in_(ids))}
     found_ducks = {object_id for (object_id,) in db.query(Duck.game_object_id).join(DuckScan, DuckScan.duck_id == Duck.id).filter(Duck.game_object_id.in_(ids)).distinct()}
-    golden_ids = set(duck_numbers) - found_ducks if golden_duck_window(game) else set()
+    photographed_points = {object_id for (object_id,) in db.query(PhotoPoint.game_object_id).join(PhotoSubmission, PhotoSubmission.photo_point_id == PhotoPoint.id).filter(PhotoPoint.game_object_id.in_(ids)).distinct()}
+    photo_ids = {x.id for x, point, owner in rows if x.type == ObjectType.PHOTO_POINT}
+    golden_ids = ((set(duck_numbers) - found_ducks) | (photo_ids - photographed_points)) if golden_reward_window(game) else set()
     for model in (Puzzle, PhotoPoint, Duck):
         rewards.update({item.game_object_id: item.reward_points for item in db.query(model).filter(model.game_object_id.in_(ids)).all()})
-    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "found_by_anyone": x.id in found_ducks, "golden": x.id in golden_ids, "base_reward_points": point.capture_reward if point else rewards.get(x.id), "reward_points": (rewards.get(x.id, 0) * 2) if x.id in golden_ids else point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
+    return [{"id": x.id, "type": x.type, "name": x.name, "description": x.description, "latitude": x.latitude, "longitude": x.longitude, "activation_radius_meters": x.activation_radius_meters, "completed": x.id in completed, "duck_number": duck_numbers.get(x.id), "found_by_anyone": x.id in found_ducks, "photographed_by_anyone": x.id in photographed_points, "golden": x.id in golden_ids, "base_reward_points": point.capture_reward if point else rewards.get(x.id), "reward_points": (rewards.get(x.id, 0) * 2) if x.id in golden_ids else point.capture_reward if point else rewards.get(x.id), "capture_seconds": point.capture_seconds if point else None, "points_per_minute": point.points_per_minute if point else None, "bonus_active": bool(bonus and bonus['object_id'] == x.id), "bonus_multiplier": bonus['multiplier'] if bonus and bonus['object_id'] == x.id else 1, "bonus_ends_at": bonus['ends_at'] if bonus and bonus['object_id'] == x.id else None, "bonus_cycle": bonus['cycle'] if bonus and bonus['object_id'] == x.id else None, "owner_team_id": owner.id if owner else None, "owner_team_name": owner.name if owner else None, "owner_team_color": owner.color if owner else None} for x, point, owner in rows]
 @app.get("/api/game-objects/{object_id}")
 def game_object(object_id: str, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = db.get(GameObject, object_id)
@@ -522,26 +524,32 @@ def photos(object_id: str, user: User = Depends(current_user), db: Session = Dep
         require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
     point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).one()
     rows = db.query(PhotoSubmission, Team).join(Team, Team.id == PhotoSubmission.team_id).filter(PhotoSubmission.photo_point_id == point.id).order_by(PhotoSubmission.created_at.desc()).all()
-    return {'reward_points': point.reward_points, 'submitted': any(photo.team_id == user.team_id for photo, team in rows), 'photos': [{'id': photo.id, 'team_name': team.name, 'image': photo.image} for photo, team in rows]}
+    golden = not rows and golden_reward_window(db.get(Game, obj.game_id))
+    return {'reward_points': point.reward_points * (2 if golden else 1), 'base_reward_points': point.reward_points, 'golden': golden, 'submitted': any(photo.team_id == user.team_id for photo, team in rows), 'photos': [{'id': photo.id, 'team_name': team.name, 'image': photo.image} for photo, team in rows]}
 
 @app.post('/api/photos/{object_id}')
 @database_worker
 def submit_photo(object_id: str, payload: ImageInput, user: User = Depends(current_user), db: Session = Depends(db_session)):
     obj = object_for(object_id, ObjectType.PHOTO_POINT, user, db)
     require_nearby(user.id, obj.latitude, obj.longitude, obj.activation_radius_meters)
-    point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).one()
+    # object_for holds the round lock; lock the point as well before deciding
+    # the first submission, so simultaneous uploads cannot both win the bonus.
+    point = db.query(PhotoPoint).filter_by(game_object_id=obj.id).populate_existing().with_for_update().one()
     image = normalize_image(payload.image)
-    require_running(db.get(Game, obj.game_id))
+    game = db.get(Game, obj.game_id)
+    require_running(game)
+    golden = golden_reward_window(game) and db.query(PhotoSubmission.id).filter_by(photo_point_id=point.id).first() is None
+    points = point.reward_points * (2 if golden else 1)
     try:
         db.add(PhotoSubmission(photo_point_id=point.id, team_id=user.team_id, user_id=user.id, image=image))
         db.flush()
-        db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.PHOTO_SUBMITTED, reference_id=point.id, points=point.reward_points))
+        db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.PHOTO_SUBMITTED, reference_id=point.id, points=points, note='Gouden fotopunt: eerste foto in de laatste 15 minuten' if golden else None))
         db.commit()
     except IntegrityError:
         db.rollback()
         raise HTTPException(409, 'Your team already submitted a photo at this point')
     broadcast_from_worker(f'game:{obj.game_id}:events', {'type': 'SCORE_UPDATED', 'data': {'team_id': user.team_id}})
-    return {'points': point.reward_points}
+    return {'points': points, 'golden': golden}
 
 @app.post("/api/ducks/scan")
 @database_worker
@@ -569,7 +577,7 @@ def duck_scan(payload: ScanInput, user: User = Depends(current_user), db: Sessio
     require_running(game)
     require_nearby(user.id, obj.latitude, obj.longitude, duck.search_radius_meters)
     require_running(game)
-    golden = golden_duck_window(game) and db.query(DuckScan.id).filter_by(duck_id=duck.id).first() is None
+    golden = golden_reward_window(game) and db.query(DuckScan.id).filter_by(duck_id=duck.id).first() is None
     points = duck.reward_points * (2 if golden else 1)
     try:
         db.add(DuckScan(duck_id=duck.id, team_id=user.team_id, user_id=user.id)); db.flush(); db.add(ScoreEvent(team_id=user.team_id, type=ScoreType.DUCK_FOUND, points=points, reference_id=duck.id, note='Gouden eend: eerste vondst in de laatste 15 minuten' if golden else None)); db.commit()

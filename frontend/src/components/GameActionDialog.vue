@@ -60,6 +60,7 @@ async function loadPhotos(id: string, request: number) {
   const response = await api('/api/photos/' + id)
   if (request !== version) return
   gallery.value = response.photos; photoAllowed.value = true; success.value = response.submitted || Boolean(props.admin)
+  object.value = { ...object.value, golden: response.golden, reward_points: response.reward_points }
   if (response.submitted) result.value = 'Je team heeft hier al een foto ingestuurd.'
 }
 const activeCapture = ref<string | null>(null)
@@ -138,7 +139,7 @@ async function submit(scanIdentifier?: DuckIdentifier) {
       if (disposed || request !== version) return
       success.value = true; photo.value = ''; emit('updated')
       await loadPhotos(target.id, request)
-      result.value = 'Teamfoto ingestuurd! +' + response.points + ' volgers'
+      result.value = (response.golden ? 'Eerste foto op een gouden fotopunt! +' : 'Teamfoto ingestuurd! +') + response.points + ' volgers'
     } else if (actionKind === 'remove') {
       await api('/api/admin/game-objects/' + target.id + '?game_id=' + encodeURIComponent(target.game_id), { method: 'DELETE' })
       if (disposed || request !== version) return
@@ -171,7 +172,8 @@ defineExpose({ open })
     <p class="eyebrow">{{ kind === 'puzzle' ? 'PUZZEL' : kind === 'photo' ? 'FOTOPUNT' : kind === 'capture' ? 'CAPTURE THE FLAG' : kind === 'remove' ? 'PUNT VERWIJDEREN' : 'NFC SCANNER' }}</p>
     <h2 id="game-dialog-title">{{ title }}</h2>
     <p id="game-dialog-description">{{ kind === 'puzzle' ? 'Los de puzzel op en verdien volgers voor je team.' : kind === 'photo' ? `Ga binnen ${object?.activation_radius_meters} meter van dit punt staan. Stuur een foto van jezelf met je team op deze plek. Hier kun je ook de teamfoto’s bekijken.` : kind === 'remove' ? 'Dit punt verdwijnt voor alle spelers in deze ronde. Eerder behaalde scores blijven bewaard.' : kind === 'capture' ? `Ga binnen de cirkel van ${object?.activation_radius_meters ?? '—'} meter staan en blijf daar tijdens de capture.` : 'Ga naar het eendje, druk op SCAN NFC en geef toestemming. Houd je telefoon tegen de tag. Beide manieren werken alleen als je met recente GPS in de buurt bent.' }}</p>
-    <p v-if="kind === 'scan' && object?.golden" class="golden-duck-label">✦ Gouden eend: dubbele punten voor de eerste vinder. De server bevestigt de beloning bij het scannen.</p>
+    <p v-if="kind === 'photo' && object?.golden && !success" class="golden-point-label">✦ Gouden fotopunt: dubbele punten voor het eerste team dat hier een foto instuurt. De server bevestigt de beloning bij het insturen.</p>
+    <p v-if="kind === 'scan' && object?.golden" class="golden-point-label">✦ Gouden eend: dubbele punten voor de eerste vinder. De server bevestigt de beloning bij het scannen.</p>
     <form @submit.prevent="submit()">
       <p v-if="loading" role="status">Puzzel laden…</p>
       <p v-else-if="kind === 'puzzle' && question" class="puzzle-question">{{ question }}</p>
