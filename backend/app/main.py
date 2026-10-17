@@ -23,7 +23,7 @@ from .concurrency import DatabaseConcurrencyMiddleware, database_worker
 from starlette.concurrency import run_in_threadpool
 from .services import broadcast_from_worker
 from .models import *
-from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInput,
+from .schemas import (AnswerInput, DefaultGameInput, GameCreateInput, GameJoinInput, GameObjectInput,
                       GameStatusInput, GameTimerInput, GameStartTimerInput, LocationInput, LoginInput, ScanInput, ImageInput,
                       LoadLocationsInput, DuckLocationInput)
 from .duck_catalog import duck_catalog, standard_pack
@@ -143,6 +143,30 @@ def require_team(user: User):
 @app.get("/health")
 def health(): return {"status": "ok", "time": datetime.now(timezone.utc)}
 
+
+def default_game_dto(db: Session):
+    preferences = db.get(GameSettings, 1)
+    game = db.get(Game, preferences.default_game_id) if preferences and preferences.default_game_id else None
+    return {'game_id': game.id if game else None, 'game_code': game.game_code if game else None}
+
+
+@app.get('/api/default-game')
+def default_game(response: Response, db: Session = Depends(db_session)):
+    response.headers['Cache-Control'] = 'no-store'
+    return default_game_dto(db)
+
+
+@app.put('/api/admin/default-game')
+def set_default_game(payload: DefaultGameInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game = db.get(Game, payload.game_id)
+    if not game or not game.game_code:
+        raise HTTPException(404, 'Kies een bestaande spelronde met een spelcode.')
+    preferences = db.query(GameSettings).filter_by(id=1).with_for_update().one()
+    preferences.default_game_id = game.id
+    db.commit()
+    return default_game_dto(db)
+
+
 @app.post("/api/auth/login")
 def login(payload: LoginInput, db: Session = Depends(db_session)):
     user = db.query(User).filter(func.lower(User.name) == payload.name.lower()).first()
@@ -220,7 +244,11 @@ def create_game(payload: GameCreateInput, admin: User = Depends(require_admin), 
     if db.query(Game).filter(func.lower(Game.game_code) == code.lower()).first():
         raise HTTPException(409, "This game code already exists")
     game = Game(game_code=code, name=payload.name or f"Spelronde {code}", status=GameStatus.READY)
-    db.add(game); db.commit()
+    db.add(game); db.flush()
+    preferences = db.query(GameSettings).filter_by(id=1).with_for_update().first()
+    if preferences and not preferences.default_game_id:
+        preferences.default_game_id = game.id
+    db.commit()
     return game_dto(game)
 
 

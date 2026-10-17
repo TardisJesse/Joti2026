@@ -35,6 +35,12 @@ class Game(IdTimeMixin, Base):
     play_area_json: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
+class GameSettings(Base):
+    __tablename__ = 'game_settings'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    default_game_id: Mapped[str | None] = mapped_column(ForeignKey('games.id', ondelete='SET NULL'), nullable=True)
+
+
 class NewsEvent(IdTimeMixin, Base):
     __tablename__ = "news_events"
     __table_args__ = (UniqueConstraint("game_id", "source_key", name="uq_news_game_source"),)

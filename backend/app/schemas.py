@@ -11,6 +11,8 @@ class GameJoinInput(BaseModel):
 class GameCreateInput(BaseModel):
     game_code: str = Field(min_length=2, max_length=32, pattern=r"^[A-Za-z0-9_-]+$")
     name: str | None = Field(default=None, max_length=160)
+class DefaultGameInput(BaseModel):
+    game_id: str = Field(min_length=36, max_length=36)
 class GameStatusInput(BaseModel):
     status: str
 class GameTimerInput(BaseModel):
