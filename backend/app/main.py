@@ -1,6 +1,6 @@
 import asyncio, logging, math, os, time
 from contextlib import suppress
-from .game_clock import expire_due_games, expire_game, game_dto
+from .game_clock import expire_due_games, advance_game, game_dto
 from .capture_income import settle_capture_income, settle_running_games
 from .bonus import bonus_state
 from .golden_rewards import golden_reward_window
@@ -24,7 +24,7 @@ from starlette.concurrency import run_in_threadpool
 from .services import broadcast_from_worker
 from .models import *
 from .schemas import (AnswerInput, GameCreateInput, GameJoinInput, GameObjectInput,
-                      GameStatusInput, GameTimerInput, LocationInput, LoginInput, ScanInput, ImageInput,
+                      GameStatusInput, GameTimerInput, GameStartTimerInput, LocationInput, LoginInput, ScanInput, ImageInput,
                       LoadLocationsInput, DuckLocationInput)
 from .duck_catalog import duck_catalog, standard_pack
 from .security import create_token, current_user, hash_password, load_user_for_token, require_admin, verify_password
@@ -41,8 +41,8 @@ app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split("
 async def round_clock_loop():
     while True:
         try:
-            finished = await asyncio.to_thread(expire_due_games, SessionLocal)
-            for game in finished:
+            changed = await asyncio.to_thread(expire_due_games, SessionLocal)
+            for game in changed:
                 await broadcast(f"game:{game['id']}:events", {'type': 'GAME_UPDATED', 'data': game})
             await asyncio.to_thread(settle_running_games, SessionLocal)
             for event in await asyncio.to_thread(collect_news, SessionLocal):
@@ -105,7 +105,7 @@ def team_game(user: User, db: Session) -> Game:
     game = db.get(Game, team.game_id) if team else None
     if not game:
         raise HTTPException(404, "Game round not found")
-    if expire_game(db, game): db.commit()
+    if advance_game(db, game): db.commit()
     return game
 
 
@@ -117,7 +117,7 @@ def selected_game(user: User, db: Session, game_id: str | None = None) -> Game:
     game = db.get(Game, game_id)
     if not game:
         raise HTTPException(404, "Game round not found")
-    if expire_game(db, game): db.commit()
+    if advance_game(db, game): db.commit()
     return game
 
 
@@ -171,7 +171,7 @@ def join_game(payload: GameJoinInput, db: Session = Depends(db_session)):
     game = db.query(Game).filter(func.lower(Game.game_code) == code.lower()).with_for_update().first()
     if game is None:
         raise HTTPException(404, "Unknown game code. Ask an admin to create the game round.")
-    if expire_game(db, game): db.commit()
+    if advance_game(db, game): db.commit()
     team = db.query(Team).filter(Team.game_id == game.id, func.lower(Team.name) == team_name.lower()).first()
     if team:
         player = db.query(User).filter(User.team_id == team.id, User.active.is_(True), User.role != UserRole.ADMIN).order_by(User.created_at, User.id).first()
@@ -210,7 +210,7 @@ def current_game(game_id: str | None = None, user: User = Depends(current_user),
 def admin_games(admin: User = Depends(require_admin), db: Session = Depends(db_session)):
     games = db.query(Game).order_by(Game.created_at.desc()).all()
     for game in games:
-        if expire_game(db, game): db.commit()
+        if advance_game(db, game): db.commit()
     return [game_dto(game) for game in games]
 
 
@@ -234,6 +234,10 @@ def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depend
         raise HTTPException(409, 'Deze spelronde is al afgelopen')
     at = settle_capture_income(db, game.id)
     previous_status = game.status
+    scheduled = game.scheduled_start_at is not None
+    game.scheduled_start_at = None
+    if scheduled and status != GameStatus.RUNNING:
+        game.timer_remaining_seconds = None
     if game.status != status:
         if status == GameStatus.PAUSED and game.ends_at and game.status == GameStatus.RUNNING:
             game.timer_remaining_seconds = max(0, math.ceil((utc(game.ends_at) - at).total_seconds()))
@@ -246,6 +250,8 @@ def set_game_status(game_id: str, payload: GameStatusInput, admin: User = Depend
         elif game.status == GameStatus.FINISHED:
             game.ends_at = None
     game.status = status
+    if status == GameStatus.RUNNING and previous_status != status:
+        game.starts_at = at if scheduled else game.starts_at or at
     if previous_status != status and status in (GameStatus.RUNNING, GameStatus.PAUSED, GameStatus.FINISHED):
         label = 'hervat' if status == GameStatus.RUNNING and previous_status == GameStatus.PAUSED else 'gestart' if status == GameStatus.RUNNING else 'gepauzeerd' if status == GameStatus.PAUSED else 'afgelopen'
         add_news(db, game.id, 'GAME_STATUS', f'De spelronde is {label}.')
@@ -261,6 +267,7 @@ def set_round_timer(game_id: str, payload: GameTimerInput, admin: User = Depends
     game = selected_game(admin, db, game_id)
     at = settle_capture_income(db, game.id)
     game.ends_at = at + timedelta(seconds=payload.duration_seconds)
+    game.scheduled_start_at = None
     game.timer_remaining_seconds = None
     game.starts_at = game.starts_at or at
     game.status = GameStatus.RUNNING
@@ -276,7 +283,42 @@ def set_round_timer(game_id: str, payload: GameTimerInput, admin: User = Depends
 def remove_round_timer(game_id: str, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
     game = selected_game(admin, db, game_id)
     settle_capture_income(db, game.id)
-    game.ends_at = None; game.timer_remaining_seconds = None
+    game.ends_at = None; game.timer_remaining_seconds = None; game.scheduled_start_at = None
+    db.commit()
+    result = game_dto(game)
+    broadcast_from_worker(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})
+    return result
+
+
+@app.put('/api/admin/games/{game_id}/start-timer')
+@database_worker
+def set_start_timer(game_id: str, payload: GameStartTimerInput, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game = selected_game(admin, db, game_id)
+    at = settle_capture_income(db, game.id)
+    if game.status not in (GameStatus.DRAFT, GameStatus.READY):
+        raise HTTPException(409, 'Een starttimer kan alleen voor een nog niet gestarte ronde.')
+    game.status = GameStatus.READY
+    game.starts_at = None
+    game.ends_at = None
+    game.scheduled_start_at = at + timedelta(seconds=payload.delay_seconds)
+    game.timer_remaining_seconds = payload.play_duration_seconds
+    add_news(db, game.id, 'GAME_STATUS', 'De groene starttimer loopt. Verspreid je alvast over het speelveld; de ronde start automatisch.')
+    db.commit()
+    result = game_dto(game)
+    broadcast_from_worker(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})
+    return result
+
+
+@app.delete('/api/admin/games/{game_id}/start-timer')
+@database_worker
+def remove_start_timer(game_id: str, admin: User = Depends(require_admin), db: Session = Depends(db_session)):
+    game = selected_game(admin, db, game_id)
+    settle_capture_income(db, game.id)
+    if not game.scheduled_start_at:
+        raise HTTPException(409, 'Er loopt geen starttimer meer voor deze ronde.')
+    game.scheduled_start_at = None
+    game.timer_remaining_seconds = None
+    add_news(db, game.id, 'GAME_STATUS', 'De starttimer is geannuleerd. Wacht op de spelleiding voor de start.')
     db.commit()
     result = game_dto(game)
     broadcast_from_worker(f'game:{game.id}:events', {'type': 'GAME_UPDATED', 'data': result})

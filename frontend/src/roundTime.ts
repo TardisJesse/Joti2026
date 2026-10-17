@@ -1,5 +1,9 @@
 export function timerSeconds(game: any, serverNow: number): number | null {
   if (!game) return null
+  if (game.status === 'READY' && game.scheduled_start_at) {
+    const start = Date.parse(game.scheduled_start_at)
+    return Number.isFinite(start) ? Math.max(0, Math.ceil((start - serverNow) / 1000)) : null
+  }
   if (game.status === 'PAUSED' && game.timer_remaining_seconds != null) return Math.max(0, game.timer_remaining_seconds)
   if (!game.ends_at) return null
   const deadline = Date.parse(game.ends_at)

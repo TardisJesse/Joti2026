@@ -27,6 +27,7 @@ class Game(IdTimeMixin, Base):
     name: Mapped[str] = mapped_column(String(160))
     status: Mapped[GameStatus] = mapped_column(Enum(GameStatus), default=GameStatus.DRAFT, index=True)
     starts_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    scheduled_start_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     ends_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     timer_remaining_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
     bonus_elapsed_seconds: Mapped[float] = mapped_column(Float, default=0, server_default="0")

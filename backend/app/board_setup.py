@@ -36,6 +36,7 @@ def install_boards(db, pack=None, target_game=None):
         if db.query(BoardInstallation).filter_by(game_id=game.id, version=pack['version']).first():
             results.append({'round': game.name, 'skipped': True}); continue
         snapshot = {'name': game.name, 'status': game.status.value, 'play_area_json': game.play_area_json,
+                    'scheduled_start_at': utc(game.scheduled_start_at).isoformat() if game.scheduled_start_at else None,
                     'ends_at': utc(game.ends_at).isoformat() if game.ends_at else None,
                     'timer_remaining_seconds': game.timer_remaining_seconds,
                     'bonus_elapsed_seconds': game.bonus_elapsed_seconds,
@@ -85,6 +86,7 @@ def install_boards(db, pack=None, target_game=None):
         game.name = board['name']; game.status = GameStatus.READY
         if pack.get('play_area'): game.play_area_json = json.dumps(pack['play_area'])
         game.ends_at = None; game.timer_remaining_seconds = None
+        game.scheduled_start_at = None
         game.bonus_elapsed_seconds = 0; game.bonus_updated_at = None
         db.add(BoardInstallation(game_id=game.id, version=pack['version'], snapshot_json=json.dumps(snapshot), object_ids_json=json.dumps(ids)))
         add_news(db, game.id, 'BOARD_READY', f"Het JOTI-spelbord voor {board['name']} staat klaar: {len(ids)} spelpunten. De beheerder kan de ronde starten.", source_key=f"board:{pack['version']}")
@@ -106,7 +108,7 @@ def restore_boards(db, version):
         for field in ('name', 'timer_remaining_seconds', 'bonus_elapsed_seconds'):
             setattr(game, field, snapshot[field])
         game.status = GameStatus(snapshot['status'])
-        for field in ('ends_at', 'bonus_updated_at'):
-            setattr(game, field, datetime.fromisoformat(snapshot[field]) if snapshot[field] else None)
+        for field in ('ends_at', 'bonus_updated_at', 'scheduled_start_at'):
+            setattr(game, field, datetime.fromisoformat(snapshot[field]) if snapshot.get(field) else None)
         if game.bonus_updated_at: game.bonus_updated_at = datetime.now(timezone.utc)
     db.flush()

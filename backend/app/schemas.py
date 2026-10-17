@@ -16,6 +16,10 @@ class GameStatusInput(BaseModel):
 class GameTimerInput(BaseModel):
     duration_seconds: int = Field(ge=60, le=86400)
 
+class GameStartTimerInput(BaseModel):
+    delay_seconds: int = Field(ge=60, le=86400, strict=True)
+    play_duration_seconds: int = Field(ge=60, le=86400, strict=True)
+
 class ScoreAdjustmentInput(BaseModel):
     points: int = Field(ge=1, le=100000, strict=True)
     reason: str = Field(min_length=3, max_length=180)
